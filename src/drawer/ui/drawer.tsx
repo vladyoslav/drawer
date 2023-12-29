@@ -1,7 +1,7 @@
-import React, { type FC } from 'react'
+import { Content } from './content'
+import { Root } from './root'
 
-export interface DrawerProps {}
-
-export const Drawer: FC<DrawerProps> = ({}) => {
-  return <>@vladyoslav/drawer</>
+export const Drawer = {
+  Root,
+  Content
 }

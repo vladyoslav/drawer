@@ -1,1 +1,3 @@
-export { Drawer as Drawer, type DrawerProps as DrawerProps } from './ui/drawer'
+export { Drawer as Drawer } from './ui/drawer'
+export { RootProps } from './ui/root'
+export { ContentProps } from './ui/content'
