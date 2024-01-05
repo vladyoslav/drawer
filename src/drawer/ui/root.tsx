@@ -1,5 +1,6 @@
 import React, { type FC, type PropsWithChildren } from 'react'
 
+import { Root as RootPrimitive } from '@radix-ui/react-dialog'
 import { useMotionValue } from 'framer-motion'
 
 import { useOpenState, useSnapState } from '../lib/hooks'
@@ -28,9 +29,7 @@ type SnapProps = WithoutThisOrThat<
 
 export type RootProps = PropsWithChildren &
   OpenProps &
-  SnapProps & {
-    dismissible?: boolean
-  }
+  SnapProps & { dismissible?: boolean; modal?: boolean }
 
 export const Root: FC<RootProps> = ({
   defaultOpen = false,
@@ -40,6 +39,7 @@ export const Root: FC<RootProps> = ({
   snap: cSnap,
   setSnap: cSetSnap,
   dismissible = true,
+  modal,
   children
 }) => {
   const y = useMotionValue<Snap>(0)
@@ -59,6 +59,8 @@ export const Root: FC<RootProps> = ({
   }
 
   return (
-    <DrawerContextProvider value={context}>{children}</DrawerContextProvider>
+    <RootPrimitive open={open} onOpenChange={onOpenChange} modal={modal}>
+      <DrawerContextProvider value={context}>{children}</DrawerContextProvider>
+    </RootPrimitive>
   )
 }
