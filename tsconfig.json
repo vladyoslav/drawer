@@ -8,6 +8,9 @@
     "strict": true,
     "skipLibCheck": true,
     "jsx": "react",
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@/*": ["./src/drawer/*"]
+    }
   }
 }

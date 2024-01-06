@@ -2,8 +2,10 @@ import { useRef } from 'react'
 
 import { type PanInfo } from 'framer-motion'
 
-import { clamp } from '../../helpers'
-import { type MotionEvent, type SetSnap, type Snap } from '../../types'
+import { clamp } from '@/lib/helpers'
+import { type SetSnap, type Snap } from '@/lib/types'
+
+import { type MotionEvent } from '../../types'
 import { useGetSnap } from './use-get-snap'
 
 export const useDragEvents = <T extends HTMLElement>(

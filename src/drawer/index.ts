@@ -1,6 +1,26 @@
-export { Drawer as Drawer } from './ui/drawer'
-export { SnapAreas as DrawerSnapAreas } from './ui/snap-areas'
-export { RootProps } from './ui/root'
-export { ContentProps } from './ui/content'
-export { PortalProps } from './ui/portal'
-export { OverlayProps } from './ui/overlay'
+import { Content } from './content'
+import { Overlay } from './overlay'
+import { Portal } from './portal'
+import { Root } from './root'
+import { SnapAreas } from './snap-areas'
+
+export type { RootProps } from './root'
+export type { ContentProps } from './content'
+export type { PortalProps } from './portal'
+export type { OverlayProps } from './overlay'
+
+export const Drawer = {
+  Root,
+  Content,
+  Portal,
+  Overlay,
+  SnapAreas
+}
+
+export {
+  Root as DrawerRoot,
+  Content as DrawerContent,
+  Portal as DrawerPortal,
+  Overlay as DrawerOverlay,
+  SnapAreas as DrawerSnapAreas
+}

@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 
 import { type MotionValue } from 'framer-motion'
 
-import { type Snap } from '../../types'
+import { type Snap } from '@/lib/types'
+
 import { useSnapTo } from './use-snap-to'
 
 export const useSnapToCurrent = (

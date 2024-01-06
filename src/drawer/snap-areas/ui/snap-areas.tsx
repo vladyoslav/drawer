@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 
-import { useDrawerContext } from '../../../lib/hooks'
+import { useDrawerContext } from '@/lib/hooks'
+
 import { Areas } from './areas'
 import { Lines } from './lines'
 

@@ -3,17 +3,15 @@ import React, { type FC, type PropsWithChildren, useRef } from 'react'
 import { Root as RootPrimitive } from '@radix-ui/react-dialog'
 import { useMotionValue } from 'framer-motion'
 
-import { useOpenState, useSnapState } from '../lib/hooks'
-import {
-  DrawerContextProvider,
-  type DrawerContextValue
-} from '../lib/providers'
+import { DrawerContextProvider, type DrawerContextValue } from '@/lib/providers'
 import {
   type OnOpenChange,
   type SetSnap,
   type Snap,
   type WithoutThisOrThat
-} from '../lib/types'
+} from '@/lib/types'
+
+import { useOpenState, useSnapState } from '../lib/hooks'
 
 type OpenProps = WithoutThisOrThat<
   { defaultOpen?: boolean; open: boolean; onOpenChange: OnOpenChange },

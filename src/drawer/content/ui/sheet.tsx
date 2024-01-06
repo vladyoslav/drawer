@@ -8,14 +8,11 @@ import React, {
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 import { type MotionProps, motion, usePresence } from 'framer-motion'
 
+import { useDrawerContext } from '@/lib/hooks'
+import { type WithoutMotionProps } from '@/lib/types'
+
 import { transformTemplate } from '../lib/helpers'
-import {
-  useDragEvents,
-  useDrawerContext,
-  useSafeRemove,
-  useSnapToCurrent
-} from '../lib/hooks'
-import { type WithoutMotionProps } from '../lib/types'
+import { useDragEvents, useSafeRemove, useSnapToCurrent } from '../lib/hooks'
 
 export interface SheetProps
   extends PropsWithoutRef<WithoutMotionProps<HTMLProps<HTMLDivElement>>>,

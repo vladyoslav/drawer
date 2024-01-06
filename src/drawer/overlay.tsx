@@ -3,8 +3,8 @@ import React, { type HTMLProps, type PropsWithoutRef, forwardRef } from 'react'
 import { Overlay as OverlayPrimitive } from '@radix-ui/react-dialog'
 import { AnimatePresence, type MotionProps, motion } from 'framer-motion'
 
-import { useDrawerContext } from '../lib/hooks'
-import { type WithoutMotionProps } from '../lib/types'
+import { useDrawerContext } from '@/lib/hooks'
+import { type WithoutMotionProps } from '@/lib/types'
 
 export interface OverlayProps
   extends PropsWithoutRef<WithoutMotionProps<HTMLProps<HTMLDivElement>>>,
