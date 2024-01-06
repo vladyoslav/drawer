@@ -4,10 +4,9 @@ import { getSnapAreas } from '../../../lib/helpers'
 import { useDrawerContext } from '../../../lib/hooks'
 import { COLORS } from '../lib/constants'
 import { useMounted } from '../lib/hooks'
-import { type DrawerRefProp } from '../lib/types'
 
-export const Areas: FC<DrawerRefProp> = ({ drawerRef }) => {
-  const { snapPoints, dismissible } = useDrawerContext()
+export const Areas: FC = () => {
+  const { snapPoints, dismissible, drawerRef } = useDrawerContext()
 
   const dismissiblePoints = dismissible ? [0, ...snapPoints] : snapPoints
 

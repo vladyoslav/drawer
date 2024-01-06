@@ -25,7 +25,14 @@ export interface SheetProps
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ onClose, style, ...props }, forwardedRef) => {
-    const { y, snapPoints, snap, setSnap, dismissible } = useDrawerContext()
+    const {
+      y,
+      snapPoints,
+      snap,
+      setSnap,
+      dismissible,
+      drawerRef: contextRef
+    } = useDrawerContext()
 
     const [isDragging, setIsDragging] = useState(false)
 
@@ -38,7 +45,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         dismissible
       )
 
-    const composedRef = useComposedRefs(drawerRef, forwardedRef)
+    const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
     const [isPresent, safeToRemove] = usePresence()
 

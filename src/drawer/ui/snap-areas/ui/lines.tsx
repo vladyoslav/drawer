@@ -4,10 +4,9 @@ import { cssToPx } from '../../../lib/helpers'
 import { useDrawerContext } from '../../../lib/hooks'
 import { COLORS } from '../lib/constants'
 import { useMounted } from '../lib/hooks'
-import { type DrawerRefProp } from '../lib/types'
 
-export const Lines: FC<DrawerRefProp> = ({ drawerRef }) => {
-  const { snapPoints, dismissible } = useDrawerContext()
+export const Lines: FC = () => {
+  const { snapPoints, dismissible, drawerRef } = useDrawerContext()
 
   const mounted = useMounted()
 

@@ -1,4 +1,4 @@
-import React, { type FC, type PropsWithChildren } from 'react'
+import React, { type FC, type PropsWithChildren, useRef } from 'react'
 
 import { Root as RootPrimitive } from '@radix-ui/react-dialog'
 import { useMotionValue } from 'framer-motion'
@@ -47,6 +47,8 @@ export const Root: FC<RootProps> = ({
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
   const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)
 
+  const drawerRef = useRef<HTMLDivElement>(null)
+
   const context: DrawerContextValue = {
     y,
     defaultOpen,
@@ -55,7 +57,8 @@ export const Root: FC<RootProps> = ({
     snapPoints,
     snap,
     setSnap,
-    dismissible
+    dismissible,
+    drawerRef
   }
 
   return (

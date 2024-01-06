@@ -1,4 +1,9 @@
-import React, { type FC, type PropsWithChildren, createContext } from 'react'
+import React, {
+  type FC,
+  type PropsWithChildren,
+  type RefObject,
+  createContext
+} from 'react'
 
 import { type MotionValue } from 'framer-motion'
 
@@ -13,6 +18,7 @@ export interface DrawerContextValue {
   snap: Snap
   setSnap: SetSnap
   dismissible: boolean
+  drawerRef: RefObject<HTMLDivElement>
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)
