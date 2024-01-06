@@ -38,7 +38,7 @@ export const cssToPx = (
 
   const rect = el.getBoundingClientRect()
 
-  if (isNumber(value)) return rect.height * value
+  if (isNumber(value)) return value
 
   if (value.match(PERCENT_REGEX)) return (rect.height * parseFloat(value)) / 100
 
