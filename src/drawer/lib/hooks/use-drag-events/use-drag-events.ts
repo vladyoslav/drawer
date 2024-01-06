@@ -18,14 +18,15 @@ export const useDragEvents = <T extends HTMLElement>(
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd = ({ target }: MotionEvent, { point, velocity }: PanInfo) => {
+  const onDragEnd = (_: MotionEvent, { velocity }: PanInfo) => {
     setIsDragging(false)
 
-    if (!target) return
+    const node = drawerRef.current
 
-    const node = target as HTMLElement
+    if (!node) return
+
     const rect = node.getBoundingClientRect()
-    const pos = window.innerHeight - (rect.y || point.y)
+    const pos = window.innerHeight - rect.y
 
     let newSnap = getSnap(pos)
 
