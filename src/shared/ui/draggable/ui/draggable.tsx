@@ -1,25 +1,23 @@
 import React, {
   type ForwardedRef,
   type HTMLProps,
-  type PointerEvent,
   type PointerEventHandler,
   type ReactElement,
   type Ref,
   forwardRef,
-  useLayoutEffect,
-  useRef
+  useLayoutEffect
 } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
-import { clamp, mergeHandlers } from '@/shared/lib/helpers'
-import { useValue, useValueChange } from '@/shared/lib/hooks'
+import { mergeHandlers } from '@/shared/lib/helpers'
+import { useValueChange } from '@/shared/lib/hooks'
 import { type Value } from '@/shared/lib/types'
 
-import { defaultTransformTemplate, getConstraint } from '../lib/helpers'
-import { useY } from '../lib/hooks'
+import { defaultTransformTemplate } from '../lib/helpers'
+import { useDraggable, useSetStyle, useY } from '../lib/hooks'
 import {
-  ConstraintType,
+  type ConstraintType,
   type Constraints,
   type DragControls,
   type TransformTemplate
@@ -59,89 +57,36 @@ const _Draggable = <T,>(
 ) => {
   const y = useY(0, cY)
 
-  const last = useRef(0)
+  const { ref, isDragging, listeners } = useDraggable({
+    y,
+    transformTemplate,
+    dragControls,
+    constraints,
+    onConstraint
+  })
 
-  const isDragging = useValue(false)
+  const {
+    onPointerDown: handlePointerDown,
+    onPointerMove: handlePointerMove,
+    onPointerUp: handlePointerUp,
+    onPointerCancel: handlePointerCancel
+  } = listeners
 
-  const ref = useRef<HTMLDivElement>(null)
   const composedRef = useComposedRefs(ref, forwardedRef)
 
-  const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (isDragging.get()) return
-
-    last.current = e.screenY
-
-    const node = ref.current
-    if (!node) return
-
-    node.setPointerCapture(e.pointerId)
-
-    const curRect = node.getBoundingClientRect()
-
-    // turning off transition
-    isDragging.set(true)
-
-    // resetting y, but not firing useValueChange
-    node.style.transform = transformTemplate(0)
-    const initRect = node.getBoundingClientRect()
-
-    y.set(curRect.y - initRect.y)
-  }
-
-  const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    const delta = e.screenY - last.current
-
-    last.current = e.screenY
-
-    if (!isDragging.get()) return
-    if (dragControls && !dragControls.canDrag()) return
-
-    // is a number because it was set in onPointerDown
-    const newY = (y.get() as number) + delta
-
-    if (!constraints) return y.set(newY)
-
-    const node = ref.current
-    if (!node) return
-
-    const min = getConstraint(constraints[ConstraintType.Min], node)
-
-    const max = getConstraint(constraints[ConstraintType.Max], node)
-
-    y.set(clamp(min, max, newY))
-
-    if (newY <= min) onConstraint?.(ConstraintType.Min)
-    if (newY >= max) onConstraint?.(ConstraintType.Max)
-  }
-
-  const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
-    isDragging.set(false)
-  }
-
-  const handlePointerCancel = (e: PointerEvent<HTMLDivElement>) => {
-    isDragging.set(false)
-  }
+  const setStyle = useSetStyle(ref)
 
   // fixing initial opening animation
   useLayoutEffect(() => {
-    const node = ref.current
-    if (!node) return
-
-    node.style.transform = transformTemplate(y.get())
+    setStyle({ transform: transformTemplate(y.get()) })
   }, [])
 
   useValueChange(y, (latest) => {
-    const node = ref.current
-    if (!node) return
-
-    node.style.transform = transformTemplate(latest)
+    setStyle({ transform: transformTemplate(latest) })
   })
 
   useValueChange(isDragging, (latest) => {
-    const node = ref.current
-    if (!node) return
-
-    node.style.transition = latest ? 'none' : ''
+    setStyle({ transition: latest ? 'none' : '' })
   })
 
   return (
