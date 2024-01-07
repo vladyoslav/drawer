@@ -4,7 +4,7 @@ import { clamp } from '@/shared/lib/helpers'
 import { useValue } from '@/shared/lib/hooks'
 import { type Value } from '@/shared/lib/types'
 
-import { getConstraint } from '../helpers'
+import { getConstraint, shouldDrag } from '../helpers'
 import {
   ConstraintType,
   type Constraints,
@@ -31,10 +31,16 @@ export const useDraggable = <T>({
   const last = useRef(0)
 
   const isDragging = useValue(false)
+  const passedShouldDrag = useValue(false)
 
   const ref = useRef<HTMLDivElement>(null)
 
   const setStyle = useSetStyle(ref)
+
+  const cancelDrag = () => {
+    isDragging.set(false)
+    passedShouldDrag.set(false)
+  }
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (isDragging.get()) return
@@ -44,7 +50,7 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
-    node.setPointerCapture(e.pointerId)
+    // node.setPointerCapture(e.pointerId)
 
     const curRect = node.getBoundingClientRect()
 
@@ -60,22 +66,32 @@ export const useDraggable = <T>({
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
     const delta = e.screenY - last.current
-
     last.current = e.screenY
 
     if (!isDragging.get()) return
-    if (dragControls && !dragControls.canDrag()) return
-
-    // is a number because it was set in onPointerDown
-    const newY = (y.get() as number) + delta
-
-    if (!constraints) return y.set(newY)
 
     const node = ref.current
     if (!node) return
 
-    const min = getConstraint(constraints[ConstraintType.Min], node)
+    if (!passedShouldDrag.get()) {
+      const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
 
+      console.log('passed', passed)
+
+      passedShouldDrag.set(passed)
+
+      if (!passed) return cancelDrag()
+    }
+
+    if (dragControls && !dragControls.canDrag()) return
+
+    // was set to number in onPointerDown
+    const newY = (y.get() as number) + delta
+
+    if (!constraints) return y.set(newY)
+
+    // constraints
+    const min = getConstraint(constraints[ConstraintType.Min], node)
     const max = getConstraint(constraints[ConstraintType.Max], node)
 
     y.set(clamp(min, max, newY))
@@ -84,12 +100,11 @@ export const useDraggable = <T>({
     if (newY >= max) onConstraint?.(ConstraintType.Max)
   }
 
-  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
-    isDragging.set(false)
-  }
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => cancelDrag()
 
   const onPointerCancel = (e: PointerEvent<HTMLDivElement>) => {
-    isDragging.set(false)
+    console.log('cancel')
+    cancelDrag()
   }
 
   return {

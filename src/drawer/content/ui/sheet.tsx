@@ -55,10 +55,10 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         ref={composedRef}
         y={y}
         transformTemplate={transformTemplate}
-        constraints={{
-          min: (el) => -el.getBoundingClientRect().height,
-          max: 0.001 // fixing no transition when y = 0, this can be done much better
-        }}
+        // constraints={{
+        //   min: (el) => -el.getBoundingClientRect().height,
+        //   max: 0.001 // fixing no transition when y = 0, this can be done much better
+        // }}
         {...dragListeners}
         {...transitionListeners}
         {...props}
