@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { type Handler, type Value } from './use-value'
+import { type Handler, type Value } from '../types'
 
 export const useValueChange = <T>(value: Value<T>, handler: Handler<T>) => {
   useEffect(() => {

@@ -1,12 +1,7 @@
+import { type DragControls } from '../types'
 import { useValue } from './use-value'
 
-export type DragControls = {
-  enable: () => void
-  disable: () => void
-  canDrag: () => boolean
-}
-
-export const useDragControls = (initial: boolean = false) => {
+export const useDragControls = (initial: boolean = false): DragControls => {
   const canDrag = useValue(initial)
 
   return {

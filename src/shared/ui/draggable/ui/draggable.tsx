@@ -9,7 +9,8 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { clamp, mergeHandlers } from '@/shared/lib/helpers'
 
-import { type DragControls, useValue, useValueChange } from '../lib/hooks'
+import { useValue, useValueChange } from '../lib/hooks'
+import { type DragControls } from '../lib/types'
 
 interface DraggableProps
   extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'controls'> {

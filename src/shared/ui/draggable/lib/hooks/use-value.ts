@@ -1,13 +1,12 @@
 import { useRef } from 'react'
 
-export type Handler<T> = (latest: T) => void
-
-type Set<T> = (value: T) => void
-type Get<T> = () => T
-type Unsubscribe = () => void
-type Subscribe<T> = (handler: Handler<T>) => Unsubscribe
-
-export type Value<T> = { set: Set<T>; get: Get<T>; subscribe: Subscribe<T> }
+import {
+  type Get,
+  type Handler,
+  type Set,
+  type Subscribe,
+  type Value
+} from '../../lib/types'
 
 export const useValue = <T>(initial: T): Value<T> => {
   const v = useRef(initial)
