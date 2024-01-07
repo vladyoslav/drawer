@@ -1,6 +1,6 @@
 import { type MotionProps } from 'framer-motion'
 
-import { isString } from '@/lib/helpers'
+import { isString } from '@/shared/lib/helpers'
 
 import { BAD_Y_REGEX, TRANSLATE_Y_REGEX } from './constants'
 

@@ -6,8 +6,8 @@ import {
 } from '@radix-ui/react-dialog'
 import { AnimatePresence } from 'framer-motion'
 
-import { useDrawerContext } from '@/lib/hooks'
-import { type WithoutMotionProps } from '@/lib/types'
+import { useDrawerContext } from '@/drawer/lib/hooks'
+import { type WithoutMotionProps } from '@/drawer/lib/types'
 
 import { Sheet, type SheetProps } from './sheet'
 

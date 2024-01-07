@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 
-import { getSnapAreas } from '@/lib/helpers'
-import { useDrawerContext } from '@/lib/hooks'
+import { getSnapAreas } from '@/drawer/lib/helpers'
+import { useDrawerContext } from '@/drawer/lib/hooks'
 
 import { COLORS } from '../lib/constants'
 import { useMounted } from '../lib/hooks'

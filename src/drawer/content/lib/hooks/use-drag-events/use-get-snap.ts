@@ -1,7 +1,7 @@
 import { type RefObject } from 'react'
 
-import { cssToPx } from '@/lib/helpers'
-import { type Snap } from '@/lib/types'
+import { cssToPx } from '@/drawer/lib/helpers'
+import { type Snap } from '@/drawer/lib/types'
 
 export const useGetSnap = (snapPoints: Snap[], ref: RefObject<HTMLElement>) => {
   const toPx = (value: Snap) => cssToPx(value, ref.current)

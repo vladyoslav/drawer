@@ -10,7 +10,7 @@
     "jsx": "react",
     "lib": ["esnext", "dom"],
     "paths": {
-      "@/*": ["./src/drawer/*"]
+      "@/*": ["./src/*"]
     }
   }
 }

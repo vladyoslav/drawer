@@ -2,8 +2,8 @@ import { useRef } from 'react'
 
 import { type PanInfo } from 'framer-motion'
 
-import { clamp } from '@/lib/helpers'
-import { type SetSnap, type Snap } from '@/lib/types'
+import { type SetSnap, type Snap } from '@/drawer/lib/types'
+import { clamp } from '@/shared/lib/helpers'
 
 import { type MotionEvent } from '../../types'
 import { useGetSnap } from './use-get-snap'

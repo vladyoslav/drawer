@@ -7,7 +7,7 @@ import React, {
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
-import { clamp, mergeHandlers } from '@/lib/helpers'
+import { clamp, mergeHandlers } from '@/shared/lib/helpers'
 
 import { type DragControls, useValue, useValueChange } from '../lib/hooks'
 
