@@ -20,6 +20,7 @@ export const Scrollable = forwardRef<HTMLDivElement, ScrollableProps>(
           },
           max: 0
         }}
+        onConstraint={console.log}
       />
     )
   }

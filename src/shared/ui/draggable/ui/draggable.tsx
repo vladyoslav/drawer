@@ -11,12 +11,17 @@ import { clamp, mergeHandlers } from '@/shared/lib/helpers'
 
 import { getConstraint } from '../lib/helpers'
 import { useValue, useValueChange } from '../lib/hooks'
-import { type Constraints, type DragControls } from '../lib/types'
+import {
+  ConstraintType,
+  type Constraints,
+  type DragControls
+} from '../lib/types'
 
 export interface DraggableProps
   extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'controls'> {
   controls?: DragControls
   constraints?: Constraints
+  onConstraint?: (type: ConstraintType) => void
 }
 
 export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
@@ -24,6 +29,7 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
     {
       constraints,
       controls,
+      onConstraint,
       onPointerDown,
       onPointerMove,
       onPointerUp,
@@ -66,11 +72,14 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
       const node = ref.current
       if (!node) return
 
-      const min = getConstraint(constraints.min, node)
+      const min = getConstraint(constraints[ConstraintType.Min], node)
 
-      const max = getConstraint(constraints.max, node)
+      const max = getConstraint(constraints[ConstraintType.Max], node)
 
       y.set(clamp(min, max, newY))
+
+      if (newY <= min) onConstraint?.(ConstraintType.Min)
+      if (newY >= max) onConstraint?.(ConstraintType.Max)
     }
 
     const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {

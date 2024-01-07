@@ -17,8 +17,13 @@ export interface DragControls {
   canDrag: () => boolean
 }
 
+export enum ConstraintType {
+  Min = 'min',
+  Max = 'max'
+}
+
 export type Constraint = number | ((el: HTMLElement) => number)
 export interface Constraints {
-  min: Constraint
-  max: Constraint
+  [ConstraintType.Min]: Constraint
+  [ConstraintType.Max]: Constraint
 }
