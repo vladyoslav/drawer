@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { type OnOpenChange } from '../types'
+import { type OnOpenChange } from '@/drawer/lib/types'
 
 export const useOpenState = (
   init: boolean,

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { type SetSnap, type Snap } from '../types'
+import { type SetSnap, type Snap } from '@/drawer/lib/types'
 
 export const useSnapState = (init: Snap, snap?: Snap, setSnap?: SetSnap) => {
   const internal = useState(init)

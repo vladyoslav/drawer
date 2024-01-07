@@ -5,12 +5,12 @@ import React, {
   createContext
 } from 'react'
 
-import { type MotionValue } from 'framer-motion'
+import { type Value } from '@/shared/lib/types'
 
 import { type OnOpenChange, type SetSnap, type Snap } from '../types'
 
 export interface DrawerContextValue {
-  y: MotionValue<Snap>
+  y: Value<Snap>
   defaultOpen: boolean
   open: boolean
   onOpenChange: OnOpenChange

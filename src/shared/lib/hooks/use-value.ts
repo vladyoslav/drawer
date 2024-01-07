@@ -6,30 +6,32 @@ import {
   type Set,
   type Subscribe,
   type Value
-} from '../../lib/types'
+} from '../types'
 
 export const useValue = <T>(initial: T): Value<T> => {
   const v = useRef(initial)
   const key = useRef(0)
 
-  const handlers = new Map<number, Handler<T>>()
+  const handlers = useRef(new Map<number, Handler<T>>())
+
+  const notify = () => {
+    handlers.current.forEach((handler) => handler(v.current))
+  }
 
   const set: Set<T> = (value) => {
-    if (v.current === value) return
-
     v.current = value
 
-    handlers.forEach((handler) => handler(value))
+    notify()
   }
 
   const subscribe: Subscribe<T> = (handler) => {
     const oldKey = key.current
 
-    handlers.set(oldKey, handler)
+    handlers.current.set(oldKey, handler)
 
     key.current += 1
 
-    return () => handlers.delete(oldKey)
+    return () => handlers.current.delete(oldKey)
   }
 
   const get: Get<T> = () => v.current

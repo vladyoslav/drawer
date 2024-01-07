@@ -1,27 +1,26 @@
-import React, {
-  type HTMLProps,
-  type PropsWithoutRef,
-  forwardRef,
-  useState
-} from 'react'
+import React, { type HTMLProps, forwardRef } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
-import { type MotionProps, motion, usePresence } from 'framer-motion'
+import { usePresence } from 'framer-motion'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
-import { type WithoutMotionProps } from '@/drawer/lib/types'
+import { Draggable } from '@/shared/ui/draggable'
 
 import { transformTemplate } from '../lib/helpers'
-import { useDragEvents, useSafeRemove, useSnapToCurrent } from '../lib/hooks'
+import {
+  useDragEvents,
+  useSafeRemove,
+  useSnapTo,
+  useSnapToCurrent
+} from '../lib/hooks'
 
 export interface SheetProps
-  extends PropsWithoutRef<WithoutMotionProps<HTMLProps<HTMLDivElement>>>,
-    MotionProps {
+  extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'onDragStart' | 'onDragEnd'> {
   onClose: () => void
 }
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
-  ({ onClose, style, ...props }, forwardedRef) => {
+  ({ onClose, ...props }, forwardedRef) => {
     const {
       y,
       snapPoints,
@@ -31,12 +30,13 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       drawerRef: contextRef
     } = useDrawerContext()
 
-    const [isDragging, setIsDragging] = useState(false)
+    const snapTo = useSnapTo(y)
 
     const { drawerRef, listeners: dragListeners } =
       useDragEvents<HTMLDivElement>(
         snapPoints,
-        setIsDragging,
+        snapTo,
+        snap,
         setSnap,
         onClose,
         dismissible
@@ -46,22 +46,19 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     const [isPresent, safeToRemove] = usePresence()
 
-    useSnapToCurrent(y, snap, isPresent, isDragging)
+    useSnapToCurrent(snapTo, snap, isPresent)
 
     const transitionListeners = useSafeRemove(isPresent, safeToRemove)
 
     return (
-      <motion.div
+      <Draggable
         ref={composedRef}
+        y={y}
         transformTemplate={transformTemplate}
-        drag="y"
-        dragMomentum={false}
-        style={{
-          y,
-          transition: isDragging ? 'none' : undefined,
-          ...style
+        constraints={{
+          min: (el) => -el.getBoundingClientRect().height,
+          max: 0.001 // fixing no transition when y = 0, this can be done much better
         }}
-        onDragStart={() => setIsDragging(true)}
         {...dragListeners}
         {...transitionListeners}
         {...props}

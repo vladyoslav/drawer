@@ -1,16 +1,14 @@
 import { useRef } from 'react'
 
-import { type PanInfo } from 'framer-motion'
-
 import { type SetSnap, type Snap } from '@/drawer/lib/types'
-import { clamp } from '@/shared/lib/helpers'
 
-import { type MotionEvent } from '../../types'
+import { type SnapTo } from '../../types'
 import { useGetSnap } from './use-get-snap'
 
 export const useDragEvents = <T extends HTMLElement>(
   snapPoints: Snap[],
-  setIsDragging: (value: boolean) => void,
+  snapTo: SnapTo,
+  snap: Snap,
   setSnap: SetSnap,
   onClose: () => void,
   dismissible: boolean
@@ -20,9 +18,7 @@ export const useDragEvents = <T extends HTMLElement>(
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd = (_: MotionEvent, { velocity }: PanInfo) => {
-    setIsDragging(false)
-
+  const onDragEnd = () => {
     const node = drawerRef.current
 
     if (!node) return
@@ -32,15 +28,17 @@ export const useDragEvents = <T extends HTMLElement>(
 
     let newSnap = getSnap(pos)
 
-    if (Math.abs(velocity.y) > 300) {
-      const curIndex = dismissablePoints.indexOf(newSnap)
-      const newIndex = curIndex + (velocity.y < 0 ? 1 : -1)
-      const clampedIndex = clamp(0, dismissablePoints.length - 1, newIndex)
-
-      newSnap = dismissablePoints[clampedIndex]
-    }
+    // if (Math.abs(velocity.y) > 300) {
+    //   const curIndex = dismissablePoints.indexOf(newSnap)
+    //   const newIndex = curIndex + (velocity.y < 0 ? 1 : -1)
+    //   const clampedIndex = clamp(0, dismissablePoints.length - 1, newIndex)
+    //
+    //   newSnap = dismissablePoints[clampedIndex]
+    // }
 
     if (newSnap === 0) return onClose()
+
+    if (snap === newSnap) return snapTo(snap)
 
     setSnap(newSnap)
   }

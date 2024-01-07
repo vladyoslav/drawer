@@ -7,13 +7,12 @@ import {
 import { AnimatePresence } from 'framer-motion'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
-import { type WithoutMotionProps } from '@/drawer/lib/types'
 
 import { Sheet, type SheetProps } from './sheet'
 
 export interface ContentProps
   extends Omit<SheetProps, 'onClose'>,
-    WithoutMotionProps<Omit<ContentPrimitiveProps, 'forceMount' | 'asChild'>> {}
+    Omit<ContentPrimitiveProps, 'forceMount' | 'asChild'> {}
 
 export const Content = forwardRef<HTMLDivElement, ContentProps>(
   (
