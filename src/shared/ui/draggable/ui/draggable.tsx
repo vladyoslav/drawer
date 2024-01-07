@@ -9,17 +9,20 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { clamp, mergeHandlers } from '@/shared/lib/helpers'
 
+import { getConstraint } from '../lib/helpers'
 import { useValue, useValueChange } from '../lib/hooks'
-import { type DragControls } from '../lib/types'
+import { type Constraints, type DragControls } from '../lib/types'
 
-interface DraggableProps
+export interface DraggableProps
   extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'controls'> {
   controls?: DragControls
+  constraints?: Constraints
 }
 
 export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
   (
     {
+      constraints,
       controls,
       onPointerDown,
       onPointerMove,
@@ -40,6 +43,8 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
     const composedRef = useComposedRefs(ref, forwardedRef)
 
     const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
+      if (isDragging.current) return
+
       last.current = e.screenY
       isDragging.current = true
 
@@ -54,17 +59,18 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
       if (!isDragging.current) return
       if (controls && !controls.canDrag()) return
 
-      const node = ref.current
+      const newY = y.get() + delta
 
+      if (!constraints) return y.set(newY)
+
+      const node = ref.current
       if (!node) return
 
-      const nodeHeight = node.getBoundingClientRect().height
+      const min = getConstraint(constraints.min, node)
 
-      const parentHeight = (
-        node.parentNode as HTMLElement
-      ).getBoundingClientRect().height
+      const max = getConstraint(constraints.max, node)
 
-      y.set(clamp(parentHeight - nodeHeight, 0, y.get() + delta))
+      y.set(clamp(min, max, newY))
     }
 
     const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {

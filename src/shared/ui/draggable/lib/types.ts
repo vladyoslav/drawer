@@ -16,3 +16,9 @@ export interface DragControls {
   disable: () => void
   canDrag: () => boolean
 }
+
+export type Constraint = number | ((el: HTMLElement) => number)
+export interface Constraints {
+  min: Constraint
+  max: Constraint
+}

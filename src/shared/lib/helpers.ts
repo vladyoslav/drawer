@@ -4,6 +4,9 @@ export const isNumber = (value: unknown): value is number =>
 export const isString = (value: unknown): value is string =>
   typeof value === 'string'
 
+export const isFunction = (value: unknown): value is Function =>
+  typeof value === 'function'
+
 export const clamp = (min: number, max: number, value: number) =>
   Math.min(max, Math.max(min, value))
 
