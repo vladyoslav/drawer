@@ -114,6 +114,9 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
+    // Check controls
+    if (dragControls && !dragControls.canDrag()) return
+
     // Runs once per drag
     if (!isDragging.get()) {
       const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
@@ -122,9 +125,6 @@ export const useDraggable = <T>({
 
       handleDragStart(e)
     }
-
-    // Check controls
-    if (dragControls && !dragControls.canDrag()) return
 
     handleDrag(e, { delta })
   }

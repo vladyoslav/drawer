@@ -12,11 +12,9 @@ const reachedBottom = (el: HTMLElement) =>
   Math.abs(el.scrollTop + el.clientHeight - el.scrollHeight) < 2
 
 const hasScrollOverflow = (el: HTMLElement) => {
-  const scrollOverflows = ['scroll', 'auto']
-
   const overflow = window.getComputedStyle(el).overflow
 
-  return scrollOverflows.includes(overflow)
+  return overflow.includes('auto')
 }
 
 // Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
@@ -42,9 +40,9 @@ export const shouldDrag = (
       const scrollOverflow = hasScrollOverflow(element)
 
       if (!top && !bottom && scrollOverflow) return false
-
-      if (element === root) return true
     }
+
+    if (element === root) return true
 
     // Move up to the parent element
     element = element.parentNode as HTMLElement
@@ -81,4 +79,18 @@ export const resetStyle = (el: HTMLElement, prop?: string) => {
   Object.entries(original).forEach(([key, value]) => {
     elStyle[key] = value
   })
+}
+
+export const getScrollableParent = (el: HTMLElement, root: HTMLElement) => {
+  let element = el
+
+  while (element) {
+    if (element.scrollHeight > element.clientHeight) {
+      if (hasScrollOverflow(element)) return element
+    }
+
+    if (element === root) return null
+
+    element = element.parentNode as HTMLElement
+  }
 }
