@@ -1,3 +1,5 @@
+import { type TouchEvent } from 'react'
+
 import { isFunction } from '@/shared/lib/helpers'
 
 import { type Constraint, type Style, type TransformTemplate } from './types'
@@ -107,4 +109,8 @@ export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
 
     element = element.parentNode as HTMLElement
   }
+}
+
+export const getScreenY = (e: TouchEvent<HTMLElement>) => {
+  return e.touches[0].screenY
 }

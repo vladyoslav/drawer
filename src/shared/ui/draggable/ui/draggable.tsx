@@ -44,10 +44,10 @@ const _Draggable = <T,>(
     constraints,
     dragControls,
     onConstraint,
-    onPointerDown,
-    onPointerMove,
-    onPointerUp,
-    onPointerCancel,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onTouchCancel,
     onDragStart,
     onDragMove,
     onDragEnd,
@@ -69,10 +69,10 @@ const _Draggable = <T,>(
   })
 
   const {
-    onPointerDown: handlePointerDown,
-    onPointerMove: handlePointerMove,
-    onPointerUp: handlePointerUp,
-    onPointerCancel: handlePointerCancel
+    onTouchStart: handleTouchStart,
+    onTouchMove: handleTouchMove,
+    onTouchEnd: handleTouchEnd,
+    onTouchCancel: handleTouchCancel
   } = listeners
 
   const composedRef = useComposedRefs(ref, forwardedRef)
@@ -96,10 +96,14 @@ const _Draggable = <T,>(
   return (
     <div
       ref={composedRef}
-      onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
-      onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
-      onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
-      onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
+      // onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
+      // onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
+      // onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
+      // onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
+      onTouchStart={mergeHandlers(handleTouchStart, onTouchStart)}
+      onTouchMove={mergeHandlers(handleTouchMove, onTouchMove)}
+      onTouchEnd={mergeHandlers(handleTouchEnd, onTouchEnd)}
+      onTouchCancel={mergeHandlers(handleTouchMove, onTouchCancel)}
       {...props}
     />
   )

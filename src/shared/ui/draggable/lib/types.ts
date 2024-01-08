@@ -1,4 +1,4 @@
-import { type PointerEvent } from 'react'
+import { type TouchEvent } from 'react'
 
 export interface DragControls {
   enable: () => void
@@ -26,6 +26,6 @@ export interface DragInfo {
 }
 
 export type DragEventHandler<T = Element> = (
-  event: PointerEvent<T>,
+  event: TouchEvent<T>,
   info: DragInfo
 ) => void
