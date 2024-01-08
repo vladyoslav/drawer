@@ -9,74 +9,49 @@ import {
   ConstraintType,
   type Constraints,
   type DragControls,
-  type TransformTemplate
+  type DragEventHandler
 } from '../types'
-import { useSetStyle } from './use-set-style'
 
 interface DraggableOptions<T> {
   y: Value<T | number>
-  transformTemplate: TransformTemplate
   dragControls?: DragControls
   constraints?: Constraints
   onConstraint?: (type: ConstraintType) => void
+  onDragStart?: DragEventHandler
+  onDragMove?: DragEventHandler
+  onDragEnd?: DragEventHandler
 }
 
 export const useDraggable = <T>({
   y,
-  transformTemplate,
   dragControls,
   constraints,
-  onConstraint
+  onConstraint,
+  onDragStart,
+  onDragMove,
+  onDragEnd
 }: DraggableOptions<T>) => {
   const last = useRef(0)
   const initialY = useValue(0)
 
+  const wantToDrag = useValue(false)
   const isDragging = useValue(false)
-  const passedShouldDrag = useValue(false)
 
   const ref = useRef<HTMLDivElement>(null)
 
-  const setStyle = useSetStyle(ref)
-
-  const cancelDrag = () => {
-    isDragging.set(false)
-    passedShouldDrag.set(false)
-  }
-
-  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (isDragging.get()) return
-
-    last.current = e.screenY
-
+  const handleDragStart = (e: PointerEvent<HTMLDivElement>) => {
     const node = ref.current
     if (!node) return
-
-    initialY.set(node.getBoundingClientRect().y)
 
     isDragging.set(true)
+    node.setPointerCapture(e.pointerId)
+
+    onDragStart?.(e, { delta: 0 })
   }
 
-  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    const delta = e.screenY - last.current
-    last.current = e.screenY
-
-    if (!isDragging.get()) return
-
+  const handleDrag: DragEventHandler = (e, info) => {
     const node = ref.current
     if (!node) return
-
-    // Runs once per drag
-    if (!passedShouldDrag.get()) {
-      const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
-
-      if (!passed) return cancelDrag()
-
-      passedShouldDrag.set(true)
-      node.setPointerCapture(e.pointerId)
-    }
-
-    // Check controls
-    if (dragControls && !dragControls.canDrag()) return
 
     const getNumberY = () => {
       // Resetting y and checking rect y
@@ -88,7 +63,9 @@ export const useDraggable = <T>({
 
     const curY = y.get()
     const curNumberY = isNumber(curY) ? curY : getNumberY()
-    const newY = curNumberY + delta
+    const newY = curNumberY + info.delta
+
+    onDragMove?.(e, info)
 
     if (!constraints) return y.set(newY)
 
@@ -102,11 +79,61 @@ export const useDraggable = <T>({
     if (newY >= max) onConstraint?.(ConstraintType.Max)
   }
 
-  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => cancelDrag()
+  const handleDragEnd = (e: PointerEvent<HTMLDivElement>) => {
+    if (isDragging.get()) {
+      onDragEnd?.(e, { delta: e.screenY - last.current })
+    }
+
+    cancelDrag()
+  }
+
+  const cancelDrag = () => {
+    isDragging.set(false)
+    wantToDrag.set(false)
+  }
+
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (wantToDrag.get()) return
+
+    last.current = e.screenY
+
+    const node = ref.current
+    if (!node) return
+
+    initialY.set(node.getBoundingClientRect().y)
+
+    wantToDrag.set(true)
+  }
+
+  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    const delta = e.screenY - last.current
+    last.current = e.screenY
+
+    if (!wantToDrag.get()) return
+
+    const node = ref.current
+    if (!node) return
+
+    // Runs once per drag
+    if (!isDragging.get()) {
+      const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
+
+      if (!passed) return cancelDrag()
+
+      handleDragStart(e)
+    }
+
+    // Check controls
+    if (dragControls && !dragControls.canDrag()) return
+
+    handleDrag(e, { delta })
+  }
+
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => handleDragEnd(e)
 
   const onPointerCancel = (e: PointerEvent<HTMLDivElement>) => {
     console.log('cancel')
-    cancelDrag()
+    handleDragEnd(e)
   }
 
   return {

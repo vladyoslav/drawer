@@ -1,7 +1,6 @@
 import React, {
   type ForwardedRef,
   type HTMLProps,
-  type PointerEventHandler,
   type ReactElement,
   type Ref,
   forwardRef,
@@ -20,20 +19,22 @@ import {
   type ConstraintType,
   type Constraints,
   type DragControls,
+  type DragEventHandler,
   type TransformTemplate
 } from '../lib/types'
 
 export interface DraggableProps<T>
   extends Omit<
     HTMLProps<HTMLDivElement>,
-    'ref' | 'controls' | 'onDragStart' | 'onDragEnd'
+    'ref' | 'onDragStart' | 'onDragEnd' | 'onDrag'
   > {
   dragControls?: DragControls
   constraints?: Constraints
   onConstraint?: (type: ConstraintType) => void
   y?: Value<T>
-  onDragStart?: PointerEventHandler
-  onDragEnd?: PointerEventHandler
+  onDragStart?: DragEventHandler
+  onDragMove?: DragEventHandler
+  onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
 }
 
@@ -48,6 +49,7 @@ const _Draggable = <T,>(
     onPointerUp,
     onPointerCancel,
     onDragStart,
+    onDragMove,
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
     ...props
@@ -58,10 +60,12 @@ const _Draggable = <T,>(
 
   const { ref, isDragging, listeners } = useDraggable({
     y,
-    transformTemplate,
     dragControls,
     constraints,
-    onConstraint
+    onConstraint,
+    onDragStart,
+    onDragMove,
+    onDragEnd
   })
 
   const {
@@ -73,7 +77,7 @@ const _Draggable = <T,>(
 
   const composedRef = useComposedRefs(ref, forwardedRef)
 
-  const setStyle = useSetStyle(ref)
+  const [setStyle, resetStyle] = useSetStyle(ref)
 
   // Fixing initial opening animation
   useLayoutEffect(() => {
@@ -85,24 +89,17 @@ const _Draggable = <T,>(
   })
 
   useValueChange(isDragging, (latest) => {
-    setStyle({ transition: latest ? 'none' : '' })
+    if (latest) setStyle({ transition: 'none' })
+    else resetStyle('transition')
   })
 
   return (
     <div
       ref={composedRef}
-      onPointerDown={mergeHandlers(
-        handlePointerDown,
-        onPointerDown,
-        onDragStart
-      )}
+      onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
       onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
-      onPointerUp={mergeHandlers(handlePointerUp, onPointerUp, onDragEnd)}
-      onPointerCancel={mergeHandlers(
-        handlePointerCancel,
-        onPointerCancel,
-        onDragEnd
-      )}
+      onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
+      onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
       {...props}
     />
   )

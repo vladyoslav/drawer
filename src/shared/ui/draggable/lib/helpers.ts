@@ -1,6 +1,6 @@
 import { isFunction } from '@/shared/lib/helpers'
 
-import { type Constraint, type TransformTemplate } from './types'
+import { type Constraint, type Style, type TransformTemplate } from './types'
 
 export const getConstraint = (c: Constraint, el: HTMLElement) =>
   isFunction(c) ? c(el) : c
@@ -51,4 +51,34 @@ export const shouldDrag = (
   }
 
   return true
+}
+
+// Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/helpers.ts
+const cache = new WeakMap<HTMLElement, Style>()
+
+export const setStyle = (el: HTMLElement, style: Style) => {
+  const original: Style = {}
+  const elStyle = el.style as unknown as Style
+
+  for (const [key, value] of Object.entries(style)) {
+    original[key] = elStyle[key]
+    elStyle[key] = value
+  }
+
+  const cached = cache.get(el)
+  cache.set(el, { ...cached, ...original })
+}
+
+export const resetStyle = (el: HTMLElement, prop?: string) => {
+  const original = cache.get(el)
+
+  if (!original) return
+
+  const elStyle = el.style as unknown as Style
+
+  if (prop) return (elStyle[prop] = original[prop])
+
+  Object.entries(original).forEach(([key, value]) => {
+    elStyle[key] = value
+  })
 }

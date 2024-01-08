@@ -59,6 +59,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         //   min: (el) => -el.getBoundingClientRect().height,
         //   max: 0.001 // fixing no transition when y = 0, this can be done much better
         // }}
+        onDragMove={() => console.log('drag')}
+        onDragStart={() => console.log('start')}
         {...dragListeners}
         {...transitionListeners}
         {...props}

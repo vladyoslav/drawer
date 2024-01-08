@@ -1,12 +1,22 @@
 import { type RefObject } from 'react'
 
+import { resetStyle, setStyle } from '../helpers'
+import { type Style } from '../types'
+
 export const useSetStyle = (ref: RefObject<HTMLDivElement>) => {
-  return (style: Partial<CSSStyleDeclaration>) => {
+  const set = (style: Style) => {
     const el = ref.current
     if (!el) return
 
-    Object.entries(style).forEach(
-      ([key, value]) => ((el.style as any)[key] = value)
-    )
+    setStyle(el as HTMLElement, style)
   }
+
+  const reset = (prop?: string) => {
+    const el = ref.current
+    if (!el) return
+
+    resetStyle(el as HTMLElement, prop)
+  }
+
+  return [set, reset] as const
 }

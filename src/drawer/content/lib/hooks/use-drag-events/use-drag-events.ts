@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 
 import { type SetSnap, type Snap } from '@/drawer/lib/types'
+import { type DragEventHandler } from '@/shared/ui/draggable'
 
 import { type SnapTo } from '../../types'
 import { useGetSnap } from './use-get-snap'
@@ -18,7 +19,8 @@ export const useDragEvents = <T extends HTMLElement>(
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd = () => {
+  const onDragEnd: DragEventHandler = () => {
+    console.log('end')
     const node = drawerRef.current
 
     if (!node) return

@@ -1,3 +1,5 @@
+import { type PointerEvent } from 'react'
+
 export interface DragControls {
   enable: () => void
   disable: () => void
@@ -16,3 +18,14 @@ export interface Constraints {
 }
 
 export type TransformTemplate = <T>(y: T) => string
+
+export type Style = Record<string, string>
+
+export interface DragInfo {
+  delta: number
+}
+
+export type DragEventHandler<T = Element> = (
+  event: PointerEvent<T>,
+  info: DragInfo
+) => void
