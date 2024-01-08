@@ -4,7 +4,12 @@ import { clamp, isNumber } from '@/shared/lib/helpers'
 import { useValue } from '@/shared/lib/hooks'
 import { type Value } from '@/shared/lib/types'
 
-import { getConstraint, shouldDrag } from '../helpers'
+import {
+  blockScrollableParents,
+  getConstraint,
+  shouldDrag,
+  unlockScrollableParents
+} from '../helpers'
 import {
   ConstraintType,
   type Constraints,
@@ -37,6 +42,8 @@ export const useDraggable = <T>({
   const wantToDrag = useValue(false)
   const isDragging = useValue(false)
 
+  const target = useRef<HTMLElement | null>(null)
+
   const ref = useRef<HTMLDivElement>(null)
 
   const handleDragStart = (e: PointerEvent<HTMLDivElement>) => {
@@ -45,6 +52,10 @@ export const useDraggable = <T>({
 
     isDragging.set(true)
     node.setPointerCapture(e.pointerId)
+
+    target.current = e.target as HTMLElement
+
+    blockScrollableParents(target.current, node)
 
     onDragStart?.(e, { delta: 0 })
   }
@@ -80,16 +91,20 @@ export const useDraggable = <T>({
   }
 
   const handleDragEnd = (e: PointerEvent<HTMLDivElement>) => {
-    if (isDragging.get()) {
-      onDragEnd?.(e, { delta: e.screenY - last.current })
-    }
+    if (!isDragging.get()) return
+
+    if (target.current && ref.current)
+      unlockScrollableParents(target.current, ref.current)
 
     cancelDrag()
+
+    onDragEnd?.(e, { delta: e.screenY - last.current })
   }
 
   const cancelDrag = () => {
     isDragging.set(false)
     wantToDrag.set(false)
+    target.current = null
   }
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
@@ -132,7 +147,6 @@ export const useDraggable = <T>({
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => handleDragEnd(e)
 
   const onPointerCancel = (e: PointerEvent<HTMLDivElement>) => {
-    console.log('cancel')
     handleDragEnd(e)
   }
 

@@ -12,9 +12,9 @@ const reachedBottom = (el: HTMLElement) =>
   Math.abs(el.scrollTop + el.clientHeight - el.scrollHeight) < 2
 
 const hasScrollOverflow = (el: HTMLElement) => {
-  const overflow = window.getComputedStyle(el).overflow
+  const overflow = window.getComputedStyle(el).overflowY
 
-  return overflow.includes('auto')
+  return ['scroll', 'auto'].includes(overflow)
 }
 
 // Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
@@ -81,15 +81,29 @@ export const resetStyle = (el: HTMLElement, prop?: string) => {
   })
 }
 
-export const getScrollableParent = (el: HTMLElement, root: HTMLElement) => {
+export const blockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
   let element = el
 
   while (element) {
     if (element.scrollHeight > element.clientHeight) {
-      if (hasScrollOverflow(element)) return element
+      if (hasScrollOverflow(element)) setStyle(element, { overflow: 'hidden' })
     }
 
-    if (element === root) return null
+    if (element === root) return
+
+    element = element.parentNode as HTMLElement
+  }
+}
+
+export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
+  let element = el
+
+  while (element) {
+    if (element.scrollHeight > element.clientHeight) {
+      resetStyle(element, 'overflow')
+    }
+
+    if (element === root) return
 
     element = element.parentNode as HTMLElement
   }

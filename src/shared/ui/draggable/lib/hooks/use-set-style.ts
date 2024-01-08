@@ -3,7 +3,7 @@ import { type RefObject } from 'react'
 import { resetStyle, setStyle } from '../helpers'
 import { type Style } from '../types'
 
-export const useSetStyle = (ref: RefObject<HTMLDivElement>) => {
+export const useSetStyle = (ref: RefObject<HTMLElement>) => {
   const set = (style: Style) => {
     const el = ref.current
     if (!el) return
