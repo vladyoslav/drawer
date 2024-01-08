@@ -1,6 +1,6 @@
 import { type PointerEvent, useRef } from 'react'
 
-import { clamp } from '@/shared/lib/helpers'
+import { clamp, isNumber } from '@/shared/lib/helpers'
 import { useValue } from '@/shared/lib/hooks'
 import { type Value } from '@/shared/lib/types'
 
@@ -29,6 +29,7 @@ export const useDraggable = <T>({
   onConstraint
 }: DraggableOptions<T>) => {
   const last = useRef(0)
+  const initialY = useValue(0)
 
   const isDragging = useValue(false)
   const passedShouldDrag = useValue(false)
@@ -50,18 +51,9 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
-    // node.setPointerCapture(e.pointerId)
+    initialY.set(node.getBoundingClientRect().y)
 
-    const curRect = node.getBoundingClientRect()
-
-    // turning off transition
     isDragging.set(true)
-
-    // resetting y, but not firing useValueChange
-    setStyle({ transform: transformTemplate(0) })
-    const initRect = node.getBoundingClientRect()
-
-    y.set(curRect.y - initRect.y)
   }
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -73,22 +65,30 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
+    // runs once per drag
     if (!passedShouldDrag.get()) {
       const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
 
-      console.log('passed', passed)
-
-      passedShouldDrag.set(passed)
-
       if (!passed) return cancelDrag()
 
+      passedShouldDrag.set(true)
       node.setPointerCapture(e.pointerId)
     }
 
+    // check controls
     if (dragControls && !dragControls.canDrag()) return
 
-    // was set to number in onPointerDown
-    const newY = (y.get() as number) + delta
+    const getNumberY = () => {
+      // resetting y and checking rect y
+      y.set(0)
+      const resettedY = node.getBoundingClientRect().y
+
+      return initialY.get() - resettedY
+    }
+
+    const curY = y.get()
+    const curNumberY = isNumber(curY) ? curY : getNumberY()
+    const newY = curNumberY + delta
 
     if (!constraints) return y.set(newY)
 
