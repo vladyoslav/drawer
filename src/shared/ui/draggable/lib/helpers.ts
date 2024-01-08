@@ -11,6 +11,14 @@ export const defaultTransformTemplate: TransformTemplate = (y) =>
 const reachedBottom = (el: HTMLElement) =>
   Math.abs(el.scrollTop + el.clientHeight - el.scrollHeight) < 2
 
+const hasScrollOverflow = (el: HTMLElement) => {
+  const scrollOverflows = ['scroll', 'auto']
+
+  const overflow = window.getComputedStyle(el).overflow
+
+  return scrollOverflows.includes(overflow)
+}
+
 // some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
 export const shouldDrag = (
   el: HTMLElement,
@@ -31,7 +39,9 @@ export const shouldDrag = (
 
       const bottom = reachedBottom(element) && !isDraggingDown
 
-      if (!top && !bottom) return false
+      const scrollOverflow = hasScrollOverflow(element)
+
+      if (!top && !bottom && scrollOverflow) return false
 
       if (element === root) return true
     }
