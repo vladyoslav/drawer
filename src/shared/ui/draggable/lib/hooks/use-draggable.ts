@@ -81,6 +81,8 @@ export const useDraggable = <T>({
       passedShouldDrag.set(passed)
 
       if (!passed) return cancelDrag()
+
+      node.setPointerCapture(e.pointerId)
     }
 
     if (dragControls && !dragControls.canDrag()) return

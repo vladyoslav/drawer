@@ -25,8 +25,6 @@ export const shouldDrag = (
 
   // Keep climbing up the DOM tree as long as there's a parent
   while (element) {
-    if (element === root) return true
-
     // Check if the element is scrollable
     if (element.scrollHeight > element.clientHeight) {
       const top = element.scrollTop === 0 && isDraggingDown
@@ -34,6 +32,8 @@ export const shouldDrag = (
       const bottom = reachedBottom(element) && !isDraggingDown
 
       if (!top && !bottom) return false
+
+      if (element === root) return true
     }
 
     // Move up to the parent element

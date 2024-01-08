@@ -50,7 +50,6 @@ const _Draggable = <T,>(
     onDragStart,
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
-    style,
     ...props
   }: DraggableProps<number | T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
@@ -92,10 +91,6 @@ const _Draggable = <T,>(
   return (
     <div
       ref={composedRef}
-      style={{
-        touchAction: 'none',
-        ...style
-      }}
       onPointerDown={mergeHandlers(
         handlePointerDown,
         onPointerDown,
