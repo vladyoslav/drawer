@@ -75,7 +75,7 @@ const _Draggable = <T,>(
 
   const setStyle = useSetStyle(ref)
 
-  // fixing initial opening animation
+  // Fixing initial opening animation
   useLayoutEffect(() => {
     setStyle({ transform: transformTemplate(y.get()) })
   }, [])

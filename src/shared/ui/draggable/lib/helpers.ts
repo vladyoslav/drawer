@@ -19,7 +19,7 @@ const hasScrollOverflow = (el: HTMLElement) => {
   return scrollOverflows.includes(overflow)
 }
 
-// some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
+// Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
 export const shouldDrag = (
   el: HTMLElement,
   root: HTMLElement,

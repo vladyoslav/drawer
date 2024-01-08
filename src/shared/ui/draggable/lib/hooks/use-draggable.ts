@@ -65,7 +65,7 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
-    // runs once per drag
+    // Runs once per drag
     if (!passedShouldDrag.get()) {
       const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
 
@@ -75,11 +75,11 @@ export const useDraggable = <T>({
       node.setPointerCapture(e.pointerId)
     }
 
-    // check controls
+    // Check controls
     if (dragControls && !dragControls.canDrag()) return
 
     const getNumberY = () => {
-      // resetting y and checking rect y
+      // Resetting y and checking rect y
       y.set(0)
       const resettedY = node.getBoundingClientRect().y
 
@@ -92,7 +92,7 @@ export const useDraggable = <T>({
 
     if (!constraints) return y.set(newY)
 
-    // constraints
+    // Constraints
     const min = getConstraint(constraints[ConstraintType.Min], node)
     const max = getConstraint(constraints[ConstraintType.Max], node)
 
