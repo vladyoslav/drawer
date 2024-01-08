@@ -20,9 +20,7 @@ export const useDragEvents = <T extends HTMLElement>(
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
   const onDragEnd: DragEventHandler = () => {
-    console.log('end')
     const node = drawerRef.current
-
     if (!node) return
 
     const rect = node.getBoundingClientRect()
@@ -41,6 +39,9 @@ export const useDragEvents = <T extends HTMLElement>(
     if (newSnap === 0) return onClose()
 
     if (snap === newSnap) return snapTo(snap)
+
+    // Content is scrolled down, should not snap
+    if (node.scrollTop !== 0) return snapTo(snap)
 
     setSnap(newSnap)
   }
