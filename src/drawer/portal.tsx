@@ -5,10 +5,10 @@ import {
   type DialogPortalProps as PortalPrimitiveProps
 } from '@radix-ui/react-dialog'
 
-export interface PortalProps extends Omit<PortalPrimitiveProps, 'forceMount'> {}
+export interface PortalProps extends PortalPrimitiveProps {}
 
 export const Portal: FC<PortalProps> = (props) => {
-  return <PortalPrimitive forceMount {...props} />
+  return <PortalPrimitive {...props} />
 }
 
 Portal.displayName = 'Drawer.Portal'
