@@ -1,0 +1,26 @@
+[vladyoslav-drawer-overlay], [vladyoslav-drawer] {
+    --duration: 3s;
+    --timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+[vladyoslav-drawer-overlay] {
+    opacity: 0;
+    transition: opacity var(--duration) var(--timing-function);
+}
+
+[vladyoslav-drawer] {
+    transform: translate3d(0, 100%, 0);
+    transition: transform var(--duration) var(--timing-function);
+}
+
+[vladyoslav-drawer-overlay][data-state="closed"], [vladyoslav-drawer][data-state="closed"] {
+    animation: fake-animation var(--duration) var(--timing-function);
+}
+
+/* This will allow us to not animate via animation, but still benefit from delaying unmount via Radix. */
+@keyframes fake-animation {
+    from {}
+    to {}
+}
+
+

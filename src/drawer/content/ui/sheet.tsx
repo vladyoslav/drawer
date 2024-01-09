@@ -1,18 +1,12 @@
 import React, { type HTMLProps, forwardRef } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
-import { usePresence } from 'framer-motion'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
 import { Draggable } from '@/shared/ui/draggable'
 
 import { transformTemplate } from '../lib/helpers'
-import {
-  useDragEvents,
-  useSafeRemove,
-  useSnapTo,
-  useSnapToCurrent
-} from '../lib/hooks'
+import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
 
 export interface SheetProps
   extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'onDragStart' | 'onDragEnd'> {
@@ -22,6 +16,7 @@ export interface SheetProps
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ onClose, ...props }, forwardedRef) => {
     const {
+      open,
       drawerControls,
       snapPoints,
       snap,
@@ -44,11 +39,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
-    const [isPresent, safeToRemove] = usePresence()
-
-    useSnapToCurrent(snapTo, snap, isPresent)
-
-    const transitionListeners = useSafeRemove(isPresent, safeToRemove)
+    useSnapToCurrent(snapTo, snap, open)
 
     return (
       <Draggable
@@ -62,7 +53,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         // onDragMove={() => console.log('drag')}
         // onDragStart={() => console.log('start')}
         {...dragListeners}
-        {...transitionListeners}
         {...props}
       />
     )

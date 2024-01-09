@@ -1,4 +1,5 @@
 import { Content } from './content'
+import './index.css'
 import { Overlay } from './overlay'
 import { Portal } from './portal'
 import { Root } from './root'

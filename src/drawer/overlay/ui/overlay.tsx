@@ -15,7 +15,7 @@ export interface OverlayProps extends OverlayPrimitiveProps {}
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
   ({ ...props }, forwardedRef) => {
-    const { open, drawerControls, drawerRef } = useDrawerContext()
+    const { drawerControls, drawerRef } = useDrawerContext()
 
     const ref = useRef<HTMLDivElement>(null)
     const composedRef = useComposedRefs(ref, forwardedRef)
@@ -23,7 +23,6 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
     const [setStyle, resetStyle] = useSetStyle(ref)
 
     useValueChange(drawerControls.y, (latest) => {
-      console.log(latest)
       const node = drawerRef.current
       if (!node) return
 

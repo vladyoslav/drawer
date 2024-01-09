@@ -4,7 +4,6 @@ import {
   Content as ContentPrimitive,
   type DialogContentProps as ContentPrimitiveProps
 } from '@radix-ui/react-dialog'
-import { AnimatePresence } from 'framer-motion'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
 
@@ -26,7 +25,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     },
     ref
   ) => {
-    const { open, onOpenChange } = useDrawerContext()
+    const { onOpenChange } = useDrawerContext()
 
     const primitiveProps = {
       onOpenAutoFocus,
@@ -37,19 +36,14 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     }
 
     return (
-      <AnimatePresence>
-        {open && (
-          <ContentPrimitive
-            ref={ref}
-            forceMount
-            asChild
-            {...primitiveProps}
-            vladyoslav-drawer=""
-          >
-            <Sheet {...props} onClose={() => onOpenChange(false)} />
-          </ContentPrimitive>
-        )}
-      </AnimatePresence>
+      <ContentPrimitive
+        ref={ref}
+        asChild
+        {...primitiveProps}
+        vladyoslav-drawer=""
+      >
+        <Sheet {...props} onClose={() => onOpenChange(false)} />
+      </ContentPrimitive>
     )
   }
 )

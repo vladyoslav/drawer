@@ -3,8 +3,7 @@ import React, {
   type HTMLProps,
   type ReactElement,
   type Ref,
-  forwardRef,
-  useLayoutEffect
+  forwardRef
 } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
@@ -73,10 +72,10 @@ const _Draggable = <T,>(
 
   const [setStyle, resetStyle] = useSetStyle(ref)
 
-  // Fixing initial opening animation
-  useLayoutEffect(() => {
-    setStyle({ transform: transformTemplate(y.get()) })
-  }, [])
+  // // Fixing initial opening animation
+  // useLayoutEffect(() => {
+  //   setStyle({ transform: transformTemplate(y.get()) })
+  // }, [])
 
   useValueChange(y, (latest) => {
     setStyle({ transform: transformTemplate(latest) })
