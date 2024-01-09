@@ -52,7 +52,7 @@ const _Draggable = <T,>(
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const { ref, y, isDragging, listeners } = useDraggable({
+  const { ref, y, isDragging, wantToDrag, listeners } = useDraggable({
     dragControls,
     constraints,
     onConstraint,
@@ -81,7 +81,7 @@ const _Draggable = <T,>(
     setStyle({ transform: transformTemplate(latest) })
   })
 
-  useValueChange(isDragging, (latest) => {
+  useValueChange(wantToDrag, (latest) => {
     if (latest) setStyle({ transition: 'none' })
     else resetStyle('transition')
   })

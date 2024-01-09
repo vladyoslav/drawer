@@ -15,7 +15,8 @@ import {
   ConstraintType,
   type Constraints,
   type DragControls,
-  type DragEventHandler
+  type DragEventHandler,
+  type NumberOr
 } from '../types'
 
 interface DraggableOptions<T> {
@@ -39,7 +40,8 @@ export const useDraggable = <T>({
 
   const y = dragControls.y
   const last = useRef(0)
-  const initialY = useValue(0)
+  const initTop = useRef(0)
+  const initY = useRef<NumberOr<T> | null>(null)
 
   const wantToDrag = useValue(false)
   const isDragging = dragControls.isDragging
@@ -47,6 +49,17 @@ export const useDraggable = <T>({
   const target = useRef<HTMLElement | null>(null)
 
   const ref = useRef<HTMLDivElement>(null)
+
+  const getNumberY = () => {
+    const node = ref.current
+    if (!node) return 0
+
+    // Resetting y and checking rect y
+    y.set(0)
+    const resettedTop = node.getBoundingClientRect().top
+
+    return initTop.current - resettedTop
+  }
 
   const handleDragStart = (e: TouchEvent<HTMLDivElement>) => {
     const node = ref.current
@@ -65,14 +78,6 @@ export const useDraggable = <T>({
   const handleDrag: DragEventHandler = (e, info) => {
     const node = ref.current
     if (!node) return
-
-    const getNumberY = () => {
-      // Resetting y and checking rect y
-      y.set(0)
-      const resettedY = node.getBoundingClientRect().y
-
-      return initialY.get() - resettedY
-    }
 
     const curY = y.get()
     const curNumberY = isNumber(curY) ? curY : getNumberY()
@@ -93,14 +98,20 @@ export const useDraggable = <T>({
   }
 
   const handleDragEnd = (e: TouchEvent<HTMLDivElement>) => {
-    if (!isDragging.get()) return
+    const wasDragging = isDragging.get()
 
     if (target.current && ref.current)
       unlockScrollableParents(target.current, ref.current)
 
+    // Resetting to the position before dragging
+    if (initY.current !== null) {
+      y.set(initY.current)
+      initY.current = null
+    }
+
     cancelDrag()
 
-    onDragEnd?.(e, { delta: 0 })
+    wasDragging && onDragEnd?.(e, { delta: 0 })
   }
 
   const cancelDrag = () => {
@@ -117,9 +128,18 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
-    initialY.set(node.getBoundingClientRect().y)
+    initTop.current = node.getBoundingClientRect().top
 
+    // Stopping transition and setting y to current number value
     wantToDrag.set(true)
+
+    const curTop = node.getBoundingClientRect().top
+
+    // Dragging during transition
+    if (initTop.current !== curTop) {
+      initY.current = y.get()
+      y.set(getNumberY())
+    }
   }
 
   const onTouchMove = (e: TouchEvent<HTMLDivElement>) => {
@@ -139,7 +159,12 @@ export const useDraggable = <T>({
     if (!isDragging.get()) {
       const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
 
-      if (!passed) return cancelDrag()
+      if (!passed) {
+        // Return to the position before onPress event
+        // y.set(initY.get())
+
+        return cancelDrag()
+      }
 
       handleDragStart(e)
     }
@@ -147,7 +172,9 @@ export const useDraggable = <T>({
     handleDrag(e, { delta })
   }
 
-  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => handleDragEnd(e)
+  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    handleDragEnd(e)
+  }
 
   const onTouchCancel = (e: TouchEvent<HTMLDivElement>) => {
     handleDragEnd(e)
@@ -157,6 +184,7 @@ export const useDraggable = <T>({
     ref,
     y,
     isDragging,
+    wantToDrag,
     listeners: { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel }
   }
 }

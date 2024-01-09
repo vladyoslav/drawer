@@ -1,5 +1,5 @@
 [vladyoslav-drawer-overlay], [vladyoslav-drawer] {
-    --duration: 3s;
+    --duration: 0.5s;
     --timing-function: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
