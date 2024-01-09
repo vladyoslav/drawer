@@ -1,8 +1,9 @@
-import React, { type HTMLProps, forwardRef } from 'react'
+import React, { type HTMLProps, forwardRef, useEffect } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
+import { useSetStyle } from '@/shared/lib/hooks'
 import { Draggable } from '@/shared/ui/draggable'
 
 import { transformTemplate } from '../lib/helpers'
@@ -39,7 +40,16 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
+    const [setStyle] = useSetStyle(drawerRef)
+
     useSnapToCurrent(snapTo, snap, open)
+
+    useEffect(() => {
+      if (open) return
+      if (!drawerRef.current) return
+
+      setStyle({ pointerEvents: 'none' })
+    }, [open])
 
     return (
       <Draggable
