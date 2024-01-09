@@ -25,8 +25,6 @@ export interface Constraints {
 
 export type TransformTemplate = <T>(y: T) => string
 
-export type Style = Record<string, string>
-
 export interface DragInfo {
   delta: number
 }

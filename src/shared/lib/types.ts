@@ -16,3 +16,5 @@ export interface Value<T> {
   get: Get<T>
   subscribe: Subscribe<T>
 }
+
+export type Style = Record<string, string>

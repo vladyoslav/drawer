@@ -10,10 +10,10 @@ import React, {
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { mergeHandlers } from '@/shared/lib/helpers'
-import { useValueChange } from '@/shared/lib/hooks'
+import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
 import { defaultTransformTemplate } from '../lib/helpers'
-import { useDraggable, useSetStyle } from '../lib/hooks'
+import { useDraggable } from '../lib/hooks'
 import {
   type ConstraintType,
   type Constraints,
