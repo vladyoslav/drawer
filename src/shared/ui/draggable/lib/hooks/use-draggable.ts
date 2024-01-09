@@ -103,11 +103,11 @@ export const useDraggable = <T>({
     if (target.current && ref.current)
       unlockScrollableParents(target.current, ref.current)
 
-    // Resetting to the position before dragging
-    if (initY.current !== null) {
-      y.set(initY.current)
-      initY.current = null
-    }
+    // // Resetting to the position before dragging
+    // if (initY.current !== null) {
+    //   y.set(initY.current)
+    //   initY.current = null
+    // }
 
     cancelDrag()
 
@@ -160,8 +160,11 @@ export const useDraggable = <T>({
       const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
 
       if (!passed) {
-        // Return to the position before onPress event
-        // y.set(initY.get())
+        // Resetting to the position before dragging
+        if (initY.current !== null) {
+          y.set(initY.current)
+          initY.current = null
+        }
 
         return cancelDrag()
       }
