@@ -11,10 +11,9 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { mergeHandlers } from '@/shared/lib/helpers'
 import { useValueChange } from '@/shared/lib/hooks'
-import { type Value } from '@/shared/lib/types'
 
 import { defaultTransformTemplate } from '../lib/helpers'
-import { useDraggable, useSetStyle, useY } from '../lib/hooks'
+import { useDraggable, useSetStyle } from '../lib/hooks'
 import {
   type ConstraintType,
   type Constraints,
@@ -28,10 +27,9 @@ export interface DraggableProps<T>
     HTMLProps<HTMLDivElement>,
     'ref' | 'onDragStart' | 'onDragEnd' | 'onDrag'
   > {
-  dragControls?: DragControls
+  dragControls?: DragControls<T>
   constraints?: Constraints
   onConstraint?: (type: ConstraintType) => void
-  y?: Value<T>
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
@@ -40,7 +38,6 @@ export interface DraggableProps<T>
 
 const _Draggable = <T,>(
   {
-    y: cY,
     constraints,
     dragControls,
     onConstraint,
@@ -53,13 +50,10 @@ const _Draggable = <T,>(
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
     ...props
-  }: DraggableProps<number | T>,
+  }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const y = useY(0, cY)
-
-  const { ref, isDragging, listeners } = useDraggable({
-    y,
+  const { ref, y, isDragging, listeners } = useDraggable({
     dragControls,
     constraints,
     onConstraint,
@@ -103,7 +97,7 @@ const _Draggable = <T,>(
       onTouchStart={mergeHandlers(handleTouchStart, onTouchStart)}
       onTouchMove={mergeHandlers(handleTouchMove, onTouchMove)}
       onTouchEnd={mergeHandlers(handleTouchEnd, onTouchEnd)}
-      onTouchCancel={mergeHandlers(handleTouchMove, onTouchCancel)}
+      onTouchCancel={mergeHandlers(handleTouchCancel, onTouchCancel)}
       {...props}
     />
   )

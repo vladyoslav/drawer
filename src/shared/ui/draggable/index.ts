@@ -7,7 +7,8 @@ export {
   type Constraint,
   type Constraints,
   type DragInfo,
-  type DragEventHandler
+  type DragEventHandler,
+  type DragControls
 } from './lib/types'
 
 export { defaultTransformTemplate } from './lib/helpers'

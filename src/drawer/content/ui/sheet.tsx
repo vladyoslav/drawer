@@ -22,7 +22,7 @@ export interface SheetProps
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   ({ onClose, ...props }, forwardedRef) => {
     const {
-      y,
+      drawerControls,
       snapPoints,
       snap,
       setSnap,
@@ -30,7 +30,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       drawerRef: contextRef
     } = useDrawerContext()
 
-    const snapTo = useSnapTo(y)
+    const snapTo = useSnapTo(drawerControls.y)
 
     const { drawerRef, listeners: dragListeners } =
       useDragEvents<HTMLDivElement>(
@@ -53,7 +53,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     return (
       <Draggable
         ref={composedRef}
-        y={y}
+        dragControls={drawerControls}
         transformTemplate={transformTemplate}
         // constraints={{
         //   min: (el) => -el.getBoundingClientRect().height,

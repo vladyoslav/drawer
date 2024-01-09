@@ -7,8 +7,8 @@ import {
   type DrawerContextValue
 } from '@/drawer/lib/providers'
 import { type OnOpenChange, type SetSnap, type Snap } from '@/drawer/lib/types'
-import { useValue } from '@/shared/lib/hooks'
 import { type WithoutThisOrThat } from '@/shared/lib/types'
+import { useDragControls } from '@/shared/ui/draggable'
 
 import { useOpenState, useSnapState } from '../lib/hooks'
 
@@ -39,7 +39,7 @@ export const Root: FC<RootProps> = ({
   modal,
   children
 }) => {
-  const y = useValue<Snap>(0)
+  const drawerControls = useDragControls<Snap>({})
 
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
   const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)
@@ -47,7 +47,7 @@ export const Root: FC<RootProps> = ({
   const drawerRef = useRef<HTMLDivElement>(null)
 
   const context: DrawerContextValue = {
-    y,
+    drawerControls,
     defaultOpen,
     open,
     onOpenChange,

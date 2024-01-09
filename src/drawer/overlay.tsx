@@ -12,7 +12,7 @@ export interface OverlayProps
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
   ({ ...props }, ref) => {
-    const { y, open, drawerRef } = useDrawerContext()
+    const { open, drawerRef } = useDrawerContext()
 
     return (
       <AnimatePresence>

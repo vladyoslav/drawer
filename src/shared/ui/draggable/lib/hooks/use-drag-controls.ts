@@ -1,13 +1,27 @@
 import { useValue } from '@/shared/lib/hooks'
 
-import { type DragControls } from '../types'
+import { type DragControls, type NumberOr } from '../types'
 
-export const useDragControls = (initial: boolean = false): DragControls => {
-  const canDrag = useValue(initial)
+export interface DragControlsParams<T> {
+  initLocked?: boolean
+  initY?: NumberOr<T>
+  initDragging?: boolean
+}
+
+export const useDragControls = <T>({
+  initLocked = false,
+  initY = 0,
+  initDragging = false
+}: DragControlsParams<T>): DragControls<T> => {
+  const isLocked = useValue(initLocked)
+  const y = useValue(initY)
+  const isDragging = useValue(initDragging)
 
   return {
-    enable: () => canDrag.set(true),
-    disable: () => canDrag.set(false),
-    canDrag: () => canDrag.get()
+    lock: () => isLocked.set(true),
+    unlock: () => isLocked.set(false),
+    isLocked: () => isLocked.get(),
+    y,
+    isDragging
   }
 }

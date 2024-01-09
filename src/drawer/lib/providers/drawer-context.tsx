@@ -5,12 +5,12 @@ import React, {
   createContext
 } from 'react'
 
-import { type Value } from '@/shared/lib/types'
+import { type DragControls } from '@/shared/ui/draggable'
 
 import { type OnOpenChange, type SetSnap, type Snap } from '../types'
 
 export interface DrawerContextValue {
-  y: Value<Snap>
+  drawerControls: DragControls<Snap>
   defaultOpen: boolean
   open: boolean
   onOpenChange: OnOpenChange

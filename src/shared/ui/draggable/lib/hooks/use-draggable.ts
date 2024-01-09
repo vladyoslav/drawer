@@ -2,7 +2,7 @@ import { type TouchEvent, useRef } from 'react'
 
 import { clamp, isNumber } from '@/shared/lib/helpers'
 import { useValue } from '@/shared/lib/hooks'
-import { type Value } from '@/shared/lib/types'
+import { useControlsState } from '@/shared/ui/draggable/lib/hooks/use-controls-state'
 
 import {
   blockScrollableParents,
@@ -19,8 +19,7 @@ import {
 } from '../types'
 
 interface DraggableOptions<T> {
-  y: Value<T | number>
-  dragControls?: DragControls
+  dragControls?: DragControls<T>
   constraints?: Constraints
   onConstraint?: (type: ConstraintType) => void
   onDragStart?: DragEventHandler
@@ -29,19 +28,21 @@ interface DraggableOptions<T> {
 }
 
 export const useDraggable = <T>({
-  y,
-  dragControls,
+  dragControls: cDragControls,
   constraints,
   onConstraint,
   onDragStart,
   onDragMove,
   onDragEnd
 }: DraggableOptions<T>) => {
+  const dragControls = useControlsState({}, cDragControls)
+
+  const y = dragControls.y
   const last = useRef(0)
   const initialY = useValue(0)
 
   const wantToDrag = useValue(false)
-  const isDragging = useValue(false)
+  const isDragging = dragControls.isDragging
 
   const target = useRef<HTMLElement | null>(null)
 
@@ -132,7 +133,7 @@ export const useDraggable = <T>({
     if (!node) return
 
     // Check controls
-    if (dragControls && !dragControls.canDrag()) return
+    if (dragControls.isLocked()) return
 
     // Runs once per drag
     if (!isDragging.get()) {
@@ -154,6 +155,7 @@ export const useDraggable = <T>({
 
   return {
     ref,
+    y,
     isDragging,
     listeners: { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel }
   }

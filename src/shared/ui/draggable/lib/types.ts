@@ -1,9 +1,15 @@
 import { type TouchEvent } from 'react'
 
-export interface DragControls {
-  enable: () => void
-  disable: () => void
-  canDrag: () => boolean
+import { type Value } from '@/shared/lib/types'
+
+export type NumberOr<T> = number | T
+
+export interface DragControls<T> {
+  lock: () => void
+  unlock: () => void
+  isLocked: () => boolean
+  y: Value<NumberOr<T>>
+  isDragging: Value<boolean>
 }
 
 export enum ConstraintType {
