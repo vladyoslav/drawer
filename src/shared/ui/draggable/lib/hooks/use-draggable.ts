@@ -1,8 +1,7 @@
 import { type TouchEvent, useRef } from 'react'
 
 import { clamp, isNumber } from '@/shared/lib/helpers'
-import { useValue } from '@/shared/lib/hooks'
-import { useControlsState } from '@/shared/ui/draggable/lib/hooks/use-controls-state'
+import { useSetStyle, useValue } from '@/shared/lib/hooks'
 
 import {
   blockScrollableParents,
@@ -16,8 +15,10 @@ import {
   type Constraints,
   type DragControls,
   type DragEventHandler,
-  type NumberOr
+  type NumberOr,
+  type TransformTemplate
 } from '../types'
+import { useControlsState } from './use-controls-state'
 
 interface DraggableOptions<T> {
   dragControls?: DragControls<T>
@@ -26,10 +27,12 @@ interface DraggableOptions<T> {
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
+  transformTemplate?: TransformTemplate
 }
 
 export const useDraggable = <T>({
   dragControls: cDragControls,
+  transformTemplate,
   constraints,
   onConstraint,
   onDragStart,
@@ -49,6 +52,7 @@ export const useDraggable = <T>({
   const target = useRef<HTMLElement | null>(null)
 
   const ref = useRef<HTMLDivElement>(null)
+  const [setStyle, resetStyle] = useSetStyle(ref)
 
   const resetY = () => {
     if (initY.current !== null) {
@@ -61,8 +65,9 @@ export const useDraggable = <T>({
     if (!node) return 0
 
     // Resetting y and checking rect y
-    y.set(0)
+    setStyle({ transform: transformTemplate?.(0) ?? 'none' })
     const resettedTop = node.getBoundingClientRect().top
+    resetStyle('transform')
 
     return initTop.current - resettedTop
   }
@@ -89,18 +94,20 @@ export const useDraggable = <T>({
     const curNumberY = isNumber(curY) ? curY : getNumberY()
     const newY = curNumberY + info.delta
 
-    onDragMove?.(e, info)
-
-    if (!constraints) return y.set(newY)
-
     // Constraints
-    const min = getConstraint(constraints[ConstraintType.Min], node)
-    const max = getConstraint(constraints[ConstraintType.Max], node)
+    if (!constraints) {
+      y.set(newY)
+    } else {
+      const min = getConstraint(constraints[ConstraintType.Min], node)
+      const max = getConstraint(constraints[ConstraintType.Max], node)
 
-    y.set(clamp(min, max, newY))
+      y.set(clamp(min, max, newY))
 
-    if (newY <= min) onConstraint?.(ConstraintType.Min)
-    if (newY >= max) onConstraint?.(ConstraintType.Max)
+      if (newY <= min) onConstraint?.(ConstraintType.Min)
+      if (newY >= max) onConstraint?.(ConstraintType.Max)
+    }
+
+    onDragMove?.(e, info)
   }
 
   const handleDragEnd = (e: TouchEvent<HTMLDivElement>) => {
