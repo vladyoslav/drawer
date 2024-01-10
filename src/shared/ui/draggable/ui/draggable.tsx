@@ -52,7 +52,7 @@ const _Draggable = <T,>(
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const { ref, y, isDragging, wantToDrag, listeners } = useDraggable({
+  const { ref, y, wantToDrag, listeners } = useDraggable({
     dragControls,
     constraints,
     onConstraint,
@@ -71,11 +71,6 @@ const _Draggable = <T,>(
   const composedRef = useComposedRefs(ref, forwardedRef)
 
   const [setStyle, resetStyle] = useSetStyle(ref)
-
-  // // Fixing initial opening animation
-  // useLayoutEffect(() => {
-  //   setStyle({ transform: transformTemplate(y.get()) })
-  // }, [])
 
   useValueChange(y, (latest) => {
     setStyle({ transform: transformTemplate(latest) })

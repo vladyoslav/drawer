@@ -50,6 +50,12 @@ export const useDraggable = <T>({
 
   const ref = useRef<HTMLDivElement>(null)
 
+  const resetY = () => {
+    if (initY.current !== null) {
+      y.set(initY.current)
+    }
+  }
+
   const getNumberY = () => {
     const node = ref.current
     if (!node) return 0
@@ -103,11 +109,8 @@ export const useDraggable = <T>({
     if (target.current && ref.current)
       unlockScrollableParents(target.current, ref.current)
 
-    // // Resetting to the position before dragging
-    // if (initY.current !== null) {
-    //   y.set(initY.current)
-    //   initY.current = null
-    // }
+    // Resetting to the position before dragging
+    resetY()
 
     cancelDrag()
 
@@ -118,6 +121,7 @@ export const useDraggable = <T>({
     isDragging.set(false)
     wantToDrag.set(false)
     target.current = null
+    initY.current = null
   }
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
@@ -161,10 +165,7 @@ export const useDraggable = <T>({
 
       if (!passed) {
         // Resetting to the position before dragging
-        if (initY.current !== null) {
-          y.set(initY.current)
-          initY.current = null
-        }
+        resetY()
 
         return cancelDrag()
       }
