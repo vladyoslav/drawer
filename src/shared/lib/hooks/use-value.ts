@@ -19,6 +19,8 @@ export const useValue = <T>(initial: T): Value<T> => {
   }
 
   const set: Set<T> = (value) => {
+    if (value === v.current) return
+
     v.current = value
 
     notify()
