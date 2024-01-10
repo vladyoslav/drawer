@@ -15,7 +15,8 @@ export interface OverlayProps extends OverlayPrimitiveProps {}
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
   ({ ...props }, forwardedRef) => {
-    const { drawerControls, drawerRef } = useDrawerContext()
+    const { drawerControls, drawerRef, snapPoints } = useDrawerContext()
+    const lastPoint = snapPoints[snapPoints.length - 1]
 
     const ref = useRef<HTMLDivElement>(null)
     const composedRef = useComposedRefs(ref, forwardedRef)
@@ -27,7 +28,7 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
       if (!node) return
 
       const y = isNumber(latest) ? latest : cssToPx(latest, node)
-      const opacity = clamp(0, 1, -y / node.getBoundingClientRect().height)
+      const opacity = clamp(0, 1, -y / cssToPx(lastPoint, node))
 
       setStyle({ opacity: opacity.toString() })
     })

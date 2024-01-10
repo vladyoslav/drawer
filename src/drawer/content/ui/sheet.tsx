@@ -2,6 +2,7 @@ import React, { type HTMLProps, forwardRef, useEffect } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
+import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext } from '@/drawer/lib/hooks'
 import { useSetStyle } from '@/shared/lib/hooks'
 import { Draggable } from '@/shared/ui/draggable'
@@ -25,6 +26,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       dismissible,
       drawerRef: contextRef
     } = useDrawerContext()
+
+    const lastPoint = snapPoints[snapPoints.length - 1]
 
     const snapTo = useSnapTo(drawerControls.y)
 
@@ -56,10 +59,10 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         ref={composedRef}
         dragControls={drawerControls}
         transformTemplate={transformTemplate}
-        // constraints={{
-        //   min: (el) => -el.getBoundingClientRect().height,
-        //   max: 0.001 // fixing no transition when y = 0, this can be done much better
-        // }}
+        constraints={{
+          min: (el) => -cssToPx(lastPoint, el),
+          max: -100 // fixing no transition when y = 0, this can be done much better
+        }}
         // onDragMove={() => console.log('drag')}
         // onDragStart={() => console.log('start')}
         {...dragListeners}
