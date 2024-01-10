@@ -28,6 +28,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     } = useDrawerContext()
 
     const lastPoint = snapPoints[snapPoints.length - 1]
+    const firstPoint = snapPoints[0]
 
     const snapTo = useSnapTo(drawerControls.y)
 
@@ -61,7 +62,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         transformTemplate={transformTemplate}
         constraints={{
           min: (el) => -cssToPx(lastPoint, el),
-          max: -100 // fixing no transition when y = 0, this can be done much better
+          max: (el) => -cssToPx(firstPoint, el)
         }}
         // onDragMove={() => console.log('drag')}
         // onDragStart={() => console.log('start')}

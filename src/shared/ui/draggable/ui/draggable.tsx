@@ -58,7 +58,8 @@ const _Draggable = <T,>(
     onConstraint,
     onDragStart,
     onDragMove,
-    onDragEnd
+    onDragEnd,
+    transformTemplate
   })
 
   const {

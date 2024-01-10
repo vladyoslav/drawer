@@ -1,12 +1,14 @@
 import { type TouchEvent, useRef } from 'react'
 
-import { clamp, isNumber } from '@/shared/lib/helpers'
+import { isNumber } from '@/shared/lib/helpers'
 import { useSetStyle, useValue } from '@/shared/lib/hooks'
 
 import {
   blockScrollableParents,
   getConstraint,
+  getDumpedValue,
   getScreenY,
+  getUndumpedValue,
   shouldDrag,
   unlockScrollableParents
 } from '../helpers'
@@ -92,19 +94,20 @@ export const useDraggable = <T>({
 
     const curY = y.get()
     const curNumberY = isNumber(curY) ? curY : getNumberY()
-    const newY = curNumberY + info.delta
 
     // Constraints
     if (!constraints) {
-      y.set(newY)
+      y.set(curNumberY + info.delta)
     } else {
       const min = getConstraint(constraints[ConstraintType.Min], node)
       const max = getConstraint(constraints[ConstraintType.Max], node)
 
-      y.set(clamp(min, max, newY))
+      const newUndumpedY = getUndumpedValue(curNumberY, min, max) + info.delta
 
-      if (newY <= min) onConstraint?.(ConstraintType.Min)
-      if (newY >= max) onConstraint?.(ConstraintType.Max)
+      y.set(getDumpedValue(newUndumpedY, min, max))
+
+      if (newUndumpedY <= min) onConstraint?.(ConstraintType.Min)
+      if (newUndumpedY >= max) onConstraint?.(ConstraintType.Max)
     }
 
     onDragMove?.(e, info)

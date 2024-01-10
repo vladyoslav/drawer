@@ -1,6 +1,6 @@
 import { type TouchEvent } from 'react'
 
-import { isFunction, resetStyle, setStyle } from '@/shared/lib/helpers'
+import { clamp, isFunction, resetStyle, setStyle } from '@/shared/lib/helpers'
 
 import { type Constraint, type TransformTemplate } from './types'
 
@@ -84,3 +84,37 @@ export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
 export const getScreenY = (e: TouchEvent<HTMLElement>) => {
   return e.touches[0].screenY
 }
+
+// Some code was taken from https://github.com/clauderic/dnd-kit/blob/master/stories/3%20-%20Examples/Drawer/modifiers.ts'
+
+const getValidDim = (dim: number) =>
+  dim === 0 || Math.abs(dim) === Infinity ? 100 : dim
+
+const rubberband = (dis: number, rawDim: number, el: number) => {
+  const dim = getValidDim(rawDim)
+  return (dis * dim * el) / (dim + el * dis)
+}
+
+const reverseRubberband = (dis: number, rawDim: number, el: number) => {
+  const dim = getValidDim(rawDim)
+  return (dis * dim) / (el * (dim - dis))
+}
+
+const applyRubberband = (
+  pos: number,
+  min: number,
+  max: number,
+  func = rubberband,
+  el = 0.3
+) => {
+  if (el === 0) return clamp(min, max, pos)
+  if (pos < min) return -func(min - pos, max - min, el) + min
+  if (pos > max) return +func(pos - max, max - min, el) + max
+  return pos
+}
+
+export const getDumpedValue = (pos: number, min: number, max: number) =>
+  applyRubberband(pos, min, max)
+
+export const getUndumpedValue = (pos: number, min: number, max: number) =>
+  applyRubberband(pos, min, max, reverseRubberband)
