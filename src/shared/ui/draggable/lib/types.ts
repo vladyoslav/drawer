@@ -27,6 +27,7 @@ export type TransformTemplate = <T>(y: T) => string
 
 export interface DragInfo {
   delta: number
+  velocity: number
 }
 
 export type DragEventHandler<T = Element> = (

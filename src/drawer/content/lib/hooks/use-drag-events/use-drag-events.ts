@@ -19,7 +19,7 @@ export const useDragEvents = <T extends HTMLElement>(
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd: DragEventHandler = (e) => {
+  const onDragEnd: DragEventHandler = (e, { velocity }) => {
     const node = drawerRef.current
     if (!node) return
 
@@ -27,8 +27,7 @@ export const useDragEvents = <T extends HTMLElement>(
     const pos = window.innerHeight - rect.y
 
     // Definitely not undefined, because we checked the drawerRef.current earlier
-    let newSnap = getSnap(pos)!
-
+    let newSnap = getSnap(pos, velocity)!
     // if (Math.abs(velocity.y) > 300) {
     //   const curIndex = dismissablePoints.indexOf(newSnap)
     //   const newIndex = curIndex + (velocity.y < 0 ? 1 : -1)

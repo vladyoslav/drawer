@@ -7,6 +7,7 @@ import {
   getConstraint,
   getDumpedValue,
   getUndumpedValue,
+  getVelocity,
   shouldDrag
 } from '../helpers'
 import {
@@ -41,7 +42,11 @@ export const useDraggable = <T>({
   const dragControls = useControlsState({}, cDragControls)
 
   const y = dragControls.y
+
   const last = useRef(0)
+  const lastTime = useRef(0)
+  const lastVelocity = useRef(0)
+
   const initTop = useRef(0)
   const initY = useRef<NumberOr<T> | null>(null)
 
@@ -71,7 +76,7 @@ export const useDraggable = <T>({
     return initTop.current - resettedTop
   }
 
-  const handleDragStart = (e: PointerEvent<HTMLDivElement>) => {
+  const handleDragStart: DragEventHandler<HTMLElement> = (e, info) => {
     const node = ref.current
     if (!node) return
 
@@ -81,7 +86,7 @@ export const useDraggable = <T>({
 
     isDragging.set(true)
 
-    onDragStart?.(e, { delta: 0 })
+    onDragStart?.(e, info)
   }
 
   const handleDrag: DragEventHandler = (e, info) => {
@@ -109,7 +114,7 @@ export const useDraggable = <T>({
     onDragMove?.(e, info)
   }
 
-  const handleDragEnd = (e: PointerEvent<HTMLDivElement>) => {
+  const handleDragEnd: DragEventHandler<HTMLElement> = (e, info) => {
     const wasDragging = isDragging.get()
 
     // Resetting to the position before dragging
@@ -117,7 +122,7 @@ export const useDraggable = <T>({
 
     cancelDrag()
 
-    wasDragging && onDragEnd?.(e, { delta: 0 })
+    wasDragging && onDragEnd?.(e, info)
   }
 
   const cancelDrag = () => {
@@ -131,6 +136,7 @@ export const useDraggable = <T>({
     if (wantToDrag.get()) return
 
     last.current = e.screenY
+    lastTime.current = e.timeStamp
 
     const node = ref.current
     if (!node) return
@@ -150,9 +156,12 @@ export const useDraggable = <T>({
   }
 
   const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
-    const screenY = e.screenY
-    const delta = screenY - last.current
-    last.current = screenY
+    const delta = e.screenY - last.current
+    const velocity = getVelocity(delta, e.timeStamp - lastTime.current)
+
+    last.current = e.screenY
+    lastTime.current = e.timeStamp
+    lastVelocity.current = velocity
 
     if (!wantToDrag.get()) return
 
@@ -178,18 +187,23 @@ export const useDraggable = <T>({
         return cancelDrag()
       }
 
-      handleDragStart(e)
+      handleDragStart(e, { delta, velocity })
     }
 
-    handleDrag(e, { delta })
+    handleDrag(e, { delta, velocity })
   }
 
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
-    handleDragEnd(e)
-  }
+    const delta = e.screenY - last.current
+    const timeDelta = e.timeStamp - lastTime.current
 
-  const onPointerCancel = (e: PointerEvent<HTMLDivElement>) => {
-    handleDragEnd(e)
+    // Sometimes the velocity is 0, even if in fact it is not
+    const velocity = getVelocity(delta, timeDelta) || lastVelocity.current
+
+    handleDragEnd(e, {
+      delta,
+      velocity
+    })
   }
 
   return {
@@ -198,6 +212,11 @@ export const useDraggable = <T>({
     y,
     isDragging,
     wantToDrag,
-    listeners: { onPointerDown, onPointerMove, onPointerUp, onPointerCancel }
+    listeners: {
+      onPointerDown,
+      onPointerMove,
+      onPointerUp,
+      onPointerCancel: onPointerUp
+    }
   }
 }

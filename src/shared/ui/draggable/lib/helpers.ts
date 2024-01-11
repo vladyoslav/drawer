@@ -115,3 +115,7 @@ export const getDumpedValue = (pos: number, min: number, max: number) =>
 
 export const getUndumpedValue = (pos: number, min: number, max: number) =>
   applyRubberband(pos, min, max, reverseRubberband)
+
+// Px per ms
+export const getVelocity = (delta: number, timeDelta: number) =>
+  delta / timeDelta
