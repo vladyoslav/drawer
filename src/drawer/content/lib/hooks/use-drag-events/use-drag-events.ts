@@ -26,7 +26,8 @@ export const useDragEvents = <T extends HTMLElement>(
     const rect = node.getBoundingClientRect()
     const pos = window.innerHeight - rect.y
 
-    let newSnap = getSnap(pos)
+    // Definitely not undefined, because we checked the drawerRef.current earlier
+    let newSnap = getSnap(pos)!
 
     // if (Math.abs(velocity.y) > 300) {
     //   const curIndex = dismissablePoints.indexOf(newSnap)
