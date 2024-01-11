@@ -15,7 +15,7 @@ export const Areas: FC = () => {
 
   if (!mounted) return null
 
-  const snapAreas = getSnapAreas(dismissiblePoints, drawerRef.current)
+  const snapAreas = getSnapAreas(dismissiblePoints, drawerRef.current!)
 
   const [_, snapHeights] = snapAreas.reduce<[number, number[]]>(
     ([prev, acc], cur) => [cur, [...acc, cur - prev]],
@@ -24,7 +24,7 @@ export const Areas: FC = () => {
 
   return [...snapHeights, `100%`].map((height, index) => (
     <div
-      key={height}
+      key={index}
       vladyoslav-drawer-area=""
       style={{
         flexShrink: 0,

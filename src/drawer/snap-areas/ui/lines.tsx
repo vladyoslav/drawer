@@ -14,7 +14,7 @@ export const Lines: FC = () => {
   if (!mounted) return null
 
   const snapLines = (dismissible ? [0, ...snapPoints] : snapPoints).map(
-    (point) => cssToPx(point, drawerRef.current)
+    (point) => cssToPx(point, drawerRef.current!)
   )
 
   return snapLines.map((line, index) => (
