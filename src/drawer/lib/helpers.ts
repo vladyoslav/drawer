@@ -3,10 +3,7 @@ import { isNumber } from '@/shared/lib/helpers'
 import { PERCENT_REGEX, PX_REGEX } from './constants'
 import { type Snap } from './types'
 
-export const cssToPx = (
-  value: number | string,
-  el: HTMLElement | null
-): number => {
+export const cssToPx = (value: number | string, el: HTMLElement): number => {
   if (!el) throw new Error('You have to provide element')
 
   const rect = el.getBoundingClientRect()
@@ -20,7 +17,7 @@ export const cssToPx = (
   throw new Error('Unknown value units')
 }
 
-export const getSnapAreas = (snapPoints: Snap[], el: HTMLElement | null) => {
+export const getSnapAreas = (snapPoints: Snap[], el: HTMLElement) => {
   const toPx = (value: Snap) => cssToPx(value, el)
 
   // [0, '200px', '500px', '1000px']
