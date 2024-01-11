@@ -53,7 +53,7 @@ export const shouldDrag = (
   return true
 }
 
-export const blockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
+export const lockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
   let element = el
 
   while (element) {

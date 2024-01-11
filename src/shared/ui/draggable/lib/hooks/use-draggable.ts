@@ -4,13 +4,11 @@ import { isNumber } from '@/shared/lib/helpers'
 import { useSetStyle, useValue } from '@/shared/lib/hooks'
 
 import {
-  blockScrollableParents,
   getConstraint,
   getDumpedValue,
   getScreenY,
   getUndumpedValue,
-  shouldDrag,
-  unlockScrollableParents
+  shouldDrag
 } from '../helpers'
 import {
   ConstraintType,
@@ -78,12 +76,9 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
+    target.current = e.target as HTMLElement
     isDragging.set(true)
     // node.setPointerCapture(e.pointerId)
-
-    target.current = e.target as HTMLElement
-
-    blockScrollableParents(target.current, node)
 
     onDragStart?.(e, { delta: 0 })
   }
@@ -116,9 +111,6 @@ export const useDraggable = <T>({
   const handleDragEnd = (e: TouchEvent<HTMLDivElement>) => {
     const wasDragging = isDragging.get()
 
-    if (target.current && ref.current)
-      unlockScrollableParents(target.current, ref.current)
-
     // Resetting to the position before dragging
     resetY()
 
@@ -128,8 +120,8 @@ export const useDraggable = <T>({
   }
 
   const cancelDrag = () => {
-    isDragging.set(false)
     wantToDrag.set(false)
+    isDragging.set(false)
     target.current = null
     initY.current = null
   }
@@ -195,6 +187,7 @@ export const useDraggable = <T>({
   }
 
   return {
+    target,
     ref,
     y,
     isDragging,
