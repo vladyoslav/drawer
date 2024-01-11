@@ -19,7 +19,7 @@ export const useDragEvents = <T extends HTMLElement>(
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd: DragEventHandler = () => {
+  const onDragEnd: DragEventHandler = (e) => {
     const node = drawerRef.current
     if (!node) return
 
@@ -41,7 +41,7 @@ export const useDragEvents = <T extends HTMLElement>(
     if (snap === newSnap) return snapTo(snap)
 
     // Content is scrolled down, should not snap
-    if (node.scrollTop !== 0) return snapTo(snap)
+    if (node.scrollTop !== 0 && e.pointerType === 'touch') return snapTo(snap)
 
     setSnap(newSnap)
   }

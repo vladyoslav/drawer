@@ -2,20 +2,17 @@ import { type RefObject } from 'react'
 
 import { lockScrollableParents, unlockScrollableParents } from '../helpers'
 
-export const useLockScrollable = (
-  root: RefObject<HTMLElement>,
-  target: RefObject<HTMLElement>
-) => {
-  const lock = () => {
-    if (!target.current || !root.current) return
+export const useLockScrollable = (root: RefObject<HTMLElement>) => {
+  const lock = (target: HTMLElement) => {
+    if (!root.current) return
 
-    lockScrollableParents(target.current, root.current)
+    lockScrollableParents(target, root.current)
   }
 
-  const unclock = () => {
-    if (!target.current || !root.current) return
+  const unclock = (target: HTMLElement) => {
+    if (!root.current) return
 
-    unlockScrollableParents(target.current, root.current)
+    unlockScrollableParents(target, root.current)
   }
 
   return [lock, unclock] as const

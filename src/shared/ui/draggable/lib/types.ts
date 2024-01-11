@@ -1,4 +1,4 @@
-import { type TouchEvent } from 'react'
+import { type PointerEvent } from 'react'
 
 import { type Value } from '@/shared/lib/types'
 
@@ -30,6 +30,6 @@ export interface DragInfo {
 }
 
 export type DragEventHandler<T = Element> = (
-  event: TouchEvent<T>,
+  event: PointerEvent<T>,
   info: DragInfo
 ) => void

@@ -1,4 +1,4 @@
-import { type TouchEvent, useRef } from 'react'
+import { type PointerEvent, useRef } from 'react'
 
 import { isNumber } from '@/shared/lib/helpers'
 import { useSetStyle, useValue } from '@/shared/lib/hooks'
@@ -6,7 +6,6 @@ import { useSetStyle, useValue } from '@/shared/lib/hooks'
 import {
   getConstraint,
   getDumpedValue,
-  getScreenY,
   getUndumpedValue,
   shouldDrag
 } from '../helpers'
@@ -49,7 +48,7 @@ export const useDraggable = <T>({
   const wantToDrag = useValue(false)
   const isDragging = dragControls.isDragging
 
-  const target = useRef<HTMLElement | null>(null)
+  const startEvent = useRef<PointerEvent<HTMLElement> | null>(null)
 
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
@@ -72,13 +71,15 @@ export const useDraggable = <T>({
     return initTop.current - resettedTop
   }
 
-  const handleDragStart = (e: TouchEvent<HTMLDivElement>) => {
+  const handleDragStart = (e: PointerEvent<HTMLDivElement>) => {
     const node = ref.current
     if (!node) return
 
-    target.current = e.target as HTMLElement
+    startEvent.current = e
+
+    node.setPointerCapture(e.pointerId)
+
     isDragging.set(true)
-    // node.setPointerCapture(e.pointerId)
 
     onDragStart?.(e, { delta: 0 })
   }
@@ -108,7 +109,7 @@ export const useDraggable = <T>({
     onDragMove?.(e, info)
   }
 
-  const handleDragEnd = (e: TouchEvent<HTMLDivElement>) => {
+  const handleDragEnd = (e: PointerEvent<HTMLDivElement>) => {
     const wasDragging = isDragging.get()
 
     // Resetting to the position before dragging
@@ -122,14 +123,14 @@ export const useDraggable = <T>({
   const cancelDrag = () => {
     wantToDrag.set(false)
     isDragging.set(false)
-    target.current = null
+    startEvent.current = null
     initY.current = null
   }
 
-  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (wantToDrag.get()) return
 
-    last.current = getScreenY(e)
+    last.current = e.screenY
 
     const node = ref.current
     if (!node) return
@@ -148,8 +149,8 @@ export const useDraggable = <T>({
     }
   }
 
-  const onTouchMove = (e: TouchEvent<HTMLDivElement>) => {
-    const screenY = getScreenY(e)
+  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    const screenY = e.screenY
     const delta = screenY - last.current
     last.current = screenY
 
@@ -163,7 +164,12 @@ export const useDraggable = <T>({
 
     // Runs once per drag
     if (!isDragging.get()) {
-      const passed = shouldDrag(e.target as HTMLElement, node, delta > 0)
+      const passed = shouldDrag(
+        e.target as HTMLElement,
+        node,
+        delta > 0,
+        e.pointerType === 'touch'
+      )
 
       if (!passed) {
         // Resetting to the position before dragging
@@ -178,20 +184,20 @@ export const useDraggable = <T>({
     handleDrag(e, { delta })
   }
 
-  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
     handleDragEnd(e)
   }
 
-  const onTouchCancel = (e: TouchEvent<HTMLDivElement>) => {
+  const onPointerCancel = (e: PointerEvent<HTMLDivElement>) => {
     handleDragEnd(e)
   }
 
   return {
-    target,
+    startEvent,
     ref,
     y,
     isDragging,
     wantToDrag,
-    listeners: { onTouchStart, onTouchMove, onTouchEnd, onTouchCancel }
+    listeners: { onPointerDown, onPointerMove, onPointerUp, onPointerCancel }
   }
 }

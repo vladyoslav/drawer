@@ -1,5 +1,3 @@
-import { type TouchEvent } from 'react'
-
 import { clamp, isFunction, resetStyle, setStyle } from '@/shared/lib/helpers'
 
 import { type Constraint, type TransformTemplate } from './types'
@@ -23,11 +21,14 @@ const hasScrollOverflow = (el: HTMLElement) => {
 export const shouldDrag = (
   el: HTMLElement,
   root: HTMLElement,
-  isDraggingDown: boolean
+  isDraggingDown: boolean,
+  checkScroll: boolean
 ) => {
   const selection = window.getSelection()?.toString()
 
   if (selection && selection.length) return false
+
+  if (!checkScroll) return true
 
   let element = el
 
@@ -79,10 +80,6 @@ export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
 
     element = element.parentNode as HTMLElement
   }
-}
-
-export const getScreenY = (e: TouchEvent<HTMLElement>) => {
-  return e.touches[0].screenY
 }
 
 // Some code was taken from https://github.com/clauderic/dnd-kit/blob/master/stories/3%20-%20Examples/Drawer/modifiers.ts'

@@ -40,10 +40,10 @@ const _Draggable = <T,>(
     constraints,
     dragControls,
     onConstraint,
-    onTouchStart,
-    onTouchMove,
-    onTouchEnd,
-    onTouchCancel,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel,
     onDragStart,
     onDragMove,
     onDragEnd,
@@ -52,27 +52,28 @@ const _Draggable = <T,>(
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const { ref, target, y, wantToDrag, isDragging, listeners } = useDraggable({
-    dragControls,
-    constraints,
-    onConstraint,
-    onDragStart,
-    onDragMove,
-    onDragEnd,
-    transformTemplate
-  })
+  const { ref, startEvent, y, wantToDrag, isDragging, listeners } =
+    useDraggable({
+      dragControls,
+      constraints,
+      onConstraint,
+      onDragStart,
+      onDragMove,
+      onDragEnd,
+      transformTemplate
+    })
 
   const {
-    onTouchStart: handleTouchStart,
-    onTouchMove: handleTouchMove,
-    onTouchEnd: handleTouchEnd,
-    onTouchCancel: handleTouchCancel
+    onPointerDown: handlePointerDown,
+    onPointerMove: handlePointerMove,
+    onPointerUp: handlePointerUp,
+    onPointerCancel: handlePointerCancel
   } = listeners
 
   const composedRef = useComposedRefs(ref, forwardedRef)
 
   const [setStyle, resetStyle] = useSetStyle(ref)
-  const [lockScrollable, unlockScrollable] = useLockScrollable(ref, target)
+  const [lockScrollable, unlockScrollable] = useLockScrollable(ref)
 
   useValueChange(y, (latest) => {
     setStyle({ transform: transformTemplate(latest) })
@@ -84,21 +85,21 @@ const _Draggable = <T,>(
   })
 
   useValueChange(isDragging, (latest) => {
-    if (latest) lockScrollable()
-    else unlockScrollable()
+    const e = startEvent.current
+    if (!e) return
+    if (e.pointerType !== 'touch') return
+
+    if (latest) lockScrollable(e.target as HTMLElement)
+    else unlockScrollable(e.target as HTMLElement)
   })
 
   return (
     <div
       ref={composedRef}
-      // onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
-      // onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
-      // onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
-      // onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
-      onTouchStart={mergeHandlers(handleTouchStart, onTouchStart)}
-      onTouchMove={mergeHandlers(handleTouchMove, onTouchMove)}
-      onTouchEnd={mergeHandlers(handleTouchEnd, onTouchEnd)}
-      onTouchCancel={mergeHandlers(handleTouchCancel, onTouchCancel)}
+      onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
+      onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
+      onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
+      onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
       {...props}
     />
   )
