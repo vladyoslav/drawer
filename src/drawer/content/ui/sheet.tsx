@@ -62,7 +62,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         transformTemplate={transformTemplate}
         constraints={{
           min: (el) => -cssToPx(lastPoint, el),
-          max: (el) => -cssToPx(firstPoint, el)
+          max: (el) => (dismissible ? 0 : -cssToPx(firstPoint, el))
         }}
         // onDragMove={() => console.log('drag')}
         // onDragStart={() => console.log('start')}
