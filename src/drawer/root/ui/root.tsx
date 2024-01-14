@@ -39,7 +39,7 @@ export const Root: FC<RootProps> = ({
   modal,
   children
 }) => {
-  const drawerControls = useDragControls<Snap>({})
+  const drawerControls = useDragControls<Snap>({ initLocked: true })
   const scrollableControls = useDragControls<number>({})
 
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)

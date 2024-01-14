@@ -18,10 +18,9 @@ import {
   type NumberOr,
   type TransformTemplate
 } from '../types'
-import { useControlsState } from './use-controls-state'
 
 interface DraggableOptions<T> {
-  dragControls?: DragControls<T>
+  dragControls: DragControls<T>
   constraints?: Constraints
   onConstraint?: (type: ConstraintType) => void
   onDragStart?: DragEventHandler
@@ -32,7 +31,7 @@ interface DraggableOptions<T> {
 }
 
 export const useDraggable = <T>({
-  dragControls: cDragControls,
+  dragControls,
   transformTemplate,
   constraints,
   onConstraint,
@@ -41,9 +40,7 @@ export const useDraggable = <T>({
   onDragEnd,
   snapToConstraints
 }: DraggableOptions<T>) => {
-  const dragControls = useControlsState({}, cDragControls)
-
-  const y = dragControls.y
+  const { y, isDragging } = dragControls
 
   const last = useRef(0)
   const lastTime = useRef(0)
@@ -53,7 +50,6 @@ export const useDraggable = <T>({
   const initY = useRef<NumberOr<T> | null>(null)
 
   const wantToDrag = useValue(false)
-  const isDragging = dragControls.isDragging
 
   const startEvent = useRef<PointerEvent<HTMLElement> | null>(null)
 
@@ -213,11 +209,9 @@ export const useDraggable = <T>({
   }
 
   return {
+    wantToDrag,
     startEvent,
     ref,
-    y,
-    isDragging,
-    wantToDrag,
     listeners: {
       onPointerDown,
       onPointerMove,

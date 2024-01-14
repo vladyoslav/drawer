@@ -12,7 +12,7 @@ import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
 import { defaultTransformTemplate } from '../lib/helpers'
-import { useDraggable, useLockScrollable } from '../lib/hooks'
+import { useControlsState, useDraggable, useLockScrollable } from '../lib/hooks'
 import {
   type ConstraintType,
   type Constraints,
@@ -40,7 +40,7 @@ export interface DraggableProps<T>
 const _Draggable = <T,>(
   {
     constraints,
-    dragControls,
+    dragControls: cDragControls,
     onConstraint,
     onPointerDown,
     onPointerMove,
@@ -55,17 +55,19 @@ const _Draggable = <T,>(
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const { ref, startEvent, y, wantToDrag, isDragging, listeners } =
-    useDraggable({
-      dragControls,
-      constraints,
-      onConstraint,
-      onDragStart,
-      onDragMove,
-      onDragEnd,
-      transformTemplate,
-      snapToConstraints
-    })
+  const dragControls = useControlsState({}, cDragControls)
+  const { y, isDragging } = dragControls
+
+  const { ref, startEvent, wantToDrag, listeners } = useDraggable({
+    dragControls,
+    constraints,
+    onConstraint,
+    onDragStart,
+    onDragMove,
+    onDragEnd,
+    transformTemplate,
+    snapToConstraints
+  })
 
   const {
     onPointerDown: handlePointerDown,
