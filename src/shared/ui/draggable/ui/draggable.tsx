@@ -20,6 +20,7 @@ import {
   type DragEventHandler,
   type TransformTemplate
 } from '../lib/types'
+import './draggable.css'
 
 export interface DraggableProps<T>
   extends Omit<
@@ -33,6 +34,7 @@ export interface DraggableProps<T>
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
+  snapToConstraints?: boolean
 }
 
 const _Draggable = <T,>(
@@ -48,6 +50,7 @@ const _Draggable = <T,>(
     onDragMove,
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
+    snapToConstraints = true,
     ...props
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
@@ -60,7 +63,8 @@ const _Draggable = <T,>(
       onDragStart,
       onDragMove,
       onDragEnd,
-      transformTemplate
+      transformTemplate,
+      snapToConstraints
     })
 
   const {
@@ -95,6 +99,8 @@ const _Draggable = <T,>(
 
   return (
     <div
+      vladyoslav-drawer-draggable=""
+      draggable="false"
       ref={composedRef}
       onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
       onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}

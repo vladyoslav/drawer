@@ -28,23 +28,23 @@ export const useDragEvents = <T extends HTMLElement>(
 
     // Definitely not undefined, because we checked the drawerRef.current earlier
     let newSnap = getSnap(pos, velocity)!
-    // if (Math.abs(velocity.y) > 300) {
-    //   const curIndex = dismissablePoints.indexOf(newSnap)
-    //   const newIndex = curIndex + (velocity.y < 0 ? 1 : -1)
-    //   const clampedIndex = clamp(0, dismissablePoints.length - 1, newIndex)
-    //
-    //   newSnap = dismissablePoints[clampedIndex]
-    // }
 
     if (newSnap === 0) return onClose()
 
-    if (snap === newSnap) return snapTo(snap)
-
     // Content is scrolled down, should not snap
-    if (node.scrollTop !== 0 && e.pointerType === 'touch') return snapTo(snap)
+    if (node.scrollTop !== 0 && e.pointerType === 'touch') return
 
     setSnap(newSnap)
   }
 
-  return { drawerRef, listeners: { onDragEnd } }
+  const handleRelease = () => snapTo(snap)
+
+  return {
+    drawerRef,
+    listeners: {
+      onDragEnd,
+      onPointerUp: handleRelease,
+      onPointerCancel: handleRelease
+    }
+  }
 }

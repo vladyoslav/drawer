@@ -83,17 +83,11 @@ export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
 }
 
 // Some code was taken from https://github.com/clauderic/dnd-kit/blob/master/stories/3%20-%20Examples/Drawer/modifiers.ts'
-
-const getValidDim = (dim: number) =>
-  dim === 0 || Math.abs(dim) === Infinity ? 100 : dim
-
-const rubberband = (dis: number, rawDim: number, el: number) => {
-  const dim = getValidDim(rawDim)
+const rubberband = (dis: number, dim: number, el: number) => {
   return (dis * dim * el) / (dim + el * dis)
 }
 
-const reverseRubberband = (dis: number, rawDim: number, el: number) => {
-  const dim = getValidDim(rawDim)
+const reverseRubberband = (dis: number, dim: number, el: number) => {
   return (dis * dim) / (el * (dim - dis))
 }
 
@@ -105,8 +99,8 @@ const applyRubberband = (
   el = 0.3
 ) => {
   if (el === 0) return clamp(min, max, pos)
-  if (pos < min) return -func(min - pos, max - min, el) + min
-  if (pos > max) return +func(pos - max, max - min, el) + max
+  if (pos < min) return -func(min - pos, 100, el) + min
+  if (pos > max) return +func(pos - max, 100, el) + max
   return pos
 }
 

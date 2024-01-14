@@ -1,4 +1,4 @@
-[vladyoslav-drawer-overlay], [vladyoslav-drawer] {
+[vladyoslav-drawer-overlay], [vladyoslav-drawer], [vladyoslav-drawer-scrollable] {
     --duration: 0.5s;
     --timing-function: cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -10,6 +10,9 @@
 
 [vladyoslav-drawer] {
     transform: translate3d(0, 100%, 0);
+}
+
+[vladyoslav-drawer], [vladyoslav-drawer-scrollable] {
     transition: transform var(--duration) var(--timing-function);
 }
 

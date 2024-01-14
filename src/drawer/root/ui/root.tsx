@@ -40,6 +40,7 @@ export const Root: FC<RootProps> = ({
   children
 }) => {
   const drawerControls = useDragControls<Snap>({})
+  const scrollableControls = useDragControls<number>({})
 
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
   const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)
@@ -48,6 +49,7 @@ export const Root: FC<RootProps> = ({
 
   const context: DrawerContextValue = {
     drawerControls,
+    scrollableControls,
     defaultOpen,
     open,
     onOpenChange,

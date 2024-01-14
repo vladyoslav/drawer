@@ -11,6 +11,7 @@ import { type OnOpenChange, type SetSnap, type Snap } from '../types'
 
 export interface DrawerContextValue {
   drawerControls: DragControls<Snap>
+  scrollableControls: DragControls<number>
   defaultOpen: boolean
   open: boolean
   onOpenChange: OnOpenChange

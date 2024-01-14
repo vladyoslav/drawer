@@ -1,6 +1,6 @@
 import { type PointerEvent, useRef } from 'react'
 
-import { isNumber } from '@/shared/lib/helpers'
+import { clamp, isNumber } from '@/shared/lib/helpers'
 import { useSetStyle, useValue } from '@/shared/lib/hooks'
 
 import {
@@ -28,6 +28,7 @@ interface DraggableOptions<T> {
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
+  snapToConstraints: boolean
 }
 
 export const useDraggable = <T>({
@@ -37,7 +38,8 @@ export const useDraggable = <T>({
   onConstraint,
   onDragStart,
   onDragMove,
-  onDragEnd
+  onDragEnd,
+  snapToConstraints
 }: DraggableOptions<T>) => {
   const dragControls = useControlsState({}, cDragControls)
 
@@ -58,12 +60,6 @@ export const useDraggable = <T>({
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
 
-  const resetY = () => {
-    if (initY.current !== null) {
-      y.set(initY.current)
-    }
-  }
-
   const getNumberY = () => {
     const node = ref.current
     if (!node) return 0
@@ -82,7 +78,7 @@ export const useDraggable = <T>({
 
     startEvent.current = e
 
-    node.setPointerCapture(e.pointerId)
+    // node.setPointerCapture(e.pointerId)
 
     isDragging.set(true)
 
@@ -94,7 +90,7 @@ export const useDraggable = <T>({
     if (!node) return
 
     const curY = y.get()
-    const curNumberY = isNumber(curY) ? curY : getNumberY()
+    const curNumberY = isNumber(curY) ? curY : getNumberY() // TODO use cssToPx
 
     // Constraints
     if (!constraints) {
@@ -114,18 +110,10 @@ export const useDraggable = <T>({
     onDragMove?.(e, info)
   }
 
-  const handleDragEnd: DragEventHandler<HTMLElement> = (e, info) => {
-    const wasDragging = isDragging.get()
+  const handleDragEnd: DragEventHandler<HTMLElement> = (e, info) =>
+    onDragEnd?.(e, info)
 
-    // Resetting to the position before dragging
-    resetY()
-
-    cancelDrag()
-
-    wasDragging && onDragEnd?.(e, info)
-  }
-
-  const cancelDrag = () => {
+  const resetVariables = () => {
     wantToDrag.set(false)
     isDragging.set(false)
     startEvent.current = null
@@ -181,10 +169,12 @@ export const useDraggable = <T>({
       )
 
       if (!passed) {
-        // Resetting to the position before dragging
-        resetY()
+        resetVariables()
 
-        return cancelDrag()
+        // Resetting to the pos before trying to drag
+        if (initY.current !== null) y.set(initY.current)
+
+        return
       }
 
       handleDragStart(e, { delta, velocity })
@@ -193,12 +183,28 @@ export const useDraggable = <T>({
     handleDrag(e, { delta, velocity })
   }
 
-  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
+  const handleRelease = (e: PointerEvent<HTMLDivElement>) => {
+    const node = ref.current
+    if (!node) return
+
     const delta = e.screenY - last.current
     const timeDelta = e.timeStamp - lastTime.current
 
-    // Sometimes the velocity is 0, even if in fact it is not
+    // Sometimes the velocity is 0, even if in fact it's not
     const velocity = getVelocity(delta, timeDelta) || lastVelocity.current
+
+    // Reset to constraints
+    if (snapToConstraints && constraints && isNumber(y.get())) {
+      const min = getConstraint(constraints[ConstraintType.Min], node)
+      const max = getConstraint(constraints[ConstraintType.Max], node)
+      y.set(clamp(min, max, y.get() as number)) // TODO use cssToPx
+    }
+
+    const wasDragging = isDragging.get()
+
+    resetVariables()
+
+    if (!wasDragging) return
 
     handleDragEnd(e, {
       delta,
@@ -215,8 +221,8 @@ export const useDraggable = <T>({
     listeners: {
       onPointerDown,
       onPointerMove,
-      onPointerUp,
-      onPointerCancel: onPointerUp
+      onPointerUp: handleRelease,
+      onPointerCancel: handleRelease
     }
   }
 }
