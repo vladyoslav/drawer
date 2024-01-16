@@ -9,7 +9,7 @@ import { Presence } from '@radix-ui/react-presence'
 
 import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext, usePortalContext } from '@/drawer/lib/hooks'
-import { clamp, isNumber } from '@/shared/lib/helpers'
+import { clamp } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
 import { OverlayPrimitive } from './overlay-primitive'
@@ -25,16 +25,19 @@ interface WithRadixPrimitiveProps {
 }
 
 export type OverlayProps = OverlayPrimitiveProps &
-  (WithRadixPrimitiveProps | WithCustomPrimitiveProps)
+  (WithRadixPrimitiveProps | WithCustomPrimitiveProps) & {
+    fadeFromIndex?: number
+  }
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
-  ({ radixPrimitive = true, ...props }, forwardedRef) => {
+  ({ radixPrimitive = true, fadeFromIndex, ...props }, forwardedRef) => {
     const contextForceMount = usePortalContext()
 
     const { drawerControls, drawerRef, snapPoints, open } = useDrawerContext()
     const { forceMount = contextForceMount, ...other } = props
 
     const lastPoint = snapPoints[snapPoints.length - 1]
+    const fadeFrom = fadeFromIndex !== undefined ? snapPoints[fadeFromIndex] : 0
 
     const ref = useRef<HTMLDivElement>(null)
     const composedRef = useComposedRefs(ref, forwardedRef)
@@ -45,8 +48,13 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
       const node = drawerRef.current
       if (!node) return
 
-      const y = isNumber(latest) ? latest : cssToPx(latest, node)
-      const opacity = clamp(0, 1, -y / cssToPx(lastPoint, node))
+      const y = cssToPx(latest, node)
+      const fadeFromY = cssToPx(fadeFrom, node)
+      const opacity = clamp(
+        0,
+        1,
+        (-y - fadeFromY) / (cssToPx(lastPoint, node) - fadeFromY)
+      )
 
       setStyle({ opacity: opacity.toString() })
     })
