@@ -10,7 +10,7 @@ import { type OnOpenChange, type SetSnap, type Snap } from '@/drawer/lib/types'
 import { type WithoutThisOrThat } from '@/shared/lib/types'
 import { useDragControls } from '@/shared/ui/draggable'
 
-import { useOpenState, useSnapState } from '../lib/hooks'
+import { useOpenState, usePreventScroll, useSnapState } from '../lib/hooks'
 
 type OpenProps = WithoutThisOrThat<
   { defaultOpen?: boolean; open: boolean; onOpenChange: OnOpenChange },
@@ -68,6 +68,8 @@ export const Root: FC<RootProps> = ({
     scrollLockTimeout,
     modal
   }
+
+  usePreventScroll(drawerControls.isDragging)
 
   return (
     <RootPrimitive open={open} onOpenChange={onOpenChange} modal={modal}>
