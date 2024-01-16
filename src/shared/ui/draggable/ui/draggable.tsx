@@ -12,7 +12,7 @@ import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
 import { defaultTransformTemplate } from '../lib/helpers'
-import { useControlsState, useDraggable, useLockScrollable } from '../lib/hooks'
+import { useControlsState, useDraggable } from '../lib/hooks'
 import {
   type ConstraintEventHandler,
   type Constraints,
@@ -77,7 +77,6 @@ const _Draggable = <T,>(
   const composedRef = useComposedRefs(ref, forwardedRef)
 
   const [setStyle, resetStyle] = useSetStyle(ref)
-  const [lockScrollable, unlockScrollable] = useLockScrollable(ref)
 
   useValueChange(y, (latest) => {
     setStyle({ transform: transformTemplate(latest) })
@@ -88,14 +87,14 @@ const _Draggable = <T,>(
     else resetStyle('transition')
   })
 
-  useValueChange(isDragging, (latest) => {
-    const e = startEvent.current
-    if (!e) return
-    if (e.pointerType !== 'touch') return
-
-    if (latest) lockScrollable(e.target as HTMLElement)
-    else unlockScrollable(e.target as HTMLElement)
-  })
+  // useValueChange(isDragging, (latest) => {
+  //   const e = startEvent.current
+  //   if (!e) return
+  //   if (e.pointerType !== 'touch') return
+  //
+  //   if (latest) lockScrollable(e.target as HTMLElement)
+  //   else unlockScrollable(e.target as HTMLElement)
+  // })
 
   return (
     <div

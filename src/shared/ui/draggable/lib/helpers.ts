@@ -1,4 +1,4 @@
-import { clamp, isFunction, resetStyle, setStyle } from '@/shared/lib/helpers'
+import { clamp, isFunction } from '@/shared/lib/helpers'
 
 import { type Constraint, type TransformTemplate } from './types'
 
@@ -54,33 +54,33 @@ export const shouldDrag = (
   return true
 }
 
-export const lockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
-  let element = el
-
-  while (element) {
-    if (element.scrollHeight > element.clientHeight) {
-      if (hasScrollOverflow(element)) setStyle(element, { overflow: 'hidden' })
-    }
-
-    if (element === root) return
-
-    element = element.parentNode as HTMLElement
-  }
-}
-
-export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
-  let element = el
-
-  while (element) {
-    if (element.scrollHeight > element.clientHeight) {
-      resetStyle(element, 'overflow')
-    }
-
-    if (element === root) return
-
-    element = element.parentNode as HTMLElement
-  }
-}
+// export const lockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
+//   let element = el
+//
+//   while (element) {
+//     if (element.scrollHeight > element.clientHeight) {
+//       if (hasScrollOverflow(element)) setStyle(element, { overflow: 'hidden' })
+//     }
+//
+//     if (element === root) return
+//
+//     element = element.parentNode as HTMLElement
+//   }
+// }
+//
+// export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
+//   let element = el
+//
+//   while (element) {
+//     if (element.scrollHeight > element.clientHeight) {
+//       resetStyle(element, 'overflow')
+//     }
+//
+//     if (element === root) return
+//
+//     element = element.parentNode as HTMLElement
+//   }
+// }
 
 // Some code was taken from https://github.com/clauderic/dnd-kit/blob/master/stories/3%20-%20Examples/Drawer/modifiers.ts'
 const rubberband = (dis: number, dim: number, el: number) => {
