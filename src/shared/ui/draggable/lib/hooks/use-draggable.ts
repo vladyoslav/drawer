@@ -123,7 +123,7 @@ export const useDraggable = <T>({
   }
 
   const handlePointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (wantToDrag.get()) return
+    if (!e.isPrimary) return
 
     last.current = e.screenY
     lastTime.current = e.timeStamp
@@ -146,6 +146,8 @@ export const useDraggable = <T>({
   }
 
   const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary) return
+
     const delta = e.screenY - last.current
     const velocity = getVelocity(delta, e.timeStamp - lastTime.current)
 
@@ -190,9 +192,9 @@ export const useDraggable = <T>({
     handleDrag(e, { delta, velocity })
   }
 
-  const handleRelease = (
-    e: ReactPointerEvent<HTMLDivElement> | PointerEvent
-  ) => {
+  const handleRelease = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary) return
+
     const node = ref.current
     if (!node) return
 

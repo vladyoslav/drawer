@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { type PointerEvent as ReactPointerEvent, useRef } from 'react'
 
 import { type SetSnap, type Snap } from '@/drawer/lib/types'
 import { type Value } from '@/shared/lib/types'
@@ -49,7 +49,8 @@ export const useDragEvents = <T extends HTMLElement>({
     setSnap(newSnap)
   }
 
-  const handleRelease = () => snapTo(snap)
+  const handleRelease = (e: ReactPointerEvent<HTMLDivElement>) =>
+    e.isPrimary && snapTo(snap)
 
   return {
     drawerRef,
