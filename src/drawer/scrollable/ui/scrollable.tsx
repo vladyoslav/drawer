@@ -1,4 +1,4 @@
-import React, { type PropsWithChildren, forwardRef } from 'react'
+import React, { type PropsWithChildren, forwardRef, useEffect } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
@@ -12,10 +12,28 @@ export interface ScrollableProps extends PropsWithChildren {}
 
 export const Scrollable = forwardRef<HTMLDivElement, ScrollableProps>(
   ({ ...props }, forwardedRef) => {
-    const { drawerControls, scrollableControls, scrollableRef, drawerRef } =
-      useDrawerContext()
+    const {
+      drawerControls,
+      scrollableControls,
+      scrollableRef,
+      snap,
+      snapPoints
+    } = useDrawerContext()
 
     const composedRef = useComposedRefs(scrollableRef, forwardedRef)
+
+    useEffect(() => {
+      if (snap === snapPoints[snapPoints.length - 1]) return
+
+      scrollableControls.y.set(0)
+
+      drawerControls.unlock()
+      scrollableControls.lock()
+    }, [snap])
+
+    useEffect(() => {
+      scrollableControls.y.set(0)
+    }, [])
 
     return (
       <Draggable
