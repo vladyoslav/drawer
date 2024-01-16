@@ -47,8 +47,6 @@ const _Draggable = <T,>(
     onPointerMove,
     onPointerUp,
     onPointerCancel,
-    onLostPointerCapture,
-    onGotPointerCapture,
     onDragStart,
     onDragMove,
     onDragEnd,
@@ -72,13 +70,7 @@ const _Draggable = <T,>(
     snapToConstraints
   })
 
-  const {
-    handlePointerDown,
-    handlePointerMove,
-    handleRelease,
-    handleLostPointerCapture,
-    handleGotPointerCapture
-  } = listeners
+  const { handlePointerDown, handlePointerMove, handleRelease } = listeners
 
   const composedRef = useComposedRefs(ref, forwardedRef)
 
@@ -103,17 +95,6 @@ const _Draggable = <T,>(
     else unlockScrollable(e.target as HTMLElement)
   })
 
-  useValueChange(dragControls.locked, (latest) => {
-    const e = startEvent.current
-    if (!e) return
-
-    const node = ref.current
-    if (!node) return
-
-    if (latest) node.releasePointerCapture(e.pointerId)
-    else node.setPointerCapture(e.pointerId)
-  })
-
   return (
     <div
       vladyoslav-drawer-draggable=""
@@ -123,14 +104,6 @@ const _Draggable = <T,>(
       onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
       onPointerUp={mergeHandlers(handleRelease, onPointerUp)}
       onPointerCancel={mergeHandlers(handleRelease, onPointerCancel)}
-      onLostPointerCapture={mergeHandlers(
-        handleLostPointerCapture,
-        onLostPointerCapture
-      )}
-      onGotPointerCapture={mergeHandlers(
-        handleGotPointerCapture,
-        onGotPointerCapture
-      )}
       {...props}
     />
   )

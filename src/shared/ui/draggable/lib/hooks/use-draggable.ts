@@ -76,8 +76,8 @@ export const useDraggable = <T>({
 
     startEvent.current = e
 
-    if (!dragControls.locked.get()) node.setPointerCapture(e.pointerId)
-    else addWindowListeners()
+    const target = e.target as HTMLElement
+    target.setPointerCapture(e.pointerId)
 
     isDragging.set(true)
 
@@ -151,9 +151,6 @@ export const useDraggable = <T>({
 
     if (!wantToDrag.get()) return
 
-    // After getting pointer capture delta will be 0
-    if (delta === 0) return
-
     const node = ref.current
     if (!node) return
 
@@ -180,8 +177,6 @@ export const useDraggable = <T>({
 
     // Check controls
     if (dragControls.locked.get()) return
-
-    if (!node.hasPointerCapture(e.pointerId)) return
 
     handleDrag(e, { delta, velocity })
   }
@@ -217,20 +212,6 @@ export const useDraggable = <T>({
     })
   }
 
-  const addWindowListeners = () => {
-    window.addEventListener('pointerup', handleRelease, { once: true })
-    window.addEventListener('pointercancel', handleRelease, { once: true })
-  }
-
-  const handleLostPointerCapture = () => addWindowListeners()
-
-  const handleGotPointerCapture = (e: ReactPointerEvent<HTMLDivElement>) => {
-    window.removeEventListener('pointerup', handleRelease)
-    window.removeEventListener('pointercancel', handleRelease)
-
-    last.current = e.screenY
-  }
-
   return {
     wantToDrag,
     startEvent,
@@ -238,9 +219,7 @@ export const useDraggable = <T>({
     listeners: {
       handlePointerDown,
       handlePointerMove,
-      handleRelease,
-      handleLostPointerCapture,
-      handleGotPointerCapture
+      handleRelease
     }
   }
 }
