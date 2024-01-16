@@ -40,7 +40,7 @@ export const Root: FC<RootProps> = ({
   snap: cSnap,
   setSnap: cSetSnap,
   dismissible = true,
-  modal,
+  modal = true,
   scrollLockTimeout = 300,
   children
 }) => {
@@ -65,7 +65,8 @@ export const Root: FC<RootProps> = ({
     dismissible,
     drawerRef,
     scrollableRef,
-    scrollLockTimeout
+    scrollLockTimeout,
+    modal
   }
 
   return (

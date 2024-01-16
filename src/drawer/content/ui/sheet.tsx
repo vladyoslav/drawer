@@ -50,15 +50,13 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
-    const [setStyle] = useSetStyle(drawerRef)
+    const [setStyle, resetStyle] = useSetStyle(drawerRef)
 
     useSnapToCurrent(snapTo, snap, open)
 
     useEffect(() => {
-      if (open) return
-      if (!drawerRef.current) return
-
-      setStyle({ pointerEvents: 'none' })
+      if (open) resetStyle('pointerEvents')
+      else setStyle({ pointerEvents: 'none' })
     }, [open])
 
     return (

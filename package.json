@@ -44,7 +44,11 @@
   ],
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.0.1",
-    "@radix-ui/react-dialog": "^1.0.5"
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-presence": "^1.0.1",
+    "@radix-ui/react-primitive": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
+    "react-remove-scroll": "^2.5.7"
   },
   "peerDependencies": {
     "react": "^18",

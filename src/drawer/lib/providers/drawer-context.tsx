@@ -22,6 +22,7 @@ export interface DrawerContextValue {
   drawerRef: RefObject<HTMLDivElement>
   scrollableRef: RefObject<HTMLDivElement>
   scrollLockTimeout: number
+  modal: boolean
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)
