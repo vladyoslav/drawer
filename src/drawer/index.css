@@ -17,6 +17,18 @@
     transition: transform var(--duration) var(--timing-function);
 }
 
+[vladyoslav-drawer]::after {
+    content: '';
+    position: absolute;
+    top: calc(100% - 1px);
+    background: inherit;
+    background-color: inherit;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: -1;
+}
+
 [vladyoslav-drawer-overlay][data-state="closed"], [vladyoslav-drawer][data-state="closed"] {
     animation: fake-animation var(--duration) var(--timing-function);
 }
