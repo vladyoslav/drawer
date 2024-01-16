@@ -15,7 +15,6 @@ import {
   ConstraintType,
   type Constraints,
   type DragControls,
-  type DragEndEventHandler,
   type DragEventHandler,
   type NumberOr,
   type TransformTemplate
@@ -27,7 +26,7 @@ interface DraggableOptions<T> {
   onConstraint?: ConstraintEventHandler
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
-  onDragEnd?: DragEndEventHandler
+  onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints: boolean
   scrollLockTimeout: number
@@ -113,7 +112,7 @@ export const useDraggable = <T>({
     onDragMove?.(e, info)
   }
 
-  const handleDragEnd: DragEndEventHandler = (e, info) => onDragEnd?.(e, info)
+  const handleDragEnd: DragEventHandler = (e, info) => onDragEnd?.(e, info)
 
   const resetVariables = () => {
     wantToDrag.set(false)

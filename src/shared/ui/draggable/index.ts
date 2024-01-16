@@ -8,7 +8,6 @@ export {
   type Constraints,
   type DragInfo,
   type DragEventHandler,
-  type DragEndEventHandler,
   type DragControls
 } from './lib/types'
 

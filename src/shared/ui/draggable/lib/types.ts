@@ -35,11 +35,6 @@ export type DragEventHandler<T = Element> = (
   info: DragInfo
 ) => void
 
-export type DragEndEventHandler<T = Element> = (
-  event: ReactPointerEvent<T> | PointerEvent,
-  info: DragInfo
-) => void
-
 export type ConstraintEventHandler<T = Element> = (
   event: ReactPointerEvent<T>,
   type: ConstraintType

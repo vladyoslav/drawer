@@ -17,7 +17,6 @@ import {
   type ConstraintEventHandler,
   type Constraints,
   type DragControls,
-  type DragEndEventHandler,
   type DragEventHandler,
   type TransformTemplate
 } from '../lib/types'
@@ -33,7 +32,7 @@ export interface DraggableProps<T>
   onConstraint?: ConstraintEventHandler
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
-  onDragEnd?: DragEndEventHandler
+  onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints?: boolean
   scrollLockTimeout?: number
