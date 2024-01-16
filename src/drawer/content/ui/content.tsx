@@ -25,14 +25,12 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     },
     ref
   ) => {
-    const { onOpenChange } = useDrawerContext()
+    const { onOpenChange, modal, drawerControls } = useDrawerContext()
 
     const primitiveProps = {
       onOpenAutoFocus,
       onCloseAutoFocus,
-      onEscapeKeyDown,
-      onPointerDownOutside,
-      onInteractOutside
+      onPointerDownOutside
     }
 
     return (
@@ -41,6 +39,15 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
         asChild
         {...primitiveProps}
         vladyoslav-drawer=""
+        onEscapeKeyDown={(e) => {
+          if (drawerControls.isDragging.get()) return e.preventDefault()
+          if (!modal) e.preventDefault()
+          onEscapeKeyDown?.(e)
+        }}
+        onInteractOutside={(e) => {
+          if (!modal) e.preventDefault()
+          onInteractOutside?.(e)
+        }}
       >
         <Sheet {...props} onClose={() => onOpenChange(false)} />
       </ContentPrimitive>
