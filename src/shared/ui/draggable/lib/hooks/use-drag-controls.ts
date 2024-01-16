@@ -13,14 +13,14 @@ export const useDragControls = <T>({
   initY = 0,
   initDragging = false
 }: DragControlsParams<T>): DragControls<T> => {
-  const isLocked = useValue(initLocked)
+  const locked = useValue(initLocked)
   const y = useValue(initY)
   const isDragging = useValue(initDragging)
 
   return {
-    lock: () => isLocked.set(true),
-    unlock: () => isLocked.set(false),
-    isLocked: () => isLocked.get(),
+    lock: () => locked.set(true),
+    unlock: () => locked.set(false),
+    locked,
     y,
     isDragging
   }

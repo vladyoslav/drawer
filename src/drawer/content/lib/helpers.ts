@@ -1,4 +1,4 @@
-import { getSnapAreas } from '@/drawer/lib/helpers'
+import { cssToPx, getSnapAreas } from '@/drawer/lib/helpers'
 import { type Snap } from '@/drawer/lib/types'
 import { isNumber } from '@/shared/lib/helpers'
 import { type TransformTemplate } from '@/shared/ui/draggable'
@@ -13,4 +13,10 @@ export const getSnap = (snapPoints: Snap[], value: number, el: HTMLElement) => {
     if (value <= snapAreas[i]) return snapPoints[i]
 
   return snapPoints[snapPoints.length - 1]
+}
+
+export const getMinConstraint = (el: HTMLElement, snapPoints: Snap[]) => {
+  const lastPoint = snapPoints[snapPoints.length - 1]
+
+  return -cssToPx(lastPoint, el)
 }

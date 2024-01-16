@@ -14,9 +14,10 @@ import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 import { defaultTransformTemplate } from '../lib/helpers'
 import { useControlsState, useDraggable, useLockScrollable } from '../lib/hooks'
 import {
-  type ConstraintType,
+  type ConstraintEventHandler,
   type Constraints,
   type DragControls,
+  type DragEndEventHandler,
   type DragEventHandler,
   type TransformTemplate
 } from '../lib/types'
@@ -29,10 +30,10 @@ export interface DraggableProps<T>
   > {
   dragControls?: DragControls<T>
   constraints?: Constraints
-  onConstraint?: (type: ConstraintType) => void
+  onConstraint?: ConstraintEventHandler
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
-  onDragEnd?: DragEventHandler
+  onDragEnd?: DragEndEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints?: boolean
 }
@@ -46,6 +47,8 @@ const _Draggable = <T,>(
     onPointerMove,
     onPointerUp,
     onPointerCancel,
+    onLostPointerCapture,
+    onGotPointerCapture,
     onDragStart,
     onDragMove,
     onDragEnd,
@@ -70,10 +73,11 @@ const _Draggable = <T,>(
   })
 
   const {
-    onPointerDown: handlePointerDown,
-    onPointerMove: handlePointerMove,
-    onPointerUp: handlePointerUp,
-    onPointerCancel: handlePointerCancel
+    handlePointerDown,
+    handlePointerMove,
+    handleRelease,
+    handleLostPointerCapture,
+    handleGotPointerCapture
   } = listeners
 
   const composedRef = useComposedRefs(ref, forwardedRef)
@@ -99,6 +103,17 @@ const _Draggable = <T,>(
     else unlockScrollable(e.target as HTMLElement)
   })
 
+  useValueChange(dragControls.locked, (latest) => {
+    const e = startEvent.current
+    if (!e) return
+
+    const node = ref.current
+    if (!node) return
+
+    if (latest) node.releasePointerCapture(e.pointerId)
+    else node.setPointerCapture(e.pointerId)
+  })
+
   return (
     <div
       vladyoslav-drawer-draggable=""
@@ -106,8 +121,16 @@ const _Draggable = <T,>(
       ref={composedRef}
       onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
       onPointerMove={mergeHandlers(handlePointerMove, onPointerMove)}
-      onPointerUp={mergeHandlers(handlePointerUp, onPointerUp)}
-      onPointerCancel={mergeHandlers(handlePointerCancel, onPointerCancel)}
+      onPointerUp={mergeHandlers(handleRelease, onPointerUp)}
+      onPointerCancel={mergeHandlers(handleRelease, onPointerCancel)}
+      onLostPointerCapture={mergeHandlers(
+        handleLostPointerCapture,
+        onLostPointerCapture
+      )}
+      onGotPointerCapture={mergeHandlers(
+        handleGotPointerCapture,
+        onGotPointerCapture
+      )}
       {...props}
     />
   )

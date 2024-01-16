@@ -1,4 +1,4 @@
-import { type PointerEvent } from 'react'
+import { type PointerEvent as ReactPointerEvent } from 'react'
 
 import { type Value } from '@/shared/lib/types'
 
@@ -7,7 +7,7 @@ export type NumberOr<T> = number | T
 export interface DragControls<T> {
   lock: () => void
   unlock: () => void
-  isLocked: () => boolean
+  locked: Value<boolean>
   y: Value<NumberOr<T>>
   isDragging: Value<boolean>
 }
@@ -31,6 +31,16 @@ export interface DragInfo {
 }
 
 export type DragEventHandler<T = Element> = (
-  event: PointerEvent<T>,
+  event: ReactPointerEvent<T>,
   info: DragInfo
+) => void
+
+export type DragEndEventHandler<T = Element> = (
+  event: ReactPointerEvent<T> | PointerEvent,
+  info: DragInfo
+) => void
+
+export type ConstraintEventHandler<T = Element> = (
+  event: ReactPointerEvent<T>,
+  type: ConstraintType
 ) => void

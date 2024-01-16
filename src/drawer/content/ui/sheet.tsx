@@ -6,8 +6,9 @@ import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext } from '@/drawer/lib/hooks'
 import { useSetStyle } from '@/shared/lib/hooks'
 import { Draggable } from '@/shared/ui/draggable'
+import { ConstraintType } from '@/shared/ui/draggable/lib/types'
 
-import { transformTemplate } from '../lib/helpers'
+import { getMinConstraint, transformTemplate } from '../lib/helpers'
 import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
 
 export interface SheetProps
@@ -24,23 +25,27 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       snap,
       setSnap,
       dismissible,
-      drawerRef: contextRef
+      drawerRef: contextRef,
+      scrollableRef,
+      scrollableControls
     } = useDrawerContext()
 
-    const lastPoint = snapPoints[snapPoints.length - 1]
+    const { locked } = drawerControls
+
     const firstPoint = snapPoints[0]
 
     const snapTo = useSnapTo(drawerControls.y)
 
     const { drawerRef, listeners: dragListeners } =
-      useDragEvents<HTMLDivElement>(
+      useDragEvents<HTMLDivElement>({
         snapPoints,
         snapTo,
         snap,
         setSnap,
         onClose,
-        dismissible
-      )
+        dismissible,
+        locked
+      })
 
     const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
@@ -62,11 +67,20 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         dragControls={drawerControls}
         transformTemplate={transformTemplate}
         constraints={{
-          min: (el) => -cssToPx(lastPoint, el),
+          min: (el) => getMinConstraint(el, snapPoints),
           max: (el) => (dismissible ? 0 : -cssToPx(firstPoint, el))
         }}
-        // onDragMove={() => console.log('drag')}
-        // onDragStart={() => console.log('start')}
+        onConstraint={(_, type) => {
+          if (!drawerRef.current) return
+          if (!scrollableRef.current) return
+          if (type === ConstraintType.Max) return
+
+          // Set y to min constraint
+          drawerControls.y.set(getMinConstraint(drawerRef.current, snapPoints))
+
+          drawerControls.lock()
+          scrollableControls.unlock()
+        }}
         {...dragListeners}
         {...props}
       />

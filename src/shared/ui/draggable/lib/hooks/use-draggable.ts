@@ -1,4 +1,4 @@
-import { type PointerEvent, useRef } from 'react'
+import { type PointerEvent as ReactPointerEvent, useRef } from 'react'
 
 import { clamp, isNumber } from '@/shared/lib/helpers'
 import { useSetStyle, useValue } from '@/shared/lib/hooks'
@@ -11,9 +11,11 @@ import {
   shouldDrag
 } from '../helpers'
 import {
+  type ConstraintEventHandler,
   ConstraintType,
   type Constraints,
   type DragControls,
+  type DragEndEventHandler,
   type DragEventHandler,
   type NumberOr,
   type TransformTemplate
@@ -22,10 +24,10 @@ import {
 interface DraggableOptions<T> {
   dragControls: DragControls<T>
   constraints?: Constraints
-  onConstraint?: (type: ConstraintType) => void
+  onConstraint?: ConstraintEventHandler
   onDragStart?: DragEventHandler
   onDragMove?: DragEventHandler
-  onDragEnd?: DragEventHandler
+  onDragEnd?: DragEndEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints: boolean
 }
@@ -51,7 +53,7 @@ export const useDraggable = <T>({
 
   const wantToDrag = useValue(false)
 
-  const startEvent = useRef<PointerEvent<HTMLElement> | null>(null)
+  const startEvent = useRef<ReactPointerEvent<HTMLElement> | null>(null)
 
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
@@ -74,7 +76,8 @@ export const useDraggable = <T>({
 
     startEvent.current = e
 
-    // node.setPointerCapture(e.pointerId)
+    if (!dragControls.locked.get()) node.setPointerCapture(e.pointerId)
+    else addWindowListeners()
 
     isDragging.set(true)
 
@@ -99,15 +102,14 @@ export const useDraggable = <T>({
 
       y.set(getDumpedValue(newUndumpedY, min, max))
 
-      if (newUndumpedY <= min) onConstraint?.(ConstraintType.Min)
-      if (newUndumpedY >= max) onConstraint?.(ConstraintType.Max)
+      if (newUndumpedY <= min) onConstraint?.(e, ConstraintType.Min)
+      if (newUndumpedY >= max) onConstraint?.(e, ConstraintType.Max)
     }
 
     onDragMove?.(e, info)
   }
 
-  const handleDragEnd: DragEventHandler<HTMLElement> = (e, info) =>
-    onDragEnd?.(e, info)
+  const handleDragEnd: DragEndEventHandler = (e, info) => onDragEnd?.(e, info)
 
   const resetVariables = () => {
     wantToDrag.set(false)
@@ -116,7 +118,7 @@ export const useDraggable = <T>({
     initY.current = null
   }
 
-  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+  const handlePointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (wantToDrag.get()) return
 
     last.current = e.screenY
@@ -139,7 +141,7 @@ export const useDraggable = <T>({
     }
   }
 
-  const onPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     const delta = e.screenY - last.current
     const velocity = getVelocity(delta, e.timeStamp - lastTime.current)
 
@@ -149,11 +151,11 @@ export const useDraggable = <T>({
 
     if (!wantToDrag.get()) return
 
+    // After getting pointer capture delta will be 0
+    if (delta === 0) return
+
     const node = ref.current
     if (!node) return
-
-    // Check controls
-    if (dragControls.isLocked()) return
 
     // Runs once per drag
     if (!isDragging.get()) {
@@ -176,10 +178,17 @@ export const useDraggable = <T>({
       handleDragStart(e, { delta, velocity })
     }
 
+    // Check controls
+    if (dragControls.locked.get()) return
+
+    if (!node.hasPointerCapture(e.pointerId)) return
+
     handleDrag(e, { delta, velocity })
   }
 
-  const handleRelease = (e: PointerEvent<HTMLDivElement>) => {
+  const handleRelease = (
+    e: ReactPointerEvent<HTMLDivElement> | PointerEvent
+  ) => {
     const node = ref.current
     if (!node) return
 
@@ -208,15 +217,30 @@ export const useDraggable = <T>({
     })
   }
 
+  const addWindowListeners = () => {
+    window.addEventListener('pointerup', handleRelease, { once: true })
+    window.addEventListener('pointercancel', handleRelease, { once: true })
+  }
+
+  const handleLostPointerCapture = () => addWindowListeners()
+
+  const handleGotPointerCapture = (e: ReactPointerEvent<HTMLDivElement>) => {
+    window.removeEventListener('pointerup', handleRelease)
+    window.removeEventListener('pointercancel', handleRelease)
+
+    last.current = e.screenY
+  }
+
   return {
     wantToDrag,
     startEvent,
     ref,
     listeners: {
-      onPointerDown,
-      onPointerMove,
-      onPointerUp: handleRelease,
-      onPointerCancel: handleRelease
+      handlePointerDown,
+      handlePointerMove,
+      handleRelease,
+      handleLostPointerCapture,
+      handleGotPointerCapture
     }
   }
 }

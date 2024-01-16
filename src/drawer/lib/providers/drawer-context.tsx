@@ -20,6 +20,7 @@ export interface DrawerContextValue {
   setSnap: SetSnap
   dismissible: boolean
   drawerRef: RefObject<HTMLDivElement>
+  scrollableRef: RefObject<HTMLDivElement>
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)

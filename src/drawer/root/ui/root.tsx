@@ -39,13 +39,14 @@ export const Root: FC<RootProps> = ({
   modal,
   children
 }) => {
-  const drawerControls = useDragControls<Snap>({ initLocked: true })
-  const scrollableControls = useDragControls<number>({})
+  const drawerControls = useDragControls<Snap>({})
+  const scrollableControls = useDragControls<number>({ initLocked: true })
 
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
   const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)
 
   const drawerRef = useRef<HTMLDivElement>(null)
+  const scrollableRef = useRef<HTMLDivElement>(null)
 
   const context: DrawerContextValue = {
     drawerControls,
@@ -57,7 +58,8 @@ export const Root: FC<RootProps> = ({
     snap,
     setSnap,
     dismissible,
-    drawerRef
+    drawerRef,
+    scrollableRef
   }
 
   return (

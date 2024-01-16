@@ -36,7 +36,7 @@ export const shouldDrag = (
   while (element) {
     // Check if the element is scrollable
     if (element.scrollHeight > element.clientHeight) {
-      const top = element.scrollTop === 0 && isDraggingDown
+      const top = element.scrollTop <= 0 && isDraggingDown
 
       const bottom = reachedBottom(element) && !isDraggingDown
 
