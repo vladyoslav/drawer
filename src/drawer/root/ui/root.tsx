@@ -44,8 +44,8 @@ export const Root: FC<RootProps> = ({
   scrollLockTimeout = 300,
   children
 }) => {
-  const drawerControls = useDragControls<Snap>({})
-  const scrollableControls = useDragControls<number>({ initLocked: true })
+  const drawerControls = useDragControls<Snap>()
+  const scrollableControls = useDragControls<number>(true)
 
   const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
   const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)

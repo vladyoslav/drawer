@@ -1,11 +1,11 @@
 import { type DragControls } from '../types'
-import { type DragControlsParams, useDragControls } from './use-drag-controls'
+import { useDragControls } from './use-drag-controls'
 
 export const useControlsState = <T>(
-  init: DragControlsParams<T>,
-  dragControls: DragControls<T> | undefined
+  dragControls: DragControls<T> | undefined,
+  initLocked?: boolean
 ) => {
-  const internal = useDragControls(init)
+  const internal = useDragControls<T>(initLocked)
 
   return dragControls ?? internal
 }
