@@ -43,9 +43,6 @@ export const useDragEvents = <T extends HTMLElement>({
 
     if (newSnap === 0) return onClose()
 
-    // Content is scrolled down, should not snap
-    if (node.scrollTop !== 0 && e.pointerType === 'touch') return
-
     setSnap(newSnap)
   }
 
