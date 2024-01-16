@@ -26,7 +26,11 @@ type SnapProps = WithoutThisOrThat<
 
 export type RootProps = PropsWithChildren &
   OpenProps &
-  SnapProps & { dismissible?: boolean; modal?: boolean }
+  SnapProps & {
+    dismissible?: boolean
+    modal?: boolean
+    scrollLockTimeout?: number
+  }
 
 export const Root: FC<RootProps> = ({
   defaultOpen = false,
@@ -37,6 +41,7 @@ export const Root: FC<RootProps> = ({
   setSnap: cSetSnap,
   dismissible = true,
   modal,
+  scrollLockTimeout = 300,
   children
 }) => {
   const drawerControls = useDragControls<Snap>({})
@@ -59,7 +64,8 @@ export const Root: FC<RootProps> = ({
     setSnap,
     dismissible,
     drawerRef,
-    scrollableRef
+    scrollableRef,
+    scrollLockTimeout
   }
 
   return (

@@ -27,7 +27,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       dismissible,
       drawerRef: contextRef,
       scrollableRef,
-      scrollableControls
+      scrollableControls,
+      scrollLockTimeout
     } = useDrawerContext()
 
     const { locked } = drawerControls
@@ -81,6 +82,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           drawerControls.lock()
           scrollableControls.unlock()
         }}
+        scrollLockTimeout={scrollLockTimeout}
         {...dragListeners}
         {...props}
       />

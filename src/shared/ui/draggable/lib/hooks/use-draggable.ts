@@ -30,6 +30,7 @@ interface DraggableOptions<T> {
   onDragEnd?: DragEndEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints: boolean
+  scrollLockTimeout: number
 }
 
 export const useDraggable = <T>({
@@ -40,7 +41,8 @@ export const useDraggable = <T>({
   onDragStart,
   onDragMove,
   onDragEnd,
-  snapToConstraints
+  snapToConstraints,
+  scrollLockTimeout
 }: DraggableOptions<T>) => {
   const { y, isDragging } = dragControls
 
@@ -57,6 +59,8 @@ export const useDraggable = <T>({
 
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
+
+  const lastTimePrevented = useRef(0)
 
   const getNumberY = () => {
     const node = ref.current
@@ -163,8 +167,13 @@ export const useDraggable = <T>({
         e.pointerType === 'touch'
       )
 
-      if (!passed) {
+      const passedTimeout =
+        e.timeStamp - lastTimePrevented.current >= scrollLockTimeout
+
+      if (!passed || !passedTimeout) {
         resetVariables()
+
+        lastTimePrevented.current = e.timeStamp
 
         // Resetting to the pos before trying to drag
         if (initY.current !== null) y.set(initY.current)

@@ -36,6 +36,7 @@ export interface DraggableProps<T>
   onDragEnd?: DragEndEventHandler
   transformTemplate?: TransformTemplate
   snapToConstraints?: boolean
+  scrollLockTimeout?: number
 }
 
 const _Draggable = <T,>(
@@ -52,6 +53,7 @@ const _Draggable = <T,>(
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
     snapToConstraints = true,
+    scrollLockTimeout = 0,
     ...props
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
@@ -67,7 +69,8 @@ const _Draggable = <T,>(
     onDragMove,
     onDragEnd,
     transformTemplate,
-    snapToConstraints
+    snapToConstraints,
+    scrollLockTimeout
   })
 
   const { handlePointerDown, handlePointerMove, handleRelease } = listeners
