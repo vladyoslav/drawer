@@ -1,3 +1,5 @@
+import { Trigger } from '@radix-ui/react-dialog'
+
 import { Content } from './content'
 import './index.css'
 import { Overlay } from './overlay'
@@ -11,6 +13,7 @@ export type { ContentProps as DrawerContentProps } from './content'
 export type { PortalProps as DrawerPortalProps } from './portal'
 export type { OverlayProps as DrawerOverlayProps } from './overlay'
 export type { ScrollableProps as DrawerScrollableProps } from './scrollable'
+export type { DialogTriggerProps as DrawerTriggerProps } from '@radix-ui/react-dialog'
 
 export const Drawer = {
   Root,
@@ -18,7 +21,8 @@ export const Drawer = {
   Portal,
   Overlay,
   SnapAreas,
-  Scrollable
+  Scrollable,
+  Trigger
 }
 
 export {
@@ -27,5 +31,6 @@ export {
   Portal as DrawerPortal,
   Overlay as DrawerOverlay,
   SnapAreas as DrawerSnapAreas,
-  Scrollable as DrawerScrollable
+  Scrollable as DrawerScrollable,
+  Trigger as DrawerTrigger
 }
