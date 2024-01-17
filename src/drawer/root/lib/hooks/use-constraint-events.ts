@@ -31,7 +31,7 @@ export const useConstraintEvents = (
     drawerControls.unlock()
     scrollableControls.lock()
 
-    return false
+    // return false
   }
 
   return { onDrawerConstraint, onScrollableConstraint }
