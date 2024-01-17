@@ -10,7 +10,12 @@ import { type OnOpenChange, type SetSnap, type Snap } from '@/drawer/lib/types'
 import { type WithoutThisOrThat } from '@/shared/lib/types'
 import { useDragControls } from '@/shared/ui/draggable'
 
-import { useConstraintEvents, useOpenState, useSnapState } from '../lib/hooks'
+import {
+  useConstraintEvents,
+  useOpenState,
+  useScaleBackgound,
+  useSnapState
+} from '../lib/hooks'
 
 type OpenProps = WithoutThisOrThat<
   { defaultOpen?: boolean; open: boolean; onOpenChange: OnOpenChange },
@@ -30,6 +35,7 @@ export type RootProps = PropsWithChildren &
     dismissible?: boolean
     modal?: boolean
     scrollLockTimeout?: number
+    scaleFromIndex?: number
   }
 
 export const Root: FC<RootProps> = ({
@@ -42,6 +48,7 @@ export const Root: FC<RootProps> = ({
   dismissible = true,
   modal = true,
   scrollLockTimeout = 300,
+  scaleFromIndex,
   children
 }) => {
   const drawerControls = useDragControls<Snap>()
@@ -76,6 +83,8 @@ export const Root: FC<RootProps> = ({
     modal,
     ...constraintHandlers
   }
+
+  useScaleBackgound(open, drawerControls, drawerRef, snapPoints, scaleFromIndex)
 
   return (
     <RootPrimitive open={open} onOpenChange={onOpenChange} modal={modal}>
