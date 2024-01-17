@@ -15,7 +15,10 @@ import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
 export interface SheetProps extends DraggableProps<Snap> {}
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
-  ({ onPointerUp, onPointerCancel, onDragEnd, ...props }, forwardedRef) => {
+  (
+    { onConstraint, onPointerUp, onPointerCancel, onDragEnd, ...props },
+    forwardedRef
+  ) => {
     const {
       open,
       onOpenChange,
@@ -67,8 +70,11 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           min: (el) => getMinConstraint(el, snapPoints),
           max: (el) => (dismissible ? 0 : -cssToPx(firstPoint, el))
         }}
-        onConstraint={onDrawerConstraint}
         scrollLockTimeout={scrollLockTimeout}
+        onConstraint={(e, type) => {
+          onConstraint?.(e, type)
+          return onDrawerConstraint(e, type)
+        }}
         onDragEnd={mergeHandlers(handleDragEnd, onDragEnd)}
         onPointerUp={mergeHandlers(handleRelease, onPointerUp)}
         onPointerCancel={mergeHandlers(handleRelease, onPointerCancel)}

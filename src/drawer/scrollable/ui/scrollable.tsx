@@ -1,16 +1,15 @@
-import React, {
-  type PropsWithChildren,
-  forwardRef,
-  useEffect,
-  useRef
-} from 'react'
+import React, { forwardRef, useEffect, useRef } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { useDrawerContext } from '@/drawer/lib/hooks'
-import { clamp } from '@/shared/lib/helpers'
+import { clamp, mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle } from '@/shared/lib/hooks'
-import { type DragEventHandler, Draggable } from '@/shared/ui/draggable'
+import {
+  type DragEventHandler,
+  Draggable,
+  type DraggableProps
+} from '@/shared/ui/draggable'
 import {
   getDumpedValue,
   getUndumpedValue
@@ -18,10 +17,10 @@ import {
 
 import { getMinConstraint } from '../lib/helpers'
 
-export interface ScrollableProps extends PropsWithChildren {}
+export interface ScrollableProps extends DraggableProps<number> {}
 
 export const Scrollable = forwardRef<HTMLDivElement, ScrollableProps>(
-  ({ ...props }, forwardedRef) => {
+  ({ onConstraint, onDragEnd, onPointerDown, ...props }, forwardedRef) => {
     const {
       drawerControls,
       scrollableControls,
@@ -119,9 +118,9 @@ export const Scrollable = forwardRef<HTMLDivElement, ScrollableProps>(
           min: getMinConstraint,
           max
         }}
-        onDragEnd={handleDragEnd}
-        onPointerDown={handlePointerDown}
-        onConstraint={onScrollableConstraint}
+        onDragEnd={mergeHandlers(handleDragEnd, onDragEnd)}
+        onPointerDown={mergeHandlers(handlePointerDown, onPointerDown)}
+        onConstraint={mergeHandlers(onScrollableConstraint, onConstraint)}
         {...props}
       />
     )

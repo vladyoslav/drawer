@@ -26,12 +26,10 @@ export const useConstraintEvents = (
 
   const onScrollableConstraint: ConstraintEventHandler = (_, type) => {
     if (!scrollableRef.current) return
-    if (type === ConstraintType.Min) return true
+    if (type === ConstraintType.Min) return
 
     drawerControls.unlock()
     scrollableControls.lock()
-
-    // return false
   }
 
   return { onDrawerConstraint, onScrollableConstraint }
