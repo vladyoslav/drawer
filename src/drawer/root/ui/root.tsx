@@ -10,7 +10,7 @@ import { type OnOpenChange, type SetSnap, type Snap } from '@/drawer/lib/types'
 import { type WithoutThisOrThat } from '@/shared/lib/types'
 import { useDragControls } from '@/shared/ui/draggable'
 
-import { useOpenState, useSnapState } from '../lib/hooks'
+import { useConstraintEvents, useOpenState, useSnapState } from '../lib/hooks'
 
 type OpenProps = WithoutThisOrThat<
   { defaultOpen?: boolean; open: boolean; onOpenChange: OnOpenChange },
@@ -53,6 +53,13 @@ export const Root: FC<RootProps> = ({
   const drawerRef = useRef<HTMLDivElement>(null)
   const scrollableRef = useRef<HTMLDivElement>(null)
 
+  const constraintHandlers = useConstraintEvents(
+    drawerRef,
+    scrollableRef,
+    drawerControls,
+    scrollableControls
+  )
+
   const context: DrawerContextValue = {
     drawerControls,
     scrollableControls,
@@ -66,7 +73,8 @@ export const Root: FC<RootProps> = ({
     drawerRef,
     scrollableRef,
     scrollLockTimeout,
-    modal
+    modal,
+    ...constraintHandlers
   }
 
   return (

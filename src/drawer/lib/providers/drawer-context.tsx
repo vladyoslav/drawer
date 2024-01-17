@@ -5,7 +5,10 @@ import React, {
   createContext
 } from 'react'
 
-import { type DragControls } from '@/shared/ui/draggable'
+import {
+  type ConstraintEventHandler,
+  type DragControls
+} from '@/shared/ui/draggable'
 
 import { type OnOpenChange, type SetSnap, type Snap } from '../types'
 
@@ -23,6 +26,8 @@ export interface DrawerContextValue {
   scrollableRef: RefObject<HTMLDivElement>
   scrollLockTimeout: number
   modal: boolean
+  onDrawerConstraint: ConstraintEventHandler
+  onScrollableConstraint: ConstraintEventHandler
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)

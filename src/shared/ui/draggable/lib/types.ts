@@ -38,4 +38,4 @@ export type DragEventHandler<T = Element> = (
 export type ConstraintEventHandler<T = Element> = (
   event: ReactPointerEvent<T>,
   type: ConstraintType
-) => void
+) => void | boolean

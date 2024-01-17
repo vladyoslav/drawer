@@ -6,7 +6,6 @@ import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext } from '@/drawer/lib/hooks'
 import { useSetStyle } from '@/shared/lib/hooks'
 import { Draggable } from '@/shared/ui/draggable'
-import { ConstraintType } from '@/shared/ui/draggable/lib/types'
 
 import { getMinConstraint, transformTemplate } from '../lib/helpers'
 import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
@@ -26,9 +25,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       setSnap,
       dismissible,
       drawerRef: contextRef,
-      scrollableRef,
-      scrollableControls,
-      scrollLockTimeout
+      scrollLockTimeout,
+      onDrawerConstraint
     } = useDrawerContext()
 
     const { locked } = drawerControls
@@ -69,17 +67,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           min: (el) => getMinConstraint(el, snapPoints),
           max: (el) => (dismissible ? 0 : -cssToPx(firstPoint, el))
         }}
-        onConstraint={(_, type) => {
-          if (!drawerRef.current) return
-          if (!scrollableRef.current) return
-          if (type === ConstraintType.Max) return
-
-          // Set y to min constraint
-          drawerControls.y.set(getMinConstraint(drawerRef.current, snapPoints))
-
-          drawerControls.lock()
-          scrollableControls.unlock()
-        }}
+        onConstraint={onDrawerConstraint}
         scrollLockTimeout={scrollLockTimeout}
         {...dragListeners}
         {...props}

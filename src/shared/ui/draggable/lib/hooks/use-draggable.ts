@@ -99,10 +99,21 @@ export const useDraggable = <T>({
 
       const newUndumpedY = getUndumpedValue(curNumberY, min, max) + info.delta
 
-      y.set(getDumpedValue(newUndumpedY, min, max))
+      let proceed = true
+      if (newUndumpedY <= min || newUndumpedY >= max) {
+        const constraint =
+          newUndumpedY <= min ? ConstraintType.Min : ConstraintType.Max
 
-      if (newUndumpedY <= min) onConstraint?.(e, ConstraintType.Min)
-      if (newUndumpedY >= max) onConstraint?.(e, ConstraintType.Max)
+        const res = onConstraint?.(e, constraint)
+
+        proceed = res === undefined || res
+      }
+
+      const newY = proceed
+        ? getDumpedValue(newUndumpedY, min, max)
+        : clamp(min, max, newUndumpedY)
+
+      y.set(newY)
     }
 
     onDragMove?.(e, info)
