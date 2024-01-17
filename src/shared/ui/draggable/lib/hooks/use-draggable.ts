@@ -28,7 +28,6 @@ interface DraggableOptions<T> {
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
-  snapToConstraints: boolean
   scrollLockTimeout: number
 }
 
@@ -40,7 +39,6 @@ export const useDraggable = <T>({
   onDragStart,
   onDragMove,
   onDragEnd,
-  snapToConstraints,
   scrollLockTimeout
 }: DraggableOptions<T>) => {
   const { y, isDragging } = dragControls
@@ -208,13 +206,6 @@ export const useDraggable = <T>({
 
     // Sometimes the velocity is 0, even if in fact it's not
     const velocity = getVelocity(delta, timeDelta) || lastVelocity.current
-
-    // Reset to constraints
-    if (snapToConstraints && constraints && isNumber(y.get())) {
-      const min = getConstraint(constraints[ConstraintType.Min], node)
-      const max = getConstraint(constraints[ConstraintType.Max], node)
-      y.set(clamp(min, max, y.get() as number)) // TODO use cssToPx
-    }
 
     const wasDragging = isDragging.get()
 

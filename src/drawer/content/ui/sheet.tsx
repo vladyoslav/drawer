@@ -60,7 +60,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     return (
       <Draggable
         ref={composedRef}
-        snapToConstraints={false}
         dragControls={drawerControls}
         transformTemplate={transformTemplate}
         constraints={{

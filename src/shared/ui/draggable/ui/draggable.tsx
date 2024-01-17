@@ -34,7 +34,6 @@ export interface DraggableProps<T>
   onDragMove?: DragEventHandler
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
-  snapToConstraints?: boolean
   scrollLockTimeout?: number
 }
 
@@ -51,7 +50,6 @@ const _Draggable = <T,>(
     onDragMove,
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
-    snapToConstraints = true,
     scrollLockTimeout = 0,
     ...props
   }: DraggableProps<T>,
@@ -68,7 +66,6 @@ const _Draggable = <T,>(
     onDragMove,
     onDragEnd,
     transformTemplate,
-    snapToConstraints,
     scrollLockTimeout
   })
 
