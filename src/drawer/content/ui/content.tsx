@@ -10,8 +10,8 @@ import { useDrawerContext } from '@/drawer/lib/hooks'
 import { Sheet, type SheetProps } from './sheet'
 
 export interface ContentProps
-  extends Omit<SheetProps, 'onClose'>,
-    Omit<ContentPrimitiveProps, 'forceMount' | 'asChild'> {}
+  extends Omit<ContentPrimitiveProps, keyof SheetProps>,
+    SheetProps {}
 
 export const Content = forwardRef<HTMLDivElement, ContentProps>(
   (
@@ -25,7 +25,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     },
     ref
   ) => {
-    const { onOpenChange, modal, drawerControls } = useDrawerContext()
+    const { modal, drawerControls } = useDrawerContext()
 
     const primitiveProps = {
       onOpenAutoFocus,
@@ -49,7 +49,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
           onInteractOutside?.(e)
         }}
       >
-        <Sheet {...props} onClose={() => onOpenChange(false)} />
+        <Sheet {...props} />
       </ContentPrimitive>
     )
   }

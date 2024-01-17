@@ -12,10 +12,11 @@ export const isFunction = (value: unknown): value is Function =>
 export const clamp = (min: number, max: number, value: number) =>
   Math.min(max, Math.max(min, value))
 
-export const mergeHandlers = <T>(
-  ...handlers: Array<((e: T) => void) | undefined>
+export const mergeHandlers = <T extends (...args: any) => any>(
+  ...handlers: Array<T | undefined>
 ) => {
-  return (e: T) => handlers.forEach((handler) => handler?.(e))
+  return (...args: Parameters<T>) =>
+    handlers.forEach((handler) => handler?.(...args))
 }
 
 // Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/helpers.ts

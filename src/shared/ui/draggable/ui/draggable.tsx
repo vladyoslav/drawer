@@ -1,12 +1,15 @@
 import React, {
   type ForwardedRef,
-  type HTMLProps,
   type ReactElement,
   type Ref,
   forwardRef
 } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
+import {
+  type ComponentPropsWithoutRef,
+  Primitive
+} from '@radix-ui/react-primitive'
 
 import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
@@ -22,11 +25,7 @@ import {
 } from '../lib/types'
 import './draggable.css'
 
-export interface DraggableProps<T>
-  extends Omit<
-    HTMLProps<HTMLDivElement>,
-    'ref' | 'onDragStart' | 'onDragEnd' | 'onDrag'
-  > {
+interface DragProps<T> {
   dragControls?: DragControls<T>
   constraints?: Constraints
   onConstraint?: ConstraintEventHandler
@@ -36,6 +35,13 @@ export interface DraggableProps<T>
   transformTemplate?: TransformTemplate
   scrollLockTimeout?: number
 }
+
+type PrimitiveDivProps<T> = Omit<
+  ComponentPropsWithoutRef<typeof Primitive.div>,
+  keyof DragProps<T>
+>
+
+export interface DraggableProps<T> extends PrimitiveDivProps<T>, DragProps<T> {}
 
 const _Draggable = <T,>(
   {
@@ -87,7 +93,7 @@ const _Draggable = <T,>(
   usePreventScroll(isDragging)
 
   return (
-    <div
+    <Primitive.div
       vladyoslav-drawer-draggable=""
       draggable="false"
       ref={composedRef}

@@ -31,7 +31,7 @@ export const useDragEvents = <T extends HTMLElement>({
   const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
   const getSnap = useGetSnap(dismissablePoints, drawerRef)
 
-  const onDragEnd: DragEventHandler = (e, { velocity }) => {
+  const handleDragEnd: DragEventHandler = (e, { velocity }) => {
     const node = drawerRef.current
     if (!node) return
 
@@ -52,9 +52,8 @@ export const useDragEvents = <T extends HTMLElement>({
   return {
     drawerRef,
     listeners: {
-      onDragEnd,
-      onPointerUp: handleRelease,
-      onPointerCancel: handleRelease
+      handleDragEnd,
+      handleRelease
     }
   }
 }

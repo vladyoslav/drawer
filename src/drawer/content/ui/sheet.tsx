@@ -1,24 +1,24 @@
-import React, { type HTMLProps, forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'
 
 import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext } from '@/drawer/lib/hooks'
+import { type Snap } from '@/drawer/lib/types'
+import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle } from '@/shared/lib/hooks'
-import { Draggable } from '@/shared/ui/draggable'
+import { Draggable, type DraggableProps } from '@/shared/ui/draggable'
 
 import { getMinConstraint, transformTemplate } from '../lib/helpers'
 import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
 
-export interface SheetProps
-  extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'onDragStart' | 'onDragEnd'> {
-  onClose: () => void
-}
+export interface SheetProps extends DraggableProps<Snap> {}
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
-  ({ onClose, ...props }, forwardedRef) => {
+  ({ onPointerUp, onPointerCancel, onDragEnd, ...props }, forwardedRef) => {
     const {
       open,
+      onOpenChange,
       drawerControls,
       snapPoints,
       snap,
@@ -35,16 +35,17 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     const snapTo = useSnapTo(drawerControls.y)
 
-    const { drawerRef, listeners: dragListeners } =
-      useDragEvents<HTMLDivElement>({
-        snapPoints,
-        snapTo,
-        snap,
-        setSnap,
-        onClose,
-        dismissible,
-        locked
-      })
+    const { drawerRef, listeners } = useDragEvents<HTMLDivElement>({
+      snapPoints,
+      snapTo,
+      snap,
+      setSnap,
+      onClose: () => onOpenChange(false),
+      dismissible,
+      locked
+    })
+
+    const { handleDragEnd, handleRelease } = listeners
 
     const composedRef = useComposedRefs(drawerRef, forwardedRef, contextRef)
 
@@ -68,7 +69,9 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         }}
         onConstraint={onDrawerConstraint}
         scrollLockTimeout={scrollLockTimeout}
-        {...dragListeners}
+        onDragEnd={mergeHandlers(handleDragEnd, onDragEnd)}
+        onPointerUp={mergeHandlers(handleRelease, onPointerUp)}
+        onPointerCancel={mergeHandlers(handleRelease, onPointerCancel)}
         {...props}
       />
     )
