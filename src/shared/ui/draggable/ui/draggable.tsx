@@ -12,7 +12,7 @@ import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
 import { defaultTransformTemplate } from '../lib/helpers'
-import { useControlsState, useDraggable } from '../lib/hooks'
+import { useControlsState, useDraggable, usePreventScroll } from '../lib/hooks'
 import {
   type ConstraintEventHandler,
   type Constraints,
@@ -60,7 +60,7 @@ const _Draggable = <T,>(
   const dragControls = useControlsState(cDragControls)
   const { y, isDragging } = dragControls
 
-  const { ref, startEvent, wantToDrag, listeners } = useDraggable({
+  const { ref, wantToDrag, listeners } = useDraggable({
     dragControls,
     constraints,
     onConstraint,
@@ -87,14 +87,7 @@ const _Draggable = <T,>(
     else resetStyle('transition')
   })
 
-  // useValueChange(isDragging, (latest) => {
-  //   const e = startEvent.current
-  //   if (!e) return
-  //   if (e.pointerType !== 'touch') return
-  //
-  //   if (latest) lockScrollable(e.target as HTMLElement)
-  //   else unlockScrollable(e.target as HTMLElement)
-  // })
+  usePreventScroll(isDragging)
 
   return (
     <div

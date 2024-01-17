@@ -54,8 +54,6 @@ export const useDraggable = <T>({
 
   const wantToDrag = useValue(false)
 
-  const startEvent = useRef<ReactPointerEvent<HTMLElement> | null>(null)
-
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
 
@@ -76,8 +74,6 @@ export const useDraggable = <T>({
   const handleDragStart: DragEventHandler<HTMLElement> = (e, info) => {
     const node = ref.current
     if (!node) return
-
-    startEvent.current = e
 
     const target = e.target as HTMLElement
     target.setPointerCapture(e.pointerId)
@@ -117,7 +113,6 @@ export const useDraggable = <T>({
   const resetVariables = () => {
     wantToDrag.set(false)
     isDragging.set(false)
-    startEvent.current = null
     initY.current = null
   }
 
@@ -224,7 +219,6 @@ export const useDraggable = <T>({
 
   return {
     wantToDrag,
-    startEvent,
     ref,
     listeners: {
       handlePointerDown,
