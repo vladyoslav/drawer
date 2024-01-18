@@ -1,50 +1,55 @@
-[vladyoslav-drawer-overlay], [vladyoslav-drawer], [vladyoslav-drawer-scrollable], [vladyoslav-drawer-wrapper] {
-    --duration: 0.5s;
-    --timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-    --scroll-bar-shift: var(--removed-body-scroll-bar-size, 0);
+[vladyoslav-drawer-overlay],
+[vladyoslav-drawer],
+[vladyoslav-drawer-scrollable],
+[vladyoslav-drawer-wrapper] {
+  --duration: 0.5s;
+  --timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  --scroll-bar-shift: var(--removed-body-scroll-bar-size, 0);
 }
 
 [vladyoslav-drawer-overlay] {
-    opacity: 0;
-    transition: opacity var(--duration) var(--timing-function);
+  opacity: 0;
+  transition: opacity var(--duration) var(--timing-function);
 }
 
 [vladyoslav-drawer] {
-    transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 100%, 0);
 }
 
-[vladyoslav-drawer], [vladyoslav-drawer-scrollable] {
-    transition: transform var(--duration) var(--timing-function);
+[vladyoslav-drawer],
+[vladyoslav-drawer-scrollable] {
+  transition: transform var(--duration) var(--timing-function);
 }
 
 [vladyoslav-drawer-wrapper] {
-    --border-radius: 8px;
+  --border-radius: 8px;
 
-    transition-property: transform, border-radius;
-    transition-duration: var(--duration);
-    transition-timing-function: var(--timing-function);
+  transition-property: transform, border-radius;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--timing-function);
 }
 
 [vladyoslav-drawer]::after {
-    content: '';
-    position: absolute;
-    top: calc(100% - 1px);
-    background: inherit;
-    background-color: inherit;
-    left: 0;
-    right: 0;
-    height: 100%;
-    z-index: -1;
+  content: '';
+  position: absolute;
+  top: calc(100% - 1px);
+  background: inherit;
+  background-color: inherit;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: -1;
 }
 
-[vladyoslav-drawer-overlay][data-state="closed"], [vladyoslav-drawer][data-state="closed"] {
-    animation: fake-animation var(--duration) var(--timing-function);
+[vladyoslav-drawer-overlay][data-state='closed'],
+[vladyoslav-drawer][data-state='closed'] {
+  animation: fake-animation var(--duration) var(--timing-function);
 }
 
 /* This will allow us to not animate via animation, but still benefit from delaying unmount via Radix. */
 @keyframes fake-animation {
-    from {}
-    to {}
+  from {
+  }
+  to {
+  }
 }
-
-
