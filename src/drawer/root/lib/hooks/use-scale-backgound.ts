@@ -34,7 +34,14 @@ export const useScaleBackgound = (
       (-y - scaleFromY) / (cssToPx(lastPoint, node) - scaleFromY)
     )
 
-    const transform = `scale(calc(1 - 0.04 * ${multiplier}))`
+    const offset = 14
+    const width = (wrapper as HTMLElement).offsetWidth
+    const finalScale = (width - 2 * offset) / width
+
+    const transform =
+      `scale(calc(1 - ${1 - finalScale} * ${multiplier})) ` +
+      `translate3d(0, calc(env(safe-area-inset-top) + ${offset}px * ${multiplier}), 0)`
+
     const borderRadius = `calc(var(--border-radius) * ${multiplier})`
 
     setStyle(wrapper as HTMLElement, { transform, borderRadius })

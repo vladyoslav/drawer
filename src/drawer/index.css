@@ -24,6 +24,7 @@
 [vladyoslav-drawer-wrapper] {
   --border-radius: 8px;
 
+  transform-origin: top center;
   transition-property: transform, border-radius;
   transition-duration: var(--duration);
   transition-timing-function: var(--timing-function);
