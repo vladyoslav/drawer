@@ -36,13 +36,11 @@ export const useScaleBackgound = (
       0
     )
 
-    const offset = 14
     const width = (wrapper as HTMLElement).offsetWidth
-    const finalScale = (width - 2 * offset) / width
 
     const transform =
-      `scale(calc(1 - ${1 - finalScale} * ${multiplier})) ` +
-      `translate3d(0, calc(env(safe-area-inset-top) + ${offset}px * ${multiplier}), 0)`
+      `scale(calc(1 - ((2 * var(--offset)) / ${width}) * ${multiplier})) ` +
+      `translate3d(0, calc(env(safe-area-inset-top) + (var(--offset) * 1px) * ${multiplier}), 0)`
 
     const borderRadius = `calc(var(--border-radius) * ${multiplier})`
 
