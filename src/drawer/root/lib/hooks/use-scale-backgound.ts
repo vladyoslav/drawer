@@ -11,6 +11,7 @@ export const useScaleBackgound = (
   drawerControls: DragControls<Snap>,
   drawerRef: RefObject<HTMLDivElement>,
   snapPoints: Snap[],
+  shouldScaleBackground: boolean,
   scaleFromIndex?: number
 ) => {
   const lastPoint = snapPoints[snapPoints.length - 1]
@@ -20,6 +21,8 @@ export const useScaleBackgound = (
   const getWrapper = () => document.querySelector('[vladyoslav-drawer-wrapper]')
 
   useValueChange(drawerControls.y, (latest) => {
+    if (!shouldScaleBackground) return
+
     const node = drawerRef.current
     if (!node) return
 
@@ -47,6 +50,8 @@ export const useScaleBackgound = (
   })
 
   useValueChange(drawerControls.isDragging, (latest) => {
+    if (!shouldScaleBackground) return
+
     const wrapper = getWrapper()
     if (!wrapper) return
 

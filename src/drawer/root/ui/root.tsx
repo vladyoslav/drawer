@@ -29,14 +29,23 @@ type SnapProps = WithoutThisOrThat<
   'snap' | 'setSnap'
 >
 
+interface WithScaledBackground {
+  scaleFromIndex?: number
+  shouldScaleBackground?: true
+}
+
+interface WithoutScaledBackground {
+  scaleFromIndex?: never
+  shouldScaleBackground: false
+}
+
 export type RootProps = PropsWithChildren &
   OpenProps &
   SnapProps & {
     dismissible?: boolean
     modal?: boolean
     scrollLockTimeout?: number
-    scaleFromIndex?: number
-  }
+  } & (WithScaledBackground | WithoutScaledBackground)
 
 export const Root: FC<RootProps> = ({
   defaultOpen = false,
@@ -49,6 +58,7 @@ export const Root: FC<RootProps> = ({
   modal = true,
   scrollLockTimeout = 300,
   scaleFromIndex,
+  shouldScaleBackground = true,
   children
 }) => {
   const drawerControls = useDragControls<Snap>()
@@ -84,7 +94,14 @@ export const Root: FC<RootProps> = ({
     ...constraintHandlers
   }
 
-  useScaleBackgound(open, drawerControls, drawerRef, snapPoints, scaleFromIndex)
+  useScaleBackgound(
+    open,
+    drawerControls,
+    drawerRef,
+    snapPoints,
+    shouldScaleBackground,
+    scaleFromIndex
+  )
 
   return (
     <RootPrimitive open={open} onOpenChange={onOpenChange} modal={modal}>
