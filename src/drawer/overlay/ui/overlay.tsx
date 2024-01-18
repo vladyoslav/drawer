@@ -27,10 +27,14 @@ interface WithRadixPrimitiveProps {
 export type OverlayProps = OverlayPrimitiveProps &
   (WithRadixPrimitiveProps | WithCustomPrimitiveProps) & {
     fadeFromIndex?: number
+    finalOpacity?: number
   }
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
-  ({ radixPrimitive = true, fadeFromIndex, ...props }, forwardedRef) => {
+  (
+    { radixPrimitive = true, fadeFromIndex, finalOpacity = 0.8, ...props },
+    forwardedRef
+  ) => {
     const contextForceMount = usePortalContext()
 
     const { drawerControls, drawerRef, snapPoints, open } = useDrawerContext()
@@ -53,7 +57,8 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
       const opacity = clamp(
         0,
         1,
-        (-y - fadeFromY) / (cssToPx(lastPoint, node) - fadeFromY)
+        ((-y - fadeFromY) / (cssToPx(lastPoint, node) - fadeFromY)) *
+          finalOpacity
       )
 
       setStyle({ opacity: opacity.toString() })

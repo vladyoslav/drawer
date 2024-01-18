@@ -2,7 +2,7 @@ import { type RefObject } from 'react'
 
 import { cssToPx } from '@/drawer/lib/helpers'
 import { type Snap } from '@/drawer/lib/types'
-import { clamp, resetStyle, setStyle } from '@/shared/lib/helpers'
+import { resetStyle, setStyle } from '@/shared/lib/helpers'
 import { useValueChange } from '@/shared/lib/hooks'
 import { type DragControls } from '@/shared/ui/draggable'
 
@@ -28,10 +28,9 @@ export const useScaleBackgound = (
 
     const y = cssToPx(latest, node)
     const scaleFromY = cssToPx(scaleFrom, node)
-    const multiplier = clamp(
-      0,
-      1,
-      (-y - scaleFromY) / (cssToPx(lastPoint, node) - scaleFromY)
+    const multiplier = Math.max(
+      (-y - scaleFromY) / (cssToPx(lastPoint, node) - scaleFromY),
+      0
     )
 
     const offset = 14
