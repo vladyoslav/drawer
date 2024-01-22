@@ -30,12 +30,12 @@ type SnapProps = WithoutThisOrThat<
 >
 
 interface WithScaledBackground {
-  scaleFromIndex?: number
+  scaleFrom?: Snap
   shouldScaleBackground?: true
 }
 
 interface WithoutScaledBackground {
-  scaleFromIndex?: never
+  scaleFrom?: never
   shouldScaleBackground: false
 }
 
@@ -57,7 +57,7 @@ export const Root: FC<RootProps> = ({
   dismissible = true,
   modal = true,
   scrollLockTimeout = 300,
-  scaleFromIndex,
+  scaleFrom = 0,
   shouldScaleBackground = true,
   children
 }) => {
@@ -95,12 +95,11 @@ export const Root: FC<RootProps> = ({
   }
 
   useScaleBackgound(
-    open,
     drawerControls,
     drawerRef,
     snapPoints,
     shouldScaleBackground,
-    scaleFromIndex
+    scaleFrom
   )
 
   return (

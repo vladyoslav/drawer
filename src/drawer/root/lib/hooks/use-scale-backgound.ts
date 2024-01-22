@@ -7,16 +7,13 @@ import { useValueChange } from '@/shared/lib/hooks'
 import { type DragControls } from '@/shared/ui/draggable'
 
 export const useScaleBackgound = (
-  open: boolean,
   drawerControls: DragControls<Snap>,
   drawerRef: RefObject<HTMLDivElement>,
   snapPoints: Snap[],
   shouldScaleBackground: boolean,
-  scaleFromIndex?: number
+  scaleFrom: Snap
 ) => {
   const lastPoint = snapPoints[snapPoints.length - 1]
-  const scaleFrom =
-    scaleFromIndex !== undefined ? snapPoints[scaleFromIndex] : 0
 
   const getWrapper = () => document.querySelector('[vladyoslav-drawer-wrapper]')
 

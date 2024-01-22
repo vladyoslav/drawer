@@ -9,6 +9,7 @@ import { Presence } from '@radix-ui/react-presence'
 
 import { cssToPx } from '@/drawer/lib/helpers'
 import { useDrawerContext, usePortalContext } from '@/drawer/lib/hooks'
+import { type Snap } from '@/drawer/lib/types'
 import { clamp } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
@@ -26,13 +27,13 @@ interface WithRadixPrimitiveProps {
 
 export type OverlayProps = OverlayPrimitiveProps &
   (WithRadixPrimitiveProps | WithCustomPrimitiveProps) & {
-    fadeFromIndex?: number
+    fadeFrom?: Snap
     finalOpacity?: number
   }
 
 export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
   (
-    { radixPrimitive = true, fadeFromIndex, finalOpacity = 0.8, ...props },
+    { radixPrimitive = true, fadeFrom = 0, finalOpacity = 0.8, ...props },
     forwardedRef
   ) => {
     const contextForceMount = usePortalContext()
@@ -41,7 +42,6 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
     const { forceMount = contextForceMount, ...other } = props
 
     const lastPoint = snapPoints[snapPoints.length - 1]
-    const fadeFrom = fadeFromIndex !== undefined ? snapPoints[fadeFromIndex] : 0
 
     const ref = useRef<HTMLDivElement>(null)
     const composedRef = useComposedRefs(ref, forwardedRef)
