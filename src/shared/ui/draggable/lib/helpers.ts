@@ -12,9 +12,12 @@ const reachedBottom = (el: HTMLElement) =>
   Math.abs(el.scrollTop + el.clientHeight - el.scrollHeight) < 2
 
 const hasScrollOverflow = (el: HTMLElement) => {
-  const overflow = window.getComputedStyle(el).overflowY
+  const style = window.getComputedStyle(el)
+  const overflows = ['scroll', 'auto']
 
-  return ['scroll', 'auto'].includes(overflow)
+  return (
+    overflows.includes(style.overflowY) || overflows.includes(style.overflow)
+  )
 }
 
 // Some code was taken from https://github.com/emilkowalski/vaul/blob/main/src/index.tsx
@@ -53,34 +56,6 @@ export const shouldDrag = (
 
   return true
 }
-
-// export const lockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
-//   let element = el
-//
-//   while (element) {
-//     if (element.scrollHeight > element.clientHeight) {
-//       if (hasScrollOverflow(element)) setStyle(element, { overflow: 'hidden' })
-//     }
-//
-//     if (element === root) return
-//
-//     element = element.parentNode as HTMLElement
-//   }
-// }
-//
-// export const unlockScrollableParents = (el: HTMLElement, root: HTMLElement) => {
-//   let element = el
-//
-//   while (element) {
-//     if (element.scrollHeight > element.clientHeight) {
-//       resetStyle(element, 'overflow')
-//     }
-//
-//     if (element === root) return
-//
-//     element = element.parentNode as HTMLElement
-//   }
-// }
 
 // Some code was taken from https://github.com/clauderic/dnd-kit/blob/master/stories/3%20-%20Examples/Drawer/modifiers.ts'
 const rubberband = (dis: number, dim: number, el: number) => {
