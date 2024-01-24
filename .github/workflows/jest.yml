@@ -1,4 +1,4 @@
-name: Lint
+name: Jest tests
 on: [push, pull_request]
 jobs:
   build:
@@ -9,5 +9,5 @@ jobs:
         run: npm install -g pnpm@latest
       - name: Install modules
         run: pnpm i
-      - name: Run lint
-        run: pnpm lint
+      - name: Run tests
+        run: pnpm test
