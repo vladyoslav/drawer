@@ -2,9 +2,9 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig(({ watch }) => ({
   entry: ['src/index.ts'],
-  outDir: !watch ? 'dist' : '@vladyoslav/drawer',
+  outDir: 'dist', // !watch ? 'dist' : '@vladyoslav/drawer',
   clean: true,
-  minify: true,
+  minify: false,
   target: 'es2018',
   external: ['react'],
   sourcemap: true,

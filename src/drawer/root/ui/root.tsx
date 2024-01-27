@@ -1,3 +1,5 @@
+'use client'
+
 import React, { type FC, type PropsWithChildren, useRef } from 'react'
 
 import { Root as RootPrimitive } from '@radix-ui/react-dialog'
@@ -31,12 +33,12 @@ type SnapProps = WithoutThisOrThat<
 
 interface WithScaledBackground {
   scaleFrom?: Snap
-  shouldScaleBackground?: true
+  shouldScaleBackground: true
 }
 
 interface WithoutScaledBackground {
   scaleFrom?: never
-  shouldScaleBackground: false
+  shouldScaleBackground?: false
 }
 
 export type RootProps = PropsWithChildren &
@@ -58,7 +60,7 @@ export const Root: FC<RootProps> = ({
   modal = true,
   scrollLockTimeout = 300,
   scaleFrom = 0,
-  shouldScaleBackground = true,
+  shouldScaleBackground = false,
   children
 }) => {
   const drawerControls = useDragControls<Snap>()

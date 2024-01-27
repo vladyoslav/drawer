@@ -1,3 +1,5 @@
+'use client'
+
 import React, { forwardRef, useRef } from 'react'
 
 import { useComposedRefs } from '@radix-ui/react-compose-refs'

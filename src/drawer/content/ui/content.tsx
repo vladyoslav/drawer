@@ -1,3 +1,5 @@
+'use client'
+
 import React, { forwardRef } from 'react'
 
 import {
@@ -25,7 +27,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     },
     ref
   ) => {
-    const { modal, drawerControls } = useDrawerContext()
+    const { modal, drawerControls, dismissible } = useDrawerContext()
 
     const primitiveProps = {
       onOpenAutoFocus,
@@ -41,11 +43,11 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
         vladyoslav-drawer=""
         onEscapeKeyDown={(e) => {
           if (drawerControls.isDragging.get()) return e.preventDefault()
-          if (!modal) e.preventDefault()
+          if (!modal || !dismissible) e.preventDefault()
           onEscapeKeyDown?.(e)
         }}
         onInteractOutside={(e) => {
-          if (!modal) e.preventDefault()
+          if (!modal || !dismissible) e.preventDefault()
           onInteractOutside?.(e)
         }}
       >

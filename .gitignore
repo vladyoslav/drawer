@@ -131,3 +131,7 @@ dist
 
 # dev linked package
 @vladyoslav
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
