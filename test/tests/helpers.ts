@@ -14,7 +14,7 @@ export const checkIfNotClosed = async (page: Page) => {
   await expect(page.getByTestId('content')).toBeVisible()
 }
 
-export const openDrawer = async (page: Page, trigger = 'trigger') => {
+export const openDrawer = async (page: Page, trigger: string) => {
   await expect(page.getByTestId('content')).not.toBeVisible()
 
   await page.getByTestId(trigger).click()

@@ -23,6 +23,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
       onEscapeKeyDown,
       onPointerDownOutside,
       onInteractOutside,
+      forceMount,
       ...props
     },
     ref
@@ -32,7 +33,8 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
     const primitiveProps = {
       onOpenAutoFocus,
       onCloseAutoFocus,
-      onPointerDownOutside
+      onPointerDownOutside,
+      forceMount
     }
 
     return (

@@ -6,7 +6,8 @@ import { type SnapTo } from '../types'
 
 export const useSnapToCurrent = (snapTo: SnapTo, snap: Snap, open: boolean) => {
   return useEffect(() => {
-    if (open) snapTo(snap)
+    // setTimeout fixes the opening animation when there's no `Drawer.Overlay`
+    if (open) setTimeout(() => snapTo(snap), 0)
     else snapTo(0)
   }, [open, snap])
 }

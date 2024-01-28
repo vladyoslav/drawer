@@ -1,11 +1,15 @@
-import { type FC } from 'react'
+import { type FC, forwardRef } from 'react'
 
 import { DrawerContent, type DrawerContentProps } from '@vladyoslav/drawer'
 
 import { cn } from '@/shared/lib'
 
-export const Content: FC<DrawerContentProps> = ({ className, ...props }) => (
+export const Content: FC<DrawerContentProps> = forwardRef<
+  HTMLDivElement,
+  DrawerContentProps
+>(({ className, ...props }, ref) => (
   <DrawerContent
+    ref={ref}
     data-testid="content"
     className={cn(
       'fixed bottom-0',
@@ -23,4 +27,6 @@ export const Content: FC<DrawerContentProps> = ({ className, ...props }) => (
     )}
     {...props}
   />
-)
+))
+
+Content.displayName = 'Content'
