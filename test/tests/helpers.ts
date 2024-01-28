@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test'
+import { type Locator, type Page, expect } from '@playwright/test'
 
 import { ANIMATION_DURATION } from './constants'
 
@@ -19,10 +19,17 @@ export const openDrawer = async (page: Page, trigger: string) => {
 
   await page.getByTestId(trigger).click()
 
+  await page.waitForTimeout(ANIMATION_DURATION)
+
   await expect(page.getByTestId('content')).toBeVisible()
 }
 
-export const dragTo = async (page: Page, to: number) => {
+export const dragTo = async (
+  page: Page,
+  to: number,
+  steps = 2,
+  release = true
+) => {
   const content = page.getByTestId('content')
   const rect = (await content.boundingBox())!
 
@@ -32,7 +39,15 @@ export const dragTo = async (page: Page, to: number) => {
 
   await page.mouse.down()
 
-  await page.mouse.move(rect.x + rect.width / 2, to, { steps: 2 })
+  await page.mouse.move(rect.x + rect.width / 2, to, { steps })
 
-  await page.mouse.up()
+  release && (await page.mouse.up())
 }
+
+export const getWidth = async (locator: Locator) =>
+  (await locator.boundingBox())!.width
+
+export const getOffsetWidth = async (locator: Locator) =>
+  await locator.evaluate((el) => (el as HTMLElement).offsetWidth)
+
+export const getWindowSize = (page: Page) => page.viewportSize()!

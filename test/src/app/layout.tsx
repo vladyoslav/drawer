@@ -24,6 +24,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             'flex justify-start items-center flex-col gap-4'
           )}
           vladyoslav-drawer-wrapper=""
+          data-testid="wrapper"
         >
           {children}
         </main>

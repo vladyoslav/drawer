@@ -15,7 +15,7 @@ import { useDragControls } from '@/shared/ui/draggable'
 import {
   useConstraintEvents,
   useOpenState,
-  useScaleBackgound,
+  useScaledBackground,
   useSnapState
 } from '../lib/hooks'
 
@@ -96,7 +96,7 @@ export const Root: FC<RootProps> = ({
     ...constraintHandlers
   }
 
-  useScaleBackgound(
+  useScaledBackground(
     drawerControls,
     drawerRef,
     snapPoints,

@@ -6,7 +6,7 @@ import { resetStyle, setStyle } from '@/shared/lib/helpers'
 import { useValueChange } from '@/shared/lib/hooks'
 import { type DragControls } from '@/shared/ui/draggable'
 
-export const useScaleBackgound = (
+export const useScaledBackground = (
   drawerControls: DragControls<Snap>,
   drawerRef: RefObject<HTMLDivElement>,
   snapPoints: Snap[],

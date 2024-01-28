@@ -18,7 +18,17 @@ const Page = () => {
         </Drawer.Portal>
       </Drawer.Root>
       <Drawer.Root shouldScaleBackground scaleFrom={200}>
-        <Trigger>Open scale from 200px</Trigger>
+        <Trigger data-testid="scale-from">Open scale from 200px</Trigger>
+        <Drawer.Portal>
+          <Overlay />
+          <Content>
+            <Header>Drawer header</Header>
+            <Description>Drawer description</Description>
+          </Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+      <Drawer.Root>
+        <Trigger data-testid="without-scaling">Open without scaling</Trigger>
         <Drawer.Portal>
           <Overlay />
           <Content>

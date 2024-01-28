@@ -1,7 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 import { ANIMATION_DURATION } from './constants'
-import { checkIfClosed, checkIfNotClosed, dragTo, openDrawer } from './helpers'
+import {
+  checkIfClosed,
+  checkIfNotClosed,
+  dragTo,
+  getWindowSize,
+  openDrawer
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/base')
@@ -33,7 +39,7 @@ test.describe('Base tests', () => {
       test('should close when dragged down', async ({ page }) => {
         await openDrawer(page, trigger)
 
-        await dragTo(page, page.viewportSize()!.height)
+        await dragTo(page, getWindowSize(page).height)
 
         await checkIfClosed(page)
       })
@@ -59,7 +65,7 @@ test.describe('Base tests', () => {
       test('should open with animation', async ({ page }) => {
         await page.getByTestId(trigger).click()
 
-        const content = await page.getByTestId('content')
+        const content = page.getByTestId('content')
 
         const startY = (await content.boundingBox())!.y
 
@@ -75,7 +81,7 @@ test.describe('Base tests', () => {
 
         const content = page.getByTestId('content')
 
-        const pageHeight = page.viewportSize()!.height
+        const pageHeight = getWindowSize(page).height
 
         const contentHeight = (await content.boundingBox())!.height
 
