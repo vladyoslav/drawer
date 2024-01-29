@@ -6,7 +6,7 @@ import { cn } from '@/shared/lib'
 
 export const Trigger: FC<DrawerTriggerProps> = (props) => (
   <DrawerTrigger
-    data-testid="uncontrolled"
+    data-testid="trigger"
     className={cn(
       'px-5 py-2',
       'rounded-full',

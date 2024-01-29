@@ -9,9 +9,9 @@ test.beforeEach(async ({ page }) => {
 test.describe('Overlay tests', () => {
   let overlay: Locator
 
-  test.describe('uncontrolled', () => {
+  test.describe('default', () => {
     test.beforeEach(async ({ page }) => {
-      await openDrawer(page, 'uncontrolled')
+      await openDrawer(page, 'trigger')
       overlay = page.getByTestId('overlay')
     })
 
@@ -43,7 +43,7 @@ test.describe('Overlay tests', () => {
     })
   })
 
-  test.describe('fade-from', () => {
+  test.describe('fade from', () => {
     test.beforeEach(async ({ page }) => {
       await openDrawer(page, 'fade-from')
       overlay = page.getByTestId('overlay')
@@ -62,7 +62,7 @@ test.describe('Overlay tests', () => {
     })
   })
 
-  test.describe('custom-primitive', () => {
+  test.describe('custom primitive', () => {
     test('should be visible with `modal={false}`', async ({ page }) => {
       await openDrawer(page, 'custom-primitive')
 

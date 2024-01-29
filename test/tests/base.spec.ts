@@ -14,8 +14,10 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Base tests', () => {
-  for (const trigger of ['uncontrolled', 'controlled', 'without-overlay'])
-    test.describe(trigger, () => {
+  for (const rawTrigger of ['default', 'controlled', 'without-overlay']) {
+    test.describe(rawTrigger.replaceAll('-', ' '), () => {
+      const trigger = rawTrigger === 'default' ? 'trigger' : rawTrigger
+
       test('should open drawer', async ({ page }) => {
         await openDrawer(page, trigger)
       })
@@ -90,4 +92,5 @@ test.describe('Base tests', () => {
         await checkIfClosed(page)
       })
     })
+  }
 })
