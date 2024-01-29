@@ -4,10 +4,17 @@ import { useState } from 'react'
 
 import { Drawer } from '@vladyoslav/drawer'
 
-import { Content, Description, Header, Overlay, Trigger } from '@/shared/ui'
+import {
+  Button,
+  Content,
+  Description,
+  Header,
+  Overlay,
+  Trigger
+} from '@/shared/ui'
 
 const Page = () => {
-  const snapPoints = [100, '50%', '100%']
+  const snapPoints = [200, '50%', '100%']
 
   const [snapPoint, setSnapPoint] = useState(snapPoints[0])
 
@@ -17,14 +24,9 @@ const Page = () => {
         <Trigger>Open drawer</Trigger>
         <Drawer.Portal>
           <Overlay />
-          <Content className="px-0">
+          <Content className="max-h-screen min-h-screen">
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
-            <div className="overflow-y-auto w-full px-4">
-              {[...Array(10)].map((_, index) => (
-                <div key={index} className="bg-gray-100 w-full h-24 my-4" />
-              ))}
-            </div>
           </Content>
         </Drawer.Portal>
       </Drawer.Root>
@@ -33,17 +35,24 @@ const Page = () => {
         snap={snapPoint}
         setSnap={setSnapPoint}
       >
-        <Trigger>Open controlled</Trigger>
+        <Trigger data-testid="controlled">Open controlled</Trigger>
         <Drawer.Portal>
           <Overlay />
-          <Content className="px-0">
+          <Content className="max-h-screen min-h-screen">
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
-            <div className="overflow-y-auto w-full px-4">
-              {[...Array(10)].map((_, index) => (
-                <div key={index} className="bg-gray-100 w-full h-24 my-4" />
-              ))}
-            </div>
+            <Button
+              data-testid="change"
+              onClick={() =>
+                setSnapPoint((snapPoint) => {
+                  return snapPoints[
+                    (snapPoints.indexOf(snapPoint) + 1) % snapPoints.length
+                  ]
+                })
+              }
+            >
+              {snapPoint}
+            </Button>
           </Content>
         </Drawer.Portal>
       </Drawer.Root>

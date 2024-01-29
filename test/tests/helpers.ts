@@ -33,9 +33,7 @@ export const dragTo = async (
   const content = page.getByTestId('content')
   const rect = (await content.boundingBox())!
 
-  await page.hover('[vladyoslav-drawer]', {
-    position: { y: 20, x: rect.width / 2 }
-  })
+  await content.hover({ position: { y: 50, x: rect.width / 2 } })
 
   await page.mouse.down()
 
