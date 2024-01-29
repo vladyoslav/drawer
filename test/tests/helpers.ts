@@ -51,3 +51,8 @@ export const getOffsetWidth = async (locator: Locator) =>
   await locator.evaluate((el) => (el as HTMLElement).offsetWidth)
 
 export const getWindowSize = (page: Page) => page.viewportSize()!
+
+export const getOpacity = async (locator: Locator) =>
+  parseFloat(
+    await locator.evaluate((el) => window.getComputedStyle(el).opacity)
+  )

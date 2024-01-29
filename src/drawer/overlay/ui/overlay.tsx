@@ -75,6 +75,7 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
       return (
         <RadixOverlayPrimitive
           vladyoslav-drawer-overlay=""
+          data-testid="overlay"
           ref={composedRef}
           {...other}
         />
@@ -84,6 +85,7 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
       <Presence present={forceMount || open}>
         <OverlayPrimitive
           vladyoslav-drawer-overlay=""
+          data-testid="overlay"
           ref={composedRef}
           {...other}
         />
