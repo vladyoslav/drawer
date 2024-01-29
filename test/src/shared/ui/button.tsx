@@ -5,9 +5,10 @@ import { cn } from '@/shared/lib'
 export const Button: FC<ButtonHTMLAttributes<HTMLButtonElement>> = forwardRef<
   HTMLButtonElement,
   ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, ...props }) => {
+>(({ className, ...props }, ref) => {
   return (
     <button
+      ref={ref}
       className={cn(
         'px-5 py-2',
         'rounded-full',
