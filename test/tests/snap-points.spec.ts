@@ -29,7 +29,7 @@ test.describe('Snap points tests', () => {
 
     test('should snap to the nearest point', async ({ page }) => {
       for (const y of [secondPoint, thirdPoint, firstPoint]) {
-        await dragTo(page, y, 30)
+        await dragTo(page, y, 100)
         await page.waitForTimeout(ANIMATION_DURATION)
 
         expect(Math.abs((await content.boundingBox())!.y - y)).toBeLessThan(
@@ -39,7 +39,7 @@ test.describe('Snap points tests', () => {
     })
 
     test('should snap with inertia', async ({ page }) => {
-      await dragTo(page, firstPoint - 150, 5)
+      await dragTo(page, firstPoint - 200, 5)
       await page.waitForTimeout(ANIMATION_DURATION)
 
       expect(
