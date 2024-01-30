@@ -1,13 +1,30 @@
 'use client'
 
+import { useState } from 'react'
+
 import { Drawer } from '@vladyoslav/drawer'
 
-import { Content, Description, Header, Overlay, Trigger } from '@/shared/ui'
+import {
+  Button,
+  Content,
+  Description,
+  Header,
+  Overlay,
+  Trigger
+} from '@/shared/ui'
 
 const Page = () => {
+  const [counter, setCounter] = useState(0)
+
   return (
     <Drawer.Root modal={false}>
       <Trigger>Open drawer</Trigger>
+      <Button
+        data-testid="counter"
+        onClick={() => setCounter((counter) => counter + 1)}
+      >
+        {counter}
+      </Button>
       <Drawer.Portal>
         <Overlay />
         <Content>
