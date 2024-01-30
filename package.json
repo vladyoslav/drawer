@@ -14,7 +14,7 @@
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "prepare": "husky install",
-    "test": "jest",
+    "jest": "jest ./src",
     "playwright": "playwright test"
   },
   "lint-staged": {
