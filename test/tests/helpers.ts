@@ -37,6 +37,8 @@ export const dragTo = async (
 
   await page.mouse.down()
 
+  // https://playwright.dev/docs/input#dragging-manually note
+  await page.mouse.move(rect.x + rect.width / 2, rect.y + 50)
   await page.mouse.move(rect.x + rect.width / 2, to, { steps })
 
   release && (await page.mouse.up())

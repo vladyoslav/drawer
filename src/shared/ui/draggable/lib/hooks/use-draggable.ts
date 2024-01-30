@@ -128,7 +128,7 @@ export const useDraggable = <T>({
   const handlePointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (!e.isPrimary) return
 
-    last.current = e.screenY
+    last.current = e.clientY
     lastTime.current = e.timeStamp
 
     const node = ref.current
@@ -151,10 +151,10 @@ export const useDraggable = <T>({
   const handlePointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (!e.isPrimary) return
 
-    const delta = e.screenY - last.current
+    const delta = e.clientY - last.current
     const velocity = getVelocity(delta, e.timeStamp - lastTime.current)
 
-    last.current = e.screenY
+    last.current = e.clientY
     lastTime.current = e.timeStamp
     lastVelocity.current = velocity
 
@@ -201,7 +201,7 @@ export const useDraggable = <T>({
     const node = ref.current
     if (!node) return
 
-    const delta = e.screenY - last.current
+    const delta = e.clientY - last.current
     const timeDelta = e.timeStamp - lastTime.current
 
     // Sometimes the velocity is 0, even if in fact it's not

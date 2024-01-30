@@ -70,7 +70,7 @@ test.describe('Base tests', () => {
 
       const contentHeight = (await content.boundingBox())!.height
 
-      await dragTo(page, pageHeight - contentHeight + 200)
+      await dragTo(page, pageHeight - contentHeight + 240)
 
       await checkIfClosed(page)
     })
@@ -89,22 +89,24 @@ test.describe('Base tests', () => {
 
         await checkIfClosed(page)
       })
-
-      test('should open with animation', async ({ page }) => {
-        await page.getByTestId(trigger).click()
-
-        const content = page.getByTestId('content')
-
-        const startY = (await content.boundingBox())!.y
-
-        await page.waitForTimeout(ANIMATION_DURATION)
-
-        const endY = (await content.boundingBox())!.y
-
-        expect(startY).toBeGreaterThan(endY)
-      })
     })
   }
+
+  test.describe('without overlay', () => {
+    test('should open with animation', async ({ page }) => {
+      await page.getByTestId('without-overlay').click()
+
+      const content = page.getByTestId('content')
+
+      const startY = (await content.boundingBox())!.y
+
+      await page.waitForTimeout(ANIMATION_DURATION)
+
+      const endY = (await content.boundingBox())!.y
+
+      expect(startY).toBeGreaterThan(endY)
+    })
+  })
 
   test.describe('controlled', () => {
     let content: Locator

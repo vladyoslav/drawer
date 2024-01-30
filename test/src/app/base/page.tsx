@@ -3,7 +3,7 @@
 // import { useState } from 'react'
 import { useState } from 'react'
 
-import { DrawerPortal, DrawerRoot } from '@vladyoslav/drawer'
+import { Drawer } from '@vladyoslav/drawer'
 
 import {
   Button,
@@ -18,21 +18,22 @@ const Page = () => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <DrawerRoot>
+      <Drawer.Root>
         <Trigger>Open drawer</Trigger>
-        <DrawerPortal>
+        <Drawer.Portal>
           <Overlay />
           <Content>
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
           </Content>
-        </DrawerPortal>
-      </DrawerRoot>
+          <Drawer.SnapAreas />
+        </Drawer.Portal>
+      </Drawer.Root>
       <Button data-testid="controlled" onClick={() => setOpen(true)}>
         Open controlled
       </Button>
-      <DrawerRoot open={open} onOpenChange={setOpen}>
-        <DrawerPortal>
+      <Drawer.Root open={open} onOpenChange={setOpen}>
+        <Drawer.Portal>
           <Overlay />
           <Content>
             <Header>Drawer header</Header>
@@ -44,18 +45,18 @@ const Page = () => {
               Close controlled
             </Button>
           </Content>
-        </DrawerPortal>
-      </DrawerRoot>
-      <DrawerRoot>
+        </Drawer.Portal>
+      </Drawer.Root>
+      <Drawer.Root>
         <Trigger data-testid="without-overlay">Open without overlay</Trigger>
-        <DrawerPortal>
+        <Drawer.Portal>
           <div /> {/*TODO*/}
           <Content>
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
           </Content>
-        </DrawerPortal>
-      </DrawerRoot>
+        </Drawer.Portal>
+      </Drawer.Root>
     </>
   )
 }

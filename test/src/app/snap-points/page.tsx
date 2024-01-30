@@ -28,6 +28,7 @@ const Page = () => {
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
           </Content>
+          <Drawer.SnapAreas />
         </Drawer.Portal>
       </Drawer.Root>
       <Drawer.Root
