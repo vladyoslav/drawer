@@ -45,7 +45,7 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(
         vladyoslav-drawer=""
         onEscapeKeyDown={(e) => {
           if (drawerControls.isDragging.get()) return e.preventDefault()
-          if (!modal || !dismissible) e.preventDefault()
+          if (!dismissible) e.preventDefault()
           onEscapeKeyDown?.(e)
         }}
         onInteractOutside={(e) => {

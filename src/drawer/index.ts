@@ -1,5 +1,6 @@
-import { Close, Description, Title, Trigger } from '@radix-ui/react-dialog'
+import { Description, Title, Trigger } from '@radix-ui/react-dialog'
 
+import { Close } from './close'
 import { Content } from './content'
 import './index.css'
 import { Overlay } from './overlay'
@@ -13,9 +14,9 @@ export type { ContentProps as DrawerContentProps } from './content'
 export type { PortalProps as DrawerPortalProps } from './portal'
 export type { OverlayProps as DrawerOverlayProps } from './overlay'
 export type { ScrollableProps as DrawerScrollableProps } from './scrollable'
+export type { CloseProps as DrawerCloseProps } from './close'
 export type {
   DialogTriggerProps as DrawerTriggerProps,
-  DialogCloseProps as DrawerCloseProps,
   DialogTitleProps as DrawerTitleProps,
   DialogDescriptionProps as DrawerDescriptionProps
 } from '@radix-ui/react-dialog'

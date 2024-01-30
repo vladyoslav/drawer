@@ -37,6 +37,14 @@ test.describe('Base tests', () => {
       await checkIfClosed(page)
     })
 
+    test('should close on `Esc` pressed', async ({ page }) => {
+      await openDrawer(page, trigger)
+
+      await page.keyboard.press('Escape')
+
+      await checkIfClosed(page)
+    })
+
     test('should close when dragged down', async ({ page }) => {
       await openDrawer(page, trigger)
 
