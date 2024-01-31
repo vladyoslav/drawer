@@ -11,11 +11,12 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "test": "turbo turbo:test",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
-    "prepare": "husky install",
     "jest": "jest ./src",
-    "playwright": "playwright test"
+    "playwright": "playwright test",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "src/**/!(*.css|*.svg)": [
@@ -78,6 +79,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.1",
+    "turbo": "^1.12.1",
     "typescript": "^5.3.3"
   }
 }

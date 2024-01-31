@@ -1,0 +1,24 @@
+{
+  "extends": ["//"],
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "jest": {
+      "inputs": ["src/**/*.tsx", "src/**/*.ts"]
+    },
+    "playwright": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+    },
+    "turbo:test": {
+      "dependsOn": ["jest", "playwright"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
