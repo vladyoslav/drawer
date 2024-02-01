@@ -1,0 +1,25 @@
+.root {
+    @apply fixed bottom-0 inset-x-0 mx-auto;
+    @apply w-full max-w-md;
+    @apply rounded-t-2xl;
+    @apply bg-background;
+    @apply max-h-[95vh] min-h-[65vh];
+    @apply flex items-center flex-col gap-2;
+    @apply p-4;
+    @apply shadow-2xl;
+    @apply z-modal;
+    @apply border;
+}
+
+.root:before {
+    content: "";
+    @apply w-10 h-1;
+    @apply rounded-full;
+    @apply absolute top-1.5;
+    @apply bg-muted;
+}
+
+.root:after {
+    @apply border-border border-x;
+    @apply !-inset-x-px;
+}
