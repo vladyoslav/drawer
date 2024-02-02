@@ -1,9 +1,17 @@
 {
   "index": {
-    "title": "Introduction"
+    "title": "Getting started"
   },
-  "-- Components": {
+  "--": {
     "type": "separator",
-    "title": "Components"
-  }
+    "title": "API Reference"
+  },
+  "root": {},
+  "overlay": {},
+  "content": {},
+  "trigger": {},
+  "portal": {},
+  "close": {},
+  "title": {},
+  "description": {}
 }

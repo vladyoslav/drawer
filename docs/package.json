@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@vladyoslav/drawer": "workspace:drawer@^",
     "class-variance-authority": "^0.7.0",

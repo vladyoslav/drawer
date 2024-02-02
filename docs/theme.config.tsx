@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { type DocsThemeConfig } from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
-  logo: <span>@vladyoslav/drawer</span>,
+  logo: <span className="font-bold text-lg">@vladyoslav/drawer</span>,
   project: {
     link: 'https://github.com/vladyoslav/drawer'
   },

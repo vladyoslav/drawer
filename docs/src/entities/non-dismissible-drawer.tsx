@@ -17,12 +17,7 @@ export const NonDismissibleDrawer: FC = () => {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Drawer</Button>
-      <Root
-        open={open}
-        onOpenChange={setOpen}
-        dismissible={false}
-        shouldScaleBackground={false}
-      >
+      <Root open={open} onOpenChange={setOpen} dismissible={false}>
         <Drawer.Portal>
           <Overlay />
           <Content>

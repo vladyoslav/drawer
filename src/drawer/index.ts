@@ -8,6 +8,7 @@ import { Root } from './root'
 import { Scrollable } from './scrollable'
 import { SnapAreas } from './snap-areas'
 
+export type { Snap } from './lib/types'
 export type { RootProps as DrawerRootProps } from './root'
 export type { ContentProps as DrawerContentProps } from './content'
 export type { PortalProps as DrawerPortalProps } from './portal'

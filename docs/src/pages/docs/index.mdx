@@ -1,23 +1,33 @@
-# Docs Page
+import { Callout } from 'nextra/components'
 
-```js filename="demo.js" {3} copy
-let a = 1;
+# Getting Started
 
-console.log(a);
+<Callout type="warning" emoji="🛠️">
+  This section is under development.
+</Callout>
+
+## Installation
+Install the component from your command line.
+```sh npm2yarn copy
+npm i @vladyoslav/drawer
 ```
 
-## Component
+## Anatomy
 
+```tsx copy
+import { Drawer } from '@vladyoslav/drawer'
 
-import { useState } from 'react'
-
-export const Counter = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>
-    </div>
-  );
-};
-
-<Counter />
+export const MyComponent = () => (
+  <Drawer.Root>
+    <Drawer.Trigger />
+    <Drawer.Portal>
+      <Drawer.Overlay />
+      <Drawer.Content>
+        <Drawer.Title />
+        <Drawer.Description />
+        <Drawer.Close />
+      </Drawer.Content>
+    </Drawer.Portal>
+  </Drawer.Root>
+)
+```

@@ -8,7 +8,7 @@
     @apply p-4;
     @apply shadow-2xl;
     @apply z-modal;
-    @apply border;
+    @apply border-border border;
 }
 
 .root:before {

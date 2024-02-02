@@ -25,6 +25,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --th: 220 14.3% 94%;
   }
 }
 
@@ -33,7 +34,7 @@
   --foreground: 0 0% 98%;
   --card: 240 10% 3.9%;
   --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
+  --popover: 240 0% 7%;
   --popover-foreground: 0 0% 98%;
   --primary: 0 0% 98%;
   --primary-foreground: 240 5.9% 10%;
@@ -48,13 +49,14 @@
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
   --ring: 240 4.9% 83.9%;
+  --th: 215 13.8% 34.1% / 35%;
 }
 
 
 @layer base {
-  * {
+  /** {
     @apply !border-border;
-  }
+  }*/
 
   #confetti {
     @apply fixed z-confetti;

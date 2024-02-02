@@ -9,7 +9,6 @@ import { ScrollableDrawer } from '@/entities/scrollable-drawer'
 import { SnapPointsDrawer } from '@/entities/snap-points-drawer'
 import { NonModalDrawer } from '@/entities/non-modal-drawer'
 import { NonDismissibleDrawer } from '@/entities/non-dismissible-drawer'
-import { ComplexDrawer } from '@/entities/complex-drawer'
 
 <section className={cn(
   "flex flex-col gap-2",
@@ -31,7 +30,7 @@ import { ComplexDrawer } from '@/entities/complex-drawer'
     <ConfettiDrawer />
     <Button variant="secondary" asChild>
       <Link href="/docs">
-        Check the Docs
+        Read the Docs
       </Link>
     </Button>
   </div>
@@ -62,7 +61,7 @@ import { ComplexDrawer } from '@/entities/complex-drawer'
 <Example>
   ## With scaled background
 
-  To enable background scaling, add the "shouldScaleBackground" prop to the `Drawer.Root` and
+  To enable background scaling, add the `shouldScaleBackground` prop to the `Drawer.Root` and
   `vladyoslav-drawer-wrapper=""` attribute to the root element!
 
   <ScaledDrawer />
@@ -147,13 +146,3 @@ import { ComplexDrawer } from '@/entities/complex-drawer'
   </Drawer.Root>
   ```
 </Example>
-
-<Example>
-  ## Complex example
-
-  And you can even combine all these features together to build a non-dismissible `Drawer` that fades overlay and scales background from the second snap point, blocks interaction
-  with the background and enables content scrolling only from the last snap point! Whoa! 😵‍💫
-
-  <ComplexDrawer />
-</Example>
-
