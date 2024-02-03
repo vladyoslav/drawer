@@ -1,5 +1,5 @@
 .root {
-    @apply w-[90%] mt-6;
+    @apply w-full md:w-[90%] mt-6;
     @apply border-border border;
     @apply rounded-xl overflow-hidden;
 }

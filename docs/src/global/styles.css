@@ -61,8 +61,8 @@
   #confetti {
     @apply fixed z-confetti;
   }
-  /*
+
   body {
-    @apply bg-background text-foreground;
-  }*/
+    @apply !w-auto;
+  }
 }
