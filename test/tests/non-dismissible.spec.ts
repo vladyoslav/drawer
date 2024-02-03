@@ -1,6 +1,12 @@
 import { test } from '@playwright/test'
 
-import { checkIfNotClosed, dragTo, getWindowSize, openDrawer } from './helpers'
+import {
+  checkIfClosed,
+  checkIfNotClosed,
+  dragTo,
+  getWindowSize,
+  openDrawer
+} from './helpers'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/non-dismissible')
@@ -17,10 +23,10 @@ test.describe('Non dismissible tests', () => {
     await checkIfNotClosed(page)
   })
 
-  test('should not close on `Drawer.Close` click', async ({ page }) => {
+  test('should close on `Drawer.Close` click', async ({ page }) => {
     await page.getByTestId('close').click()
 
-    await checkIfNotClosed(page)
+    await checkIfClosed(page)
   })
 
   test('should not close on `Esc` pressed', async ({ page }) => {
