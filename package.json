@@ -1,7 +1,8 @@
 {
-  "name": "drawer",
+  "name": "@vladyoslav/drawer",
   "version": "0.1.0",
   "description": "An unstyled draggable drawer component for React",
+  "private": false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
