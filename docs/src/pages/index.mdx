@@ -1,3 +1,9 @@
+---
+title: Draggable Drawer Component for React
+---
+
+
+
 import { Button } from '@/shared/ui'
 import { cn } from '@/shared/lib/helpers'
 import Link from 'next/link'
@@ -18,12 +24,13 @@ import { NonDismissibleDrawer } from '@/entities/non-dismissible-drawer'
   <h1 className={cn(
     'text-3xl md:text-6xl',
     'leading-tight lg:leading-[1.1]',
-    'font-bold tracking-tighter'
+    'font-bold tracking-tighter',
+    'text-foreground'
   )}>
     <>@vladyoslav/drawer</>
   </h1>
   <span className="text-xl text-muted-foreground">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Draggable drawer component for React.
   </span>
 
   <div className="flex py-4 gap-4">
@@ -146,3 +153,12 @@ import { NonDismissibleDrawer } from '@/entities/non-dismissible-drawer'
   </Drawer.Root>
   ```
 </Example>
+
+<div className="flex flex-col text-center gap-2 items-center p-8">
+  <span className="text-lg">And that's not all the features! Check out the docs for more info!</span>
+  <Button asChild>
+    <Link href="/docs">
+      Read the Docs
+    </Link>
+  </Button>
+</div>

@@ -3,7 +3,14 @@ import { type FC, useEffect } from 'react'
 import { confetti } from '@tsparticles/confetti'
 import { Drawer } from '@vladyoslav/drawer'
 
-import { Content, Header, Overlay, Root, Trigger } from '@/shared/ui'
+import {
+  Content,
+  Description,
+  Header,
+  Overlay,
+  Root,
+  Trigger
+} from '@/shared/ui'
 
 export const ConfettiDrawer: FC = () => {
   useEffect(() => {
@@ -32,12 +39,15 @@ export const ConfettiDrawer: FC = () => {
           })
         }}
       >
-        Open Drawer
+        🎉Try It Out!
       </Trigger>
       <Drawer.Portal>
         <Overlay />
         <Content>
           <Header className="text-4xl font-bold py-8">🎉Hi There!</Header>
+          <Description>
+            Try to close it by clicking on the background or dragging it down!
+          </Description>
         </Content>
       </Drawer.Portal>
     </Root>
