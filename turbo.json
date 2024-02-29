@@ -1,21 +1,19 @@
 {
-  "extends": ["//"],
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-    "jest": {
-      "inputs": ["src/**/*.tsx", "src/**/*.ts"]
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "tests/**/*.ts", "tests/**/*.tsx"]
     },
-    "playwright": {
-      "dependsOn": ["build"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+    "start": {
+      "dependsOn": ["build"]
     },
-    "turbo:test": {
-      "dependsOn": ["jest", "playwright"]
-    },
+    "lint": {},
+    "format": {},
     "dev": {
       "cache": false,
       "persistent": true
