@@ -8,12 +8,18 @@
     "dev:test": "turbo run dev --filter=test...",
     "dev:docs": "turbo run dev --filter=docs...",
     "dev:all": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
+    "lint": "turbo run lint --",
+    "format": "turbo run format --",
     "test": "turbo run test"
   },
   "lint-staged": {
-    "src/**/!(*.css|*.svg)": []
+    "*.{js,ts,tsx}": [
+      "npm run lint --fix",
+      "npm run format"
+    ],
+    "*.json": [
+      "npm run format"
+    ]
   },
   "devDependencies": {
     "husky": "^8.0.3",
