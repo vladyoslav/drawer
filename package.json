@@ -1,7 +1,16 @@
 {
   "private": true,
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "turbo run build --filter=drawer...",
+    "build:all": "turbo run build",
+    "dev": "turbo run dev --filter=drawer...",
+    "dev:test": "turbo run dev --filter=test...",
+    "dev:docs": "turbo run dev --filter=docs...",
+    "dev:all": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test"
   },
   "lint-staged": {
     "src/**/!(*.css|*.svg)": []
