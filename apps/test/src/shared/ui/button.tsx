@@ -1,0 +1,26 @@
+import { type ButtonHTMLAttributes, type FC, forwardRef } from 'react'
+
+import { cn } from '@/shared/lib'
+
+export const Button: FC<ButtonHTMLAttributes<HTMLButtonElement>> = forwardRef<
+  HTMLButtonElement,
+  ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, ...props }, ref) => {
+  return (
+    <button
+      ref={ref}
+      className={cn(
+        'px-5 py-2',
+        'rounded-full',
+        'bg-slate-900 text-white',
+        'hover:bg-slate-800',
+        'transition-all active:scale-95',
+        'font-medium',
+        className
+      )}
+      {...props}
+    />
+  )
+})
+
+Button.displayName = 'Button'

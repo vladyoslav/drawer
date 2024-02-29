@@ -1,0 +1,25 @@
+.root {
+  @apply fixed bottom-0 left-0 right-[var(--scroll-bar-shift)] mx-auto;
+  @apply w-full max-w-md;
+  @apply rounded-t-2xl;
+  @apply bg-background;
+  @apply max-h-[95vh] min-h-[65vh];
+  @apply flex flex-col items-center gap-2;
+  @apply px-8 py-4;
+  @apply shadow-2xl;
+  @apply z-modal;
+  @apply border border-border;
+}
+
+.root:before {
+  content: '';
+  @apply h-1 w-10;
+  @apply rounded-full;
+  @apply absolute top-1.5;
+  @apply bg-muted;
+}
+
+.root:after {
+  @apply border-x border-border;
+  @apply !-inset-x-px;
+}
