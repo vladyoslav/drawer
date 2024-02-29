@@ -132,9 +132,15 @@ dist
 # dev linked package
 @vladyoslav
 
+# tests
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
 
+# turborepo
 .turbo
+
+# ide
+.idea
+.vscode
