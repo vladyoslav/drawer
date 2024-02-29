@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "start": "next start"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.7",
