@@ -15,6 +15,7 @@ interface DragEventsOptions {
   onClose: () => void
   dismissible: boolean
   locked: Value<boolean>
+  velocityMultiplier: number
 }
 
 export const useDragEvents = <T extends HTMLElement>({
@@ -24,12 +25,13 @@ export const useDragEvents = <T extends HTMLElement>({
   onSnapChange,
   onClose,
   dismissible,
-  locked
+  locked,
+  velocityMultiplier: velMult
 }: DragEventsOptions) => {
   const drawerRef = useRef<T>(null)
 
-  const dismissablePoints = dismissible ? [0, ...snapPoints] : snapPoints
-  const getSnap = useGetSnap(dismissablePoints, drawerRef)
+  const dismissiblePoints = dismissible ? [0, ...snapPoints] : snapPoints
+  const getSnap = useGetSnap(dismissiblePoints, drawerRef)
 
   const handleDragEnd: DragEventHandler = (e, { velocity }) => {
     const node = drawerRef.current
@@ -39,7 +41,7 @@ export const useDragEvents = <T extends HTMLElement>({
     const pos = window.innerHeight - rect.y
 
     // Definitely not undefined, because we checked the drawerRef.current earlier
-    let newSnap = getSnap(pos, locked.get() ? 0 : velocity)!
+    let newSnap = getSnap(pos, locked.get() ? 0 : velocity * velMult)!
 
     if (newSnap === 0) return onClose()
 

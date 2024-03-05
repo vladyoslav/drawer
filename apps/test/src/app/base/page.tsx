@@ -50,7 +50,8 @@ const Page = () => {
       <Drawer.Root>
         <Trigger data-testid="without-overlay">Open without overlay</Trigger>
         <Drawer.Portal>
-          <div /> {/*TODO*/}
+          <div />
+          {/*TODO*/}
           <Content>
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>

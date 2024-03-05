@@ -28,6 +28,7 @@ export interface DrawerContextValue {
   modal: boolean
   onDrawerConstraint: ConstraintEventHandler
   onScrollableConstraint: ConstraintEventHandler
+  velocityMultiplier: number
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)

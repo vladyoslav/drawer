@@ -11,7 +11,7 @@ export const useGetSnap = (snapPoints: Snap[], ref: RefObject<HTMLElement>) => {
 
     const lastPoint = snapPoints[snapPoints.length - 1]
     const maxAddValue = cssToPx(lastPoint, ref.current)
-    const posWithVelocity = pos + -(velocity / 7) * maxAddValue
+    const posWithVelocity = pos + -velocity * maxAddValue
 
     return getSnap(snapPoints, posWithVelocity, ref.current)
   }
