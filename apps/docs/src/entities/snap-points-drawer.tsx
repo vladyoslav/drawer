@@ -27,7 +27,7 @@ export const SnapPointsDrawer: FC = () => {
         }}
         snapPoints={snapPoints}
         snap={snap}
-        setSnap={setSnap}
+        onSnapChange={setSnap}
       >
         <Drawer.Portal>
           <Overlay />

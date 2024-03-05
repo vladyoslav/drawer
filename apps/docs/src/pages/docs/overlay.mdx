@@ -17,7 +17,7 @@ export const MyComponent = () => {
   const [snap, setSnap] = useState<Snap>(snapPoints[0])
 
   return (
-    <Drawer.Root snap={snap} setSnap={setSnap}>
+    <Drawer.Root snap={snap} onSnapChange={setSnap}>
       <Drawer.Trigger />
       <Drawer.Portal>
         <Drawer.Overlay

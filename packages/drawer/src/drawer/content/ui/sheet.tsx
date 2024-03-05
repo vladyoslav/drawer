@@ -27,7 +27,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       drawerControls,
       snapPoints,
       snap,
-      setSnap,
+      onSnapChange,
       dismissible,
       drawerRef: contextRef,
       scrollLockTimeout,
@@ -44,7 +44,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       snapPoints,
       snapTo,
       snap,
-      setSnap,
+      onSnapChange,
       onClose: () => onOpenChange(false),
       dismissible,
       locked
