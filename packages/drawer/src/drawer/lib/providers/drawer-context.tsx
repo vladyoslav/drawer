@@ -10,7 +10,7 @@ import {
   type DragControls
 } from '@/shared/ui/draggable'
 
-import { type OnOpenChange, type SetSnap, type Snap } from '../types'
+import { type OnOpenChange, type OnSnapChange, type Snap } from '../types'
 
 export interface DrawerContextValue {
   drawerControls: DragControls<Snap>
@@ -20,7 +20,7 @@ export interface DrawerContextValue {
   onOpenChange: OnOpenChange
   snapPoints: Snap[]
   snap: Snap
-  setSnap: SetSnap
+  onSnapChange: OnSnapChange
   dismissible: boolean
   drawerRef: RefObject<HTMLDivElement>
   scrollableRef: RefObject<HTMLDivElement>

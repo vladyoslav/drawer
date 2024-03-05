@@ -26,7 +26,7 @@ export const ComplexDrawer: FC = () => {
         onOpenChange={setOpen}
         snapPoints={snapPoints}
         snap={snap}
-        setSnap={setSnap}
+        onSnapChange={setSnap}
         modal={false}
         dismissible={false}
         shouldScaleBackground={true}

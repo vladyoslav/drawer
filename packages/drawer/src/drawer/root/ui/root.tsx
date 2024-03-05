@@ -8,7 +8,11 @@ import {
   DrawerContextProvider,
   type DrawerContextValue
 } from '@/drawer/lib/providers'
-import { type OnOpenChange, type SetSnap, type Snap } from '@/drawer/lib/types'
+import {
+  type OnOpenChange,
+  type OnSnapChange,
+  type Snap
+} from '@/drawer/lib/types'
 import { type WithoutThisOrThat } from '@/shared/lib/types'
 import { useDragControls } from '@/shared/ui/draggable'
 
@@ -26,9 +30,9 @@ type OpenProps = WithoutThisOrThat<
 >
 
 type SnapProps = WithoutThisOrThat<
-  { snapPoints?: Snap[]; snap: Snap; setSnap: SetSnap },
+  { snapPoints?: Snap[]; snap: Snap; onSnapChange: OnSnapChange },
   '',
-  'snap' | 'setSnap'
+  'snap' | 'onSnapChange'
 >
 
 interface WithScaledBackground {
@@ -55,7 +59,7 @@ export const Root: FC<RootProps> = ({
   onOpenChange: onOpenChangeProp,
   snapPoints = ['100%'],
   snap: snapProp,
-  setSnap: setSnapProp,
+  onSnapChange: onSnapChangeProp,
   dismissible = true,
   modal = true,
   scrollLockTimeout = 300,
@@ -71,7 +75,11 @@ export const Root: FC<RootProps> = ({
     openProp,
     onOpenChangeProp
   )
-  const [snap, setSnap] = useSnapState(snapPoints[0], snapProp, setSnapProp)
+  const [snap, onSnapChange] = useSnapState(
+    snapPoints[0],
+    snapProp,
+    onSnapChangeProp
+  )
 
   const drawerRef = useRef<HTMLDivElement>(null)
   const scrollableRef = useRef<HTMLDivElement>(null)
@@ -91,7 +99,7 @@ export const Root: FC<RootProps> = ({
     onOpenChange,
     snapPoints,
     snap,
-    setSnap,
+    onSnapChange,
     dismissible,
     drawerRef,
     scrollableRef,

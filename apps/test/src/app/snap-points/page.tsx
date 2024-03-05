@@ -16,7 +16,7 @@ import {
 const Page = () => {
   const snapPoints = [200, '50%', '100%']
 
-  const [snapPoint, setSnapPoint] = useState(snapPoints[0])
+  const [snap, setSnap] = useState(snapPoints[0])
 
   return (
     <>
@@ -31,11 +31,7 @@ const Page = () => {
           <Drawer.SnapAreas />
         </Drawer.Portal>
       </Drawer.Root>
-      <Drawer.Root
-        snapPoints={snapPoints}
-        snap={snapPoint}
-        setSnap={setSnapPoint}
-      >
+      <Drawer.Root snapPoints={snapPoints} snap={snap} onSnapChange={setSnap}>
         <Trigger data-testid="controlled">Open controlled</Trigger>
         <Drawer.Portal>
           <Overlay />
@@ -45,14 +41,14 @@ const Page = () => {
             <Button
               data-testid="change"
               onClick={() =>
-                setSnapPoint((snapPoint) => {
+                setSnap((snapPoint) => {
                   return snapPoints[
                     (snapPoints.indexOf(snapPoint) + 1) % snapPoints.length
                   ]
                 })
               }
             >
-              {snapPoint}
+              {snap}
             </Button>
           </Content>
         </Drawer.Portal>

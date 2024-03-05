@@ -1,6 +1,6 @@
 import { type PointerEvent as ReactPointerEvent, useRef } from 'react'
 
-import { type SetSnap, type Snap } from '@/drawer/lib/types'
+import { type OnSnapChange, type Snap } from '@/drawer/lib/types'
 import { type Value } from '@/shared/lib/types'
 import { type DragEventHandler } from '@/shared/ui/draggable'
 
@@ -11,7 +11,7 @@ interface DragEventsOptions {
   snapPoints: Snap[]
   snapTo: SnapTo
   snap: Snap
-  setSnap: SetSnap
+  onSnapChange: OnSnapChange
   onClose: () => void
   dismissible: boolean
   locked: Value<boolean>
@@ -21,7 +21,7 @@ export const useDragEvents = <T extends HTMLElement>({
   snapPoints,
   snapTo,
   snap,
-  setSnap,
+  onSnapChange,
   onClose,
   dismissible,
   locked
@@ -43,7 +43,7 @@ export const useDragEvents = <T extends HTMLElement>({
 
     if (newSnap === 0) return onClose()
 
-    setSnap(newSnap)
+    onSnapChange(newSnap)
   }
 
   const handleRelease = (e: ReactPointerEvent<HTMLDivElement>) =>
