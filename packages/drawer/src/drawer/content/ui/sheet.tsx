@@ -31,7 +31,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       dismissible,
       drawerRef: contextRef,
       scrollLockTimeout,
-      onDrawerConstraint
+      onDrawerConstraint,
+      velocityMultiplier
     } = useDrawerContext()
 
     const { locked } = drawerControls
@@ -47,7 +48,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       onSnapChange,
       onClose: () => onOpenChange(false),
       dismissible,
-      locked
+      locked,
+      velocityMultiplier
     })
 
     const { handleDragEnd, handleRelease } = listeners
