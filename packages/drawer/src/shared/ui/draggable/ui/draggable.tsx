@@ -46,7 +46,7 @@ export interface DraggableProps<T> extends PrimitiveDivProps<T>, DragProps<T> {}
 const _Draggable = <T,>(
   {
     constraints,
-    dragControls: cDragControls,
+    dragControls: dragControlsProp,
     onConstraint,
     onPointerDown,
     onPointerMove,
@@ -61,7 +61,7 @@ const _Draggable = <T,>(
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
-  const dragControls = useControlsState(cDragControls)
+  const dragControls = useControlsState(dragControlsProp)
   const { y, isDragging } = dragControls
 
   const { ref, wantToDrag, listeners } = useDraggable({
