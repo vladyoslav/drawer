@@ -51,11 +51,11 @@ export type RootProps = PropsWithChildren &
 
 export const Root: FC<RootProps> = ({
   defaultOpen = false,
-  open: cOpen,
-  onOpenChange: cOnOpenChange,
+  open: openProp,
+  onOpenChange: onOpenChangeProp,
   snapPoints = ['100%'],
-  snap: cSnap,
-  setSnap: cSetSnap,
+  snap: snapProp,
+  setSnap: setSnapProp,
   dismissible = true,
   modal = true,
   scrollLockTimeout = 300,
@@ -66,8 +66,12 @@ export const Root: FC<RootProps> = ({
   const drawerControls = useDragControls<Snap>()
   const scrollableControls = useDragControls<number>(true)
 
-  const [open, onOpenChange] = useOpenState(defaultOpen, cOpen, cOnOpenChange)
-  const [snap, setSnap] = useSnapState(snapPoints[0], cSnap, cSetSnap)
+  const [open, onOpenChange] = useOpenState(
+    defaultOpen,
+    openProp,
+    onOpenChangeProp
+  )
+  const [snap, setSnap] = useSnapState(snapPoints[0], snapProp, setSnapProp)
 
   const drawerRef = useRef<HTMLDivElement>(null)
   const scrollableRef = useRef<HTMLDivElement>(null)
