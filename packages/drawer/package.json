@@ -13,7 +13,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "jest ./src",
-    "lint": "eslint .",
+    "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier --write ."
   },
   "repository": {
