@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "test": "playwright test",
-    "lint": "eslint .",
+    "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier --write ."
   },
   "dependencies": {
