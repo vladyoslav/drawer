@@ -87,6 +87,13 @@ describe('getDumpedValue', () => {
 
     expect(getDumpedValue(value, 0, 100)).toBe(value)
   })
+
+  test('should return the bound when elasticity is turned off', () => {
+    const value = 110
+    const max = 100
+
+    expect(getDumpedValue(value, 0, max, 0)).toBe(max)
+  })
 })
 
 describe('getUndumpedValue', () => {
@@ -97,5 +104,15 @@ describe('getUndumpedValue', () => {
     const undumped = getUndumpedValue(dumped, 0, 100)
 
     expect(Math.abs(undumped - value)).toBeLessThan(0.00001)
+  })
+
+  test('should return the bound when elasticity is turned off', () => {
+    const value = 110
+    const max = 100
+
+    const dumped = getDumpedValue(value, 0, max, 0)
+    const undumped = getUndumpedValue(dumped, 0, max, 0)
+
+    expect(undumped).toBe(max)
   })
 })
