@@ -25,7 +25,7 @@ import {
 } from '../lib/types'
 import './draggable.css'
 
-interface DragProps<T> {
+export interface DragProps<T> {
   dragControls?: DragControls<T>
   constraints?: Constraints
   onConstraint?: ConstraintEventHandler
