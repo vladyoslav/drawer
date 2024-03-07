@@ -70,8 +70,8 @@ const applyRubberband = (
   pos: number,
   min: number,
   max: number,
-  func = rubberband,
-  el = 0.3
+  el: number,
+  func = rubberband
 ) => {
   if (el === 0) return clamp(min, max, pos)
   if (pos < min) return -func(min - pos, 100, el) + min
@@ -79,11 +79,19 @@ const applyRubberband = (
   return pos
 }
 
-export const getDumpedValue = (pos: number, min: number, max: number) =>
-  applyRubberband(pos, min, max)
+export const getDumpedValue = (
+  pos: number,
+  min: number,
+  max: number,
+  el: number
+) => applyRubberband(pos, min, max, el)
 
-export const getUndumpedValue = (pos: number, min: number, max: number) =>
-  applyRubberband(pos, min, max, reverseRubberband)
+export const getUndumpedValue = (
+  pos: number,
+  min: number,
+  max: number,
+  el: number
+) => applyRubberband(pos, min, max, el, reverseRubberband)
 
 // Px per ms
 export const getVelocity = (delta: number, timeDelta: number) =>

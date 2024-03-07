@@ -34,6 +34,7 @@ interface DragProps<T> {
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
   scrollLockTimeout?: number
+  elasticity?: number
 }
 
 type PrimitiveDivProps<T> = Omit<
@@ -57,6 +58,7 @@ const _Draggable = <T,>(
     onDragEnd,
     transformTemplate = defaultTransformTemplate,
     scrollLockTimeout = 0,
+    elasticity = 0,
     ...props
   }: DraggableProps<T>,
   forwardedRef: ForwardedRef<HTMLDivElement>
@@ -72,7 +74,8 @@ const _Draggable = <T,>(
     onDragMove,
     onDragEnd,
     transformTemplate,
-    scrollLockTimeout
+    scrollLockTimeout,
+    elasticity
   })
 
   const { handlePointerDown, handlePointerMove, handleRelease } = listeners

@@ -52,6 +52,7 @@ export type RootProps = PropsWithChildren &
     modal?: boolean
     scrollLockTimeout?: number
     velocityMultiplier?: number
+    elasticity?: number
   } & (WithScaledBackground | WithoutScaledBackground)
 
 export const Root: FC<RootProps> = ({
@@ -67,6 +68,7 @@ export const Root: FC<RootProps> = ({
   scaleFrom = 0,
   shouldScaleBackground = false,
   velocityMultiplier = snapPoints.length > 1 ? 0.15 : 1,
+  elasticity = 0.3,
   children
 }) => {
   const drawerControls = useDragControls<Snap>()
@@ -108,6 +110,7 @@ export const Root: FC<RootProps> = ({
     scrollLockTimeout,
     modal,
     velocityMultiplier,
+    elasticity,
     ...constraintHandlers
   }
 
