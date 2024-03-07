@@ -83,14 +83,14 @@ export const getDumpedValue = (
   pos: number,
   min: number,
   max: number,
-  el: number
+  el: number = 0.3
 ) => applyRubberband(pos, min, max, el)
 
 export const getUndumpedValue = (
   pos: number,
   min: number,
   max: number,
-  el: number
+  el: number = 0.3
 ) => applyRubberband(pos, min, max, el, reverseRubberband)
 
 // Px per ms
