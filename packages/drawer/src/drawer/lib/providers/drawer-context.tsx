@@ -29,6 +29,7 @@ export interface DrawerContextValue {
   onDrawerConstraint: ConstraintEventHandler
   onScrollableConstraint: ConstraintEventHandler
   velocityMultiplier: number
+  elasticity: number
 }
 
 export const DrawerContext = createContext<DrawerContextValue | null>(null)

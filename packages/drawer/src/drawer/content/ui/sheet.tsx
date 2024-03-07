@@ -32,7 +32,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       drawerRef: contextRef,
       scrollLockTimeout,
       onDrawerConstraint,
-      velocityMultiplier
+      velocityMultiplier,
+      elasticity
     } = useDrawerContext()
 
     const { locked } = drawerControls
@@ -82,6 +83,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         onDragEnd={mergeHandlers(handleDragEnd, onDragEnd)}
         onPointerUp={mergeHandlers(handleRelease, onPointerUp)}
         onPointerCancel={mergeHandlers(handleRelease, onPointerCancel)}
+        elasticity={elasticity}
         {...props}
       />
     )

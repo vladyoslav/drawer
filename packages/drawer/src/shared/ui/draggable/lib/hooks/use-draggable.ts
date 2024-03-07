@@ -29,6 +29,7 @@ interface DraggableOptions<T> {
   onDragEnd?: DragEventHandler
   transformTemplate?: TransformTemplate
   scrollLockTimeout: number
+  elasticity: number
 }
 
 export const useDraggable = <T>({
@@ -39,7 +40,8 @@ export const useDraggable = <T>({
   onDragStart,
   onDragMove,
   onDragEnd,
-  scrollLockTimeout
+  scrollLockTimeout,
+  elasticity
 }: DraggableOptions<T>) => {
   const { y, isDragging } = dragControls
 
@@ -95,7 +97,8 @@ export const useDraggable = <T>({
       const min = getConstraint(constraints[ConstraintType.Min], node)
       const max = getConstraint(constraints[ConstraintType.Max], node)
 
-      const newUndumpedY = getUndumpedValue(curNumberY, min, max) + info.delta
+      const newUndumpedY =
+        getUndumpedValue(curNumberY, min, max, elasticity) + info.delta
 
       let proceed = true
       if (newUndumpedY <= min || newUndumpedY >= max) {
@@ -108,7 +111,7 @@ export const useDraggable = <T>({
       }
 
       const newY = proceed
-        ? getDumpedValue(newUndumpedY, min, max)
+        ? getDumpedValue(newUndumpedY, min, max, elasticity)
         : clamp(min, max, newUndumpedY)
 
       y.set(newY)
