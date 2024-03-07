@@ -23,7 +23,7 @@ test.describe('Velocity multiplier tests', () => {
 
       const contentHeight = (await content.boundingBox())!.height
 
-      await dragTo(page, pageHeight - contentHeight + 100)
+      await dragTo(page, pageHeight - contentHeight + 150)
 
       await checkIfClosed(page)
     })
@@ -39,7 +39,7 @@ test.describe('Velocity multiplier tests', () => {
 
       const contentHeight = (await content.boundingBox())!.height
 
-      await dragTo(page, pageHeight - contentHeight + 100)
+      await dragTo(page, pageHeight - contentHeight + 150)
 
       await checkIfNotClosed(page)
     })

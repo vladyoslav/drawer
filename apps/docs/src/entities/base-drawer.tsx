@@ -6,7 +6,7 @@ import { Content, Header, Overlay, Root, Trigger } from '@/shared/ui'
 
 export const BaseDrawer: FC = () => {
   return (
-    <Root shouldScaleBackground={false}>
+    <Root scaleBackground={false}>
       <Trigger>Open Drawer</Trigger>
       <Drawer.Portal>
         <Overlay />

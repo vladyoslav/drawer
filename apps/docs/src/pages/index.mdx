@@ -2,6 +2,7 @@
 title: Draggable Drawer Component for React
 ---
 
+
 import Link from 'next/link'
 
 import { BaseDrawer } from '@/entities/base-drawer'
@@ -67,7 +68,7 @@ import { Drawer } from '@vladyoslav/drawer'
 <Example>
   ## With scaled background
 
-To enable background scaling, add the `shouldScaleBackground` prop to the `Drawer.Root` and
+To enable background scaling, add the `scaleBackground` prop to the `Drawer.Root` and
 `vladyoslav-drawer-wrapper=""` attribute to the root element!
 
 {' '}
@@ -77,7 +78,7 @@ To enable background scaling, add the `shouldScaleBackground` prop to the `Drawe
 import { Drawer } from '@vladyoslav/drawer'
 
 ;<main vladyoslav-drawer-wrapper="">
-  <Drawer.Root shouldScaleBackground>...</Drawer.Root>
+  <Drawer.Root scaleBackground>...</Drawer.Root>
 </main>
 ```
 

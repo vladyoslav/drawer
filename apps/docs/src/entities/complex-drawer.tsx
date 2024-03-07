@@ -29,7 +29,7 @@ export const ComplexDrawer: FC = () => {
         onSnapChange={setSnap}
         modal={false}
         dismissible={false}
-        shouldScaleBackground={true}
+        scaleBackground={true}
         scaleFrom={snapPoints[1]}
       >
         <Drawer.Portal>

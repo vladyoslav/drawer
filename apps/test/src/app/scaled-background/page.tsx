@@ -7,7 +7,7 @@ import { Content, Description, Header, Overlay, Trigger } from '@/shared/ui'
 const Page = () => {
   return (
     <>
-      <Drawer.Root shouldScaleBackground>
+      <Drawer.Root scaleBackground>
         <Trigger>Open drawer</Trigger>
         <Drawer.Portal>
           <Overlay />
@@ -17,7 +17,7 @@ const Page = () => {
           </Content>
         </Drawer.Portal>
       </Drawer.Root>
-      <Drawer.Root shouldScaleBackground scaleFrom={200}>
+      <Drawer.Root scaleBackground scaleFrom={200}>
         <Trigger data-testid="scale-from">Open scale from 200px</Trigger>
         <Drawer.Portal>
           <Overlay />

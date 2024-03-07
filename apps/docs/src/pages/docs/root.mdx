@@ -27,7 +27,7 @@ export const MyComponent = () => {
       onSnapChange={setSnap}
       modal={false}
       dismissible={false}
-      shouldScaleBackground={true}
+      scaleBackground={true}
       scaleFrom={snapPoints[1]}
     >
       ...
@@ -53,5 +53,5 @@ The `Root` component takes all props from [`@radix-ui/react-dialog`](https://www
   | `dismissible`<Info>Sets whether the drawer can be closed by interacting with the background or by dragging it down.</Info>                                                                                                                                               | `boolean`                                                | `true`     |
   | `scrollLockTimeout`<Info>Specifies the timeout in `ms` during which the drawer is not draggable after scrolling.</Info>                                                                                                                                                  | `number`                                                 | `300`      |
   | `scaleFrom`<Info>The `y` value from which the component should scale the background.</Info>                                                                                                                                                                              | `number \| string`                                       | `0`        |
-  | `shouldScaleBackground`<Info>Sets whether the element with `vladyoslav-drawer-wrapper` data attribute should be scaled.</Info>                                                                                                                                           | `boolean`                                                | `false`    |
+  | `scaleBackground`<Info>Sets whether the element with `vladyoslav-drawer-wrapper` data attribute should be scaled.</Info>                                                                                                                                           | `boolean`                                                | `false`    |
 </Table>
