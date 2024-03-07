@@ -37,12 +37,12 @@ type SnapProps = WithoutThisOrThat<
 
 interface WithScaledBackground {
   scaleFrom?: Snap
-  shouldScaleBackground: true
+  scaleBackground: true
 }
 
 interface WithoutScaledBackground {
   scaleFrom?: never
-  shouldScaleBackground?: false
+  scaleBackground?: false
 }
 
 export type RootProps = PropsWithChildren &
@@ -66,7 +66,7 @@ export const Root: FC<RootProps> = ({
   modal = true,
   scrollLockTimeout = 300,
   scaleFrom = 0,
-  shouldScaleBackground = false,
+  scaleBackground = false,
   velocityMultiplier = snapPoints.length > 1 ? 0.15 : 1,
   elasticity = 0.3,
   children
@@ -118,7 +118,7 @@ export const Root: FC<RootProps> = ({
     drawerControls,
     drawerRef,
     snapPoints,
-    shouldScaleBackground,
+    scaleBackground,
     scaleFrom
   )
 

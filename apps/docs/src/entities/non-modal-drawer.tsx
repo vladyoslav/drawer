@@ -23,7 +23,7 @@ export const NonModalDrawer: FC = () => {
         open={open}
         onOpenChange={setOpen}
         modal={false}
-        shouldScaleBackground={false}
+        scaleBackground={false}
       >
         <Drawer.Portal>
           <Overlay />
