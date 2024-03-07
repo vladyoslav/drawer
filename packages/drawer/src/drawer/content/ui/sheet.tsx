@@ -9,12 +9,20 @@ import { useDrawerContext } from '@/drawer/lib/hooks'
 import { type Snap } from '@/drawer/lib/types'
 import { mergeHandlers } from '@/shared/lib/helpers'
 import { useSetStyle } from '@/shared/lib/hooks'
-import { Draggable, type DraggableProps } from '@/shared/ui/draggable'
+import {
+  type DragProps,
+  Draggable,
+  type DraggableProps
+} from '@/shared/ui/draggable'
 
 import { getMinConstraint, transformTemplate } from '../lib/helpers'
 import { useDragEvents, useSnapTo, useSnapToCurrent } from '../lib/hooks'
 
-export interface SheetProps extends DraggableProps<Snap> {}
+type PickedProps = 'onDragStart' | 'onDragEnd' | 'onDragMove' | 'onConstraint'
+
+export interface SheetProps
+  extends Omit<DraggableProps<Snap>, keyof DragProps<Snap>>,
+    Pick<DragProps<Snap>, PickedProps> {}
 
 export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
   (
