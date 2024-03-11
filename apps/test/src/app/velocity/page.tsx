@@ -18,7 +18,7 @@ const Page = () => {
           <Drawer.SnapAreas />
         </Drawer.Portal>
       </Drawer.Root>
-      <Drawer.Root velocityMultiplier={0.15}>
+      <Drawer.Root velocityMultiplier={0.01}>
         <Trigger data-testid="low-velocity-multiplier">
           Open with low velocity multiplier
         </Trigger>
