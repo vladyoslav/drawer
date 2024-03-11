@@ -2,7 +2,14 @@
 
 import { Drawer } from '@vladyoslav/drawer'
 
-import { Content, Description, Header, Overlay, Trigger } from '@/shared/ui'
+import {
+  Content,
+  CustomOverlay,
+  Description,
+  Header,
+  Overlay,
+  Trigger
+} from '@/shared/ui'
 
 const Page = () => {
   return (
@@ -30,7 +37,7 @@ const Page = () => {
       <Drawer.Root modal={false}>
         <Trigger data-testid="custom-primitive">Open custom primitive</Trigger>
         <Drawer.Portal>
-          <Overlay radixPrimitive={false} />
+          <CustomOverlay />
           <Content>
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
