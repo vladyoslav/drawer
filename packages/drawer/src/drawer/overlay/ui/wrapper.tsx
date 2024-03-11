@@ -6,7 +6,7 @@ import { Slot } from '@radix-ui/react-slot'
 
 import { type Snap } from '@/drawer'
 import { cssToPx } from '@/drawer/lib/helpers'
-import { useDrawerContext } from '@/drawer/lib/hooks'
+import { useDrawerContext, useDrawerValues } from '@/drawer/lib/hooks'
 import { clamp } from '@/shared/lib/helpers'
 import { useSetStyle, useValueChange } from '@/shared/lib/hooks'
 
@@ -17,7 +17,8 @@ export interface WrapperProps extends OverlayPrimitiveProps {
 
 export const Wrapper = forwardRef<HTMLDivElement, WrapperProps>(
   ({ fadeFrom = 0, finalOpacity = 0.8, ...props }, forwardedRef) => {
-    const { drawerControls, drawerRef, snapPoints } = useDrawerContext()
+    const { drawerRef, snapPoints } = useDrawerContext()
+    const { y, isDragging } = useDrawerValues()
 
     const lastPoint = snapPoints[snapPoints.length - 1]
 
@@ -26,7 +27,7 @@ export const Wrapper = forwardRef<HTMLDivElement, WrapperProps>(
 
     const [setStyle, resetStyle] = useSetStyle(ref)
 
-    useValueChange(drawerControls.y, (latest) => {
+    useValueChange(y, (latest) => {
       const node = drawerRef.current
       if (!node) return
 
@@ -42,7 +43,7 @@ export const Wrapper = forwardRef<HTMLDivElement, WrapperProps>(
       setStyle({ opacity: opacity.toString() })
     })
 
-    useValueChange(drawerControls.isDragging, (latest) => {
+    useValueChange(isDragging, (latest) => {
       if (latest) setStyle({ transition: 'none' })
       else resetStyle('transition')
     })

@@ -9,6 +9,7 @@ export {
   type DragInfo,
   type DragEventHandler,
   type DragControls,
+  type DragValues,
   type ConstraintEventHandler,
   ConstraintType
 } from './lib/types'

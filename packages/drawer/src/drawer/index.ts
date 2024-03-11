@@ -24,6 +24,8 @@ export type {
   DialogCloseProps as DrawerCloseProps
 } from '@radix-ui/react-dialog'
 
+export { useDrawerValues as useDrawerValues } from './lib/hooks'
+
 export {
   Root,
   Content,
