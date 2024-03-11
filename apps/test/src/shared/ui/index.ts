@@ -1,5 +1,6 @@
 export * from './close'
 export * from './overlay'
+export * from './custom-overlay'
 export * from './content'
 export * from './trigger'
 export * from './header'
