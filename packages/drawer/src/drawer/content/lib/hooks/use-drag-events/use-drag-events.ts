@@ -1,7 +1,7 @@
 import { type PointerEvent as ReactPointerEvent, useRef } from 'react'
 
 import { type OnSnapChange, type Snap } from '@/drawer/lib/types'
-import { type Value } from '@/shared/lib/types'
+import { type DrawerValue } from '@/shared/lib/classes'
 import { type DragEventHandler } from '@/shared/ui/draggable'
 
 import { type SnapTo } from '../../types'
@@ -14,7 +14,7 @@ interface DragEventsOptions {
   onSnapChange: OnSnapChange
   onClose: () => void
   dismissible: boolean
-  locked: Value<boolean>
+  locked: DrawerValue<boolean>
   velocityMultiplier: number
 }
 

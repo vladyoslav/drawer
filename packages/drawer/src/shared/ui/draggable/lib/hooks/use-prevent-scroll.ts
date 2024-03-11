@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 
-import { type Value } from '@/shared/lib/types'
+import { type DrawerValue } from '@/shared/lib/classes'
 
-export const usePreventScroll = (isDragging: Value<boolean>) => {
+export const usePreventScroll = (isDragging: DrawerValue<boolean>) => {
   const handleTouchMove = (e: TouchEvent) => {
     if (isDragging.get()) e.preventDefault()
   }

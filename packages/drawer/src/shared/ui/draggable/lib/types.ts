@@ -1,15 +1,15 @@
 import { type PointerEvent as ReactPointerEvent } from 'react'
 
-import { type Value } from '@/shared/lib/types'
+import { type DrawerValue } from '@/shared/lib/classes'
 
 export type NumberOr<T> = number | T
 
 export interface DragControls<T> {
   lock: () => void
   unlock: () => void
-  locked: Value<boolean>
-  y: Value<NumberOr<T>>
-  isDragging: Value<boolean>
+  locked: DrawerValue<boolean>
+  y: DrawerValue<NumberOr<T>>
+  isDragging: DrawerValue<boolean>
 }
 
 export enum ConstraintType {
