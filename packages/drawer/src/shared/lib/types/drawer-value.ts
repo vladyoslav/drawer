@@ -1,5 +1,6 @@
-import { addUniqueItem, removeItem } from './helpers'
-import { type Handler } from './types'
+import { addUniqueItem, removeItem } from '@/shared/lib/helpers'
+
+export type Handler<T> = (latest: T) => void
 
 export class DrawerValue<T> {
   private _current: T
