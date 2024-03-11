@@ -1,6 +1,6 @@
 'use client'
 
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 import { Content, Description, Header, Overlay, Trigger } from '@/shared/ui'
 

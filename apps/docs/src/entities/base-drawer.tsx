@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 import { Content, Header, Overlay, Root, Trigger } from '@/shared/ui'
 

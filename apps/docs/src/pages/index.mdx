@@ -3,6 +3,7 @@ title: Draggable Drawer Component for React
 ---
 
 
+
 import Link from 'next/link'
 
 import { BaseDrawer } from '@/entities/base-drawer'
@@ -52,7 +53,7 @@ This is a minimal example of using the `Drawer`! Easy enough, right?
 <BaseDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 ;<Drawer.Root>
   <Drawer.Trigger>Open Drawer</Drawer.Trigger>
@@ -75,7 +76,7 @@ To enable background scaling, add the `scaleBackground` prop to the `Drawer.Root
 <ScaledDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 ;<main vladyoslav-drawer-wrapper="">
   <Drawer.Root scaleBackground>...</Drawer.Root>
@@ -94,7 +95,7 @@ Try it on mobile!
 <ScrollableDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 // Example with Tailwind CSS
 ;<Drawer.Root>
@@ -115,7 +116,7 @@ You can add multiple points to which the `Drawer` should snap using the `snapPoi
 <SnapPointsDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 ;<Drawer.Root snapPoints={[100, '50%', '100%']}>...</Drawer.Root>
 ```
@@ -131,7 +132,7 @@ Using `modal` prop you can even create a `Drawer` that doesn't block interaction
 <NonModalDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 ;<Drawer.Root dismissible={false}>...</Drawer.Root>
 ```
@@ -147,7 +148,7 @@ Or a `Drawer` that cannot be closed simply by clicking on the background or swip
 <NonDismissibleDrawer />
 
 ```tsx copy
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 ;<Drawer.Root dismissible={false}>...</Drawer.Root>
 ```

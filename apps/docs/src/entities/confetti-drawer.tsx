@@ -1,7 +1,7 @@
 import { type FC, useEffect } from 'react'
 
 import { confetti } from '@tsparticles/confetti'
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 import {
   Content,

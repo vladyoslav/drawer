@@ -3,7 +3,7 @@
 // import { useState } from 'react'
 import { useState } from 'react'
 
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 import {
   Button,
