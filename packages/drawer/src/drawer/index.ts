@@ -26,6 +26,8 @@ export type {
 
 export { useDrawerValues as useDrawerValues } from './lib/hooks'
 
+export { cssToPx as defaultCssToPx } from './lib/helpers'
+
 export {
   Root,
   Content,
