@@ -1,16 +1,6 @@
 import { type PointerEvent as ReactPointerEvent } from 'react'
 
-import { type DrawerValue } from '@/shared/lib/classes'
-
-export type NumberOr<T> = number | T
-
-export interface DragControls<T> {
-  lock: () => void
-  unlock: () => void
-  locked: DrawerValue<boolean>
-  y: DrawerValue<NumberOr<T>>
-  isDragging: DrawerValue<boolean>
-}
+export * from './drag-controls'
 
 export enum ConstraintType {
   Min = 'min',

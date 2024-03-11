@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
-import { type DrawerValue } from '../classes'
-import { type Handler } from '../types'
+import { type DrawerValue, type Handler } from '../types'
 
 export const useValueChange = <T>(
   value: DrawerValue<T>,
