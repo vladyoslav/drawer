@@ -1,7 +1,7 @@
 import { type Snap } from '@/drawer/lib/types'
+import { type DrawerValue } from '@/shared/lib/classes'
 import { isNumber } from '@/shared/lib/helpers'
-import { type Value } from '@/shared/lib/types'
 
-export const useSnapTo = (y: Value<Snap>) => {
+export const useSnapTo = (y: DrawerValue<Snap>) => {
   return (to: Snap) => y.set(isNumber(to) ? -to : `-${to}`)
 }

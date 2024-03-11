@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/base",
   "compilerOptions": {
+    "stripInternal": true,
     "baseUrl": ".",
     "paths": { "@/*": ["./src/*"] }
   },

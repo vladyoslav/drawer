@@ -12,6 +12,15 @@ export const isFunction = (value: unknown): value is Function =>
 export const clamp = (min: number, max: number, value: number) =>
   Math.min(max, Math.max(min, value))
 
+export const addUniqueItem = <T>(arr: T[], item: T) => {
+  if (arr.indexOf(item) === -1) arr.push(item)
+}
+
+export const removeItem = <T>(arr: T[], item: T) => {
+  const index = arr.indexOf(item)
+  if (index > -1) arr.splice(index, 1)
+}
+
 export const mergeHandlers = <T extends (...args: any) => any>(
   ...handlers: Array<T | undefined>
 ) => {
