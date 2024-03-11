@@ -26,7 +26,7 @@ const Page = () => {
             <Header>Drawer header</Header>
             <Description>Drawer description</Description>
           </Content>
-          <Drawer.SnapAreas />
+          <Drawer.NOT_FOR_PRODUCTION_USE_SnapAreas />
         </Drawer.Portal>
       </Drawer.Root>
       <Button data-testid="controlled" onClick={() => setOpen(true)}>

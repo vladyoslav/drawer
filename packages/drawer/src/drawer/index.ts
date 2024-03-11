@@ -32,7 +32,6 @@ export {
   Portal,
   Overlay,
   CustomOverlay,
-  SnapAreas,
   Trigger,
   Close,
   Title,
@@ -43,9 +42,10 @@ export {
   Portal as DrawerPortal,
   Overlay as DrawerOverlay,
   CustomOverlay as DrawerCustomOverlay,
-  SnapAreas as DrawerSnapAreas,
   Trigger as DrawerTrigger,
   Close as DrawerClose,
   Title as DrawerTitle,
   Description as DrawerDescription
 }
+
+export { SnapAreas as NOT_FOR_PRODUCTION_USE_SnapAreas }
