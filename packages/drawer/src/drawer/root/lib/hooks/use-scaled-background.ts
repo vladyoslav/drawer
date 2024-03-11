@@ -4,10 +4,10 @@ import { cssToPx } from '@/drawer/lib/helpers'
 import { type Snap } from '@/drawer/lib/types'
 import { resetStyle, setStyle } from '@/shared/lib/helpers'
 import { useValueChange } from '@/shared/lib/hooks'
-import { type DragControls } from '@/shared/ui/draggable'
+import { type DragValues } from '@/shared/ui/draggable'
 
 export const useScaledBackground = (
-  drawerControls: DragControls<Snap>,
+  drawerValues: DragValues<Snap>,
   drawerRef: RefObject<HTMLDivElement>,
   snapPoints: Snap[],
   scaleBackground: boolean,
@@ -17,7 +17,7 @@ export const useScaledBackground = (
 
   const getWrapper = () => document.querySelector('[vladyoslav-drawer-wrapper]')
 
-  useValueChange(drawerControls.y, (latest) => {
+  useValueChange(drawerValues.y, (latest) => {
     if (!scaleBackground) return
 
     const node = drawerRef.current
@@ -44,7 +44,7 @@ export const useScaledBackground = (
     setStyle(wrapper as HTMLElement, { transform, borderRadius })
   })
 
-  useValueChange(drawerControls.isDragging, (latest) => {
+  useValueChange(drawerValues.isDragging, (latest) => {
     if (!scaleBackground) return
 
     const wrapper = getWrapper()
