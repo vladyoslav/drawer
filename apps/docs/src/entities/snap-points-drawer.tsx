@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react'
 
-import { Drawer } from '@vladyoslav/drawer'
+import * as Drawer from '@vladyoslav/drawer'
 
 import {
   Button,
