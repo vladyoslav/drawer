@@ -1,0 +1,15 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "docs": "0.1.0",
+    "test": "0.1.0",
+    "@vladyoslav/drawer": "0.1.0",
+    "@repo/eslint-config": "0.0.0",
+    "@repo/prettier-config": "0.0.0",
+    "@repo/typescript-config": "0.0.0"
+  },
+  "changesets": [
+    "weak-rice-do"
+  ]
+}
