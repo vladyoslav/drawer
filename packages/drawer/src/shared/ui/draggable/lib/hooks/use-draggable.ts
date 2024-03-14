@@ -1,7 +1,7 @@
 import { type PointerEvent as ReactPointerEvent, useRef } from 'react'
 
 import { clamp, isNumber } from '@/shared/lib/helpers'
-import { useSetStyle, useValue } from '@/shared/lib/hooks'
+import { useSetStyle } from '@/shared/lib/hooks'
 
 import {
   getConstraint,
@@ -43,7 +43,7 @@ export const useDraggable = <T>({
   scrollLockTimeout,
   elasticity
 }: DraggableOptions<T>) => {
-  const { y, isDragging } = dragControls
+  const { y, isDragging, wantToDrag } = dragControls
 
   const last = useRef(0)
   const lastTime = useRef(0)
@@ -51,8 +51,6 @@ export const useDraggable = <T>({
 
   const initTop = useRef(0)
   const initY = useRef<NumberOr<T> | null>(null)
-
-  const wantToDrag = useValue(false)
 
   const ref = useRef<HTMLDivElement>(null)
   const [setStyle, resetStyle] = useSetStyle(ref)
@@ -223,7 +221,6 @@ export const useDraggable = <T>({
   }
 
   return {
-    wantToDrag,
     ref,
     listeners: {
       handlePointerDown,

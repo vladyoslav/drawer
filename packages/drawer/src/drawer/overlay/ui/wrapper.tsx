@@ -18,7 +18,7 @@ export interface WrapperProps extends OverlayPrimitiveProps {
 export const Wrapper = forwardRef<HTMLDivElement, WrapperProps>(
   ({ fadeFrom = 0, finalOpacity = 0.8, ...props }, forwardedRef) => {
     const { drawerRef, snapPoints } = useDrawerContext()
-    const { y, isDragging } = useDrawerValues()
+    const { y, wantToDrag } = useDrawerValues()
 
     const lastPoint = snapPoints[snapPoints.length - 1]
 
@@ -43,7 +43,7 @@ export const Wrapper = forwardRef<HTMLDivElement, WrapperProps>(
       setStyle({ opacity: opacity.toString() })
     })
 
-    useValueChange(isDragging, (latest) => {
+    useValueChange(wantToDrag, (latest) => {
       if (latest) setStyle({ transition: 'none' })
       else resetStyle('transition')
     })

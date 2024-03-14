@@ -64,9 +64,9 @@ const _Draggable = <T,>(
   forwardedRef: ForwardedRef<HTMLDivElement>
 ) => {
   const dragControls = useControlsState(dragControlsProp)
-  const { y, isDragging } = dragControls
+  const { y, isDragging, wantToDrag } = dragControls
 
-  const { ref, wantToDrag, listeners } = useDraggable({
+  const { ref, listeners } = useDraggable({
     dragControls,
     constraints,
     onConstraint,
