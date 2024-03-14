@@ -1,6 +1,6 @@
 {
   "name": "@vladyoslav/drawer",
-  "version": "0.2.0-beta.0",
+  "version": "0.2.0-beta.1",
   "description": "An unstyled draggable drawer component for React",
   "private": false,
   "main": "dist/index.js",
