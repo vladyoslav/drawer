@@ -44,7 +44,7 @@ export const useScaledBackground = (
     setStyle(wrapper as HTMLElement, { transform, borderRadius })
   })
 
-  useValueChange(drawerValues.isDragging, (latest) => {
+  useValueChange(drawerValues.wantToDrag, (latest) => {
     if (!scaleBackground) return
 
     const wrapper = getWrapper()
